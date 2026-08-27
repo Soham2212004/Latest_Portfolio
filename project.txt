@@ -1,0 +1,3557 @@
+========================================
+FILE: src/App.tsx
+========================================
+import { Routes, Route } from 'react-router-dom';
+import HomePage          from '@/Pages/HomePage';
+import AILabPage         from '@/Pages/AILabPage';
+import SkillsPage        from '@/Pages/SkillsPage';
+import CertificationsPage from '@/Pages/CertificationsPage';
+import ProjectsPage      from '@/Pages/ProjectsPage';
+import ExperiencePage    from '@/Pages/ExperiencePage';
+import ContactPage       from '@/Pages/ContactPage';
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/"               element={<HomePage />} />
+      <Route path="/ai-lab"         element={<AILabPage />} />
+      <Route path="/skills"         element={<SkillsPage />} />
+      <Route path="/certifications" element={<CertificationsPage />} />
+      <Route path="/projects"       element={<ProjectsPage />} />
+      <Route path="/experience"     element={<ExperiencePage />} />
+      <Route path="/contact"        element={<ContactPage />} />
+    </Routes>
+  );
+}
+
+========================================
+FILE: src/components/ComingSoonModal.tsx
+========================================
+import { useEffect } from 'react';
+import { comingSoonMessage } from '@/data/portfolio';
+import { X, Wrench } from 'lucide-react';
+
+export default function ComingSoonModal({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-fade-in"
+      onClick={onClose}
+    >
+      <div className="absolute inset-0 bg-obsidian-950/80 backdrop-blur-sm" />
+
+      <div
+        className="relative glass rounded-2xl p-8 max-w-md w-full text-center glow-border"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-steel-500 hover:text-white transition-colors"
+          aria-label="Close"
+        >
+          <X size={20} />
+        </button>
+
+        <div className="w-16 h-16 rounded-2xl glass flex items-center justify-center mx-auto mb-5 animate-glow-pulse">
+          <Wrench size={28} className="text-ice-400" />
+        </div>
+
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md glass mb-4">
+          <span className="text-xs font-mono tracking-wider text-ice-400">[ MODULE STATUS ]</span>
+        </div>
+
+        <h3 className="text-xl font-bold text-white mb-3">Module Under Optimization</h3>
+        <p className="text-sm text-steel-400 leading-relaxed">{comingSoonMessage}</p>
+
+        <div className="mt-6 flex items-center justify-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse-dot" />
+          <span className="text-xs font-mono text-steel-500">System will notify on release</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+========================================
+FILE: src/components/Footer.tsx
+========================================
+import { socials } from '@/data/portfolio';
+import { Github, Linkedin, FileText } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+
+const iconMap: Record<string, LucideIcon> = {
+  github: Github,
+  linkedin: Linkedin,
+  arxiv: FileText,
+  hf: FileText,
+};
+
+export default function Footer() {
+  return (
+    <footer className="relative border-t border-white/5 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          {/* Logo */}
+          <div className="flex items-center gap-2.5">
+            <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+              <path d="M6 6 L18 18 L6 30 M30 6 L18 18 L30 30 M6 6 L30 6 M6 30 L30 30"
+                stroke="#38BDF8" strokeWidth="1" opacity="0.5" />
+              <circle cx="18" cy="18" r="2.5" fill="#38BDF8" />
+            </svg>
+            <span className="font-mono text-sm text-steel-400">
+              SS<span className="text-ice-400">.ai</span> / Principal AI-ML Specialist
+            </span>
+          </div>
+
+          {/* Social links */}
+          <div className="flex items-center gap-3">
+            {socials.map((social) => {
+              const Icon = iconMap[social.icon] ?? FileText;
+              return (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="w-10 h-10 rounded-lg glass glass-hover flex items-center justify-center text-steel-400 hover:text-ice-400 transition-colors"
+                >
+                  <Icon size={18} />
+                </a>
+              );
+            })}
+          </div>
+
+          {/* Copyright */}
+          <p className="text-xs font-mono text-steel-500">
+            © {new Date().getFullYear()} — System v1.0 / All Rights Reserved
+          </p>
+        </div>
+
+        {/* Bottom telemetry line */}
+        <div className="mt-8 pt-6 border-t border-white/5 flex flex-wrap items-center justify-center gap-4 text-xs font-mono text-steel-600">
+          <span className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse-dot" />
+            SYSTEM ONLINE
+          </span>
+          <span>|</span>
+          <span>BUILD: STABLE</span>
+          <span>|</span>
+          <span>UPTIME: 99.98%</span>
+          <span>|</span>
+          <span>LATENCY: 12ms</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+
+========================================
+FILE: src/components/Hero.tsx
+========================================
+import { profile } from '@/data/portfolio';
+import { Download, ArrowRight, Cpu } from 'lucide-react';
+
+export default function Hero() {
+  return (
+    <section id="home" className="relative min-h-screen flex items-center pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        {/* Left — Holographic Profile */}
+        <div className="relative flex justify-center lg:justify-start order-1 lg:order-1 animate-fade-in">
+          <div className="relative w-[300px] h-[300px] sm:w-[360px] sm:h-[360px] lg:w-[400px] lg:h-[400px]">
+            {/* Outer rotating ring */}
+            <div className="absolute inset-0 animate-spin-slow">
+              <svg viewBox="0 0 400 400" className="w-full h-full">
+                <path
+                  d="M200 8 L249 51 L314 51 L349 86 L392 86 L392 151 L435 200 L392 249 L392 314 L349 349 L314 349 L249 392 L200 435 L151 392 L86 349 L51 349 L8 314 L8 249 L-35 200 L8 151 L8 86 L51 86 L86 51 L151 51 Z"
+                  fill="none"
+                  stroke="rgba(56,189,248,0.15)"
+                  strokeWidth="1"
+                  strokeDasharray="4 8"
+                />
+              </svg>
+            </div>
+
+            {/* Inner counter-rotating ring */}
+            <div className="absolute inset-6 animate-spin-reverse-slow">
+              <svg viewBox="0 0 400 400" className="w-full h-full">
+                <polygon
+                  points="200,20 346,120 346,280 200,380 54,280 54,120"
+                  fill="none"
+                  stroke="rgba(0,229,255,0.2)"
+                  strokeWidth="1"
+                />
+              </svg>
+            </div>
+
+            {/* Corner brackets */}
+            {[
+              'top-0 left-0 border-t border-l',
+              'top-0 right-0 border-t border-r',
+              'bottom-0 left-0 border-b border-l',
+              'bottom-0 right-0 border-b border-r',
+            ].map((cls) => (
+              <span
+                key={cls}
+                className={`absolute ${cls} w-8 h-8 border-ice-400/50`}
+                style={{ filter: 'drop-shadow(0 0 4px rgba(56,189,248,0.4))' }}
+              />
+            ))}
+
+            {/* Portrait container */}
+            <div className="absolute inset-10 rounded-2xl overflow-hidden glass glow-border">
+              <img
+                src={profile.portraitImage}
+                alt={profile.fullName}
+                className="w-full h-full object-cover opacity-90"
+                style={{ filter: 'contrast(1.05) saturate(0.85) brightness(0.95)' }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-transparent to-transparent" />
+              {/* Scan line */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute inset-x-0 h-px bg-ice-400/30 animate-scan" />
+              </div>
+            </div>
+
+            {/* Floating status pill */}
+            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap animate-float">
+              <div className="glass rounded-full px-4 py-2 flex items-center gap-2 glow-border">
+                <Cpu size={12} className="text-ice-400" />
+                <span className="text-xs font-mono text-steel-300">
+                  {profile.status.latency}
+                </span>
+                <span className="text-steel-600">|</span>
+                <span className="text-xs font-mono text-success">{profile.status.systemState}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right — Introduction */}
+        <div className="order-2 lg:order-2 space-y-6 animate-fade-up">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md glass">
+            <span className="w-1.5 h-1.5 rounded-full bg-ice-400 animate-pulse-dot" />
+            <span className="text-xs font-mono tracking-wider text-ice-400">
+              [ SYSTEM ROLE : {profile.preTitle} ]
+            </span>
+          </div>
+
+          <div>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight">
+              {profile.fullName}
+            </h1>
+            <p className="mt-3 text-lg sm:text-xl font-medium text-steel-300">
+              {profile.subtitle}
+            </p>
+          </div>
+
+          <p className="text-base text-steel-400 leading-relaxed max-w-xl">
+            {profile.summary}
+          </p>
+
+          <div className="flex flex-wrap gap-4 pt-2">
+            <a
+              href={profile.resumeUrl}
+              className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-ice-400 text-obsidian-950 font-semibold text-sm transition-all hover:bg-ice-500"
+              style={{ boxShadow: '0 0 24px rgba(56,189,248,0.35)' }}
+            >
+              <Download size={16} />
+              Download Resume / CV
+            </a>
+            <button
+              onClick={() => document.querySelector('#specialization')?.scrollIntoView({ behavior: 'smooth' })}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg glass glass-hover text-steel-200 font-semibold text-sm border border-white/10"
+            >
+              View Production Systems
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+========================================
+FILE: src/components/InteractiveAttentionLab.tsx
+========================================
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { attentionLab } from '@/data/portfolio';
+import { Sparkles, Thermometer, Layers, Send, Zap, Brain } from 'lucide-react';
+
+type Token = { text: string; attention: number[]; pos: number };
+
+const softmax = (arr: number[], temperature: number): number[] => {
+  const t = Math.max(0.05, temperature);
+  const scaled = arr.map((v) => v / t);
+  const max = Math.max(...scaled);
+  const exps = scaled.map((v) => Math.exp(v - max));
+  const sum = exps.reduce((a, b) => a + b, 0);
+  return exps.map((e) => e / sum);
+};
+
+function tokenize(text: string): string[] {
+  return text
+    .trim()
+    .toLowerCase()
+    .replace(/[^\w\s]/g, ' ')
+    .split(/\s+/)
+    .filter(Boolean);
+}
+
+function computeAttention(
+  tokens: string[],
+  contextLen: number,
+  temperature: number,
+  heads: number,
+): Token[] {
+  const vocab: Record<string, number> = {};
+  tokens.forEach((t) => {
+    if (!(t in vocab)) vocab[t] = Object.keys(vocab).length;
+  });
+
+  return tokens.map((token, i) => {
+    const windowStart = Math.max(0, i - contextLen);
+    const window = tokens.slice(windowStart, i + 1);
+    const headAttentions: number[] = [];
+
+    for (let h = 0; h < heads; h++) {
+      const scores = window.map((w, j) => {
+        const posWeight = 1 / (Math.abs(i - (windowStart + j)) + 1);
+        const simWeight = w === token ? 1.5 : w[0] === token[0] ? 0.6 : 0.3;
+        const headBias = Math.sin((h + 1) * 0.7 + i * 0.3) * 0.4 + 0.5;
+        return posWeight * simWeight * headBias;
+      });
+      const sm = softmax(scores, temperature);
+      headAttentions.push(sm[sm.length - 1] ?? 0);
+    }
+
+    return { text: token, attention: headAttentions, pos: i };
+  });
+}
+
+const HEAD_COLORS = [
+  { stroke: 'rgba(56, 189, 248, ', fill: 'rgba(56, 189, 248, ', label: 'Cyan' },
+  { stroke: 'rgba(99, 102, 241, ', fill: 'rgba(99, 102, 241, ', label: 'Indigo' },
+  { stroke: 'rgba(34, 197, 94, ', fill: 'rgba(34, 197, 94, ', label: 'Green' },
+  { stroke: 'rgba(245, 158, 11, ', fill: 'rgba(245, 158, 11, ', label: 'Amber' },
+];
+
+export default function InteractiveAttentionLab() {
+  const [input, setInput] = useState(attentionLab.samplePrompts[0]);
+  const [contextLen, setContextLen] = useState(6);
+  const [temperature, setTemperature] = useState(0.8);
+  const [activeHead, setActiveHead] = useState(0);
+  const [hoveredToken, setHoveredToken] = useState<number | null>(null);
+  const [tokens, setTokens] = useState<Token[]>([]);
+  const [pulsePhase, setPulsePhase] = useState(0);
+  const [animating, setAnimating] = useState(true);
+  const svgRef = useRef<SVGSVGElement>(null);
+
+  const recompute = useCallback(() => {
+    const toks = tokenize(input);
+    if (toks.length === 0) {
+      setTokens([]);
+      return;
+    }
+    setTokens(computeAttention(toks, contextLen, temperature, attentionLab.heads));
+  }, [input, contextLen, temperature]);
+
+  useEffect(() => {
+    recompute();
+  }, [recompute]);
+
+  useEffect(() => {
+    if (!animating) return;
+    let raf = 0;
+    const tick = () => {
+      setPulsePhase((p) => (p + 0.02) % 1);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [animating]);
+
+  const nextTokenPredictions =
+    tokens.length > 0
+      ? (() => {
+          const lastToken = tokens[tokens.length - 1];
+          const cats = attentionLab.tokenCategories;
+          const baseScores = cats.map((_, ci) => {
+            const headSum = lastToken.attention.reduce((a, h) => a + h, 0);
+            return Math.sin(ci * 1.3 + lastToken.pos * 0.5) * 0.5 + headSum * 0.3 + 0.3;
+          });
+          const probs = softmax(baseScores, temperature);
+          return cats.map((cat, i) => ({ category: cat, prob: probs[i] }));
+        })()
+      : attentionLab.tokenCategories.map((cat) => ({ category: cat, prob: 0.25 }));
+
+  const maxTokenCount = 12;
+  const displayTokens = tokens.slice(0, maxTokenCount);
+
+  return (
+    <section className="relative py-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md glass mb-4">
+            <Brain size={12} className="text-indigo-400" />
+            <span className="text-xs font-mono tracking-wider text-indigo-400">
+              [ TRANSFORMER ATTENTION LAB ]
+            </span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+            Self-Attention Visualizer
+          </h2>
+          <p className="mt-3 text-steel-400 max-w-2xl mx-auto text-sm sm:text-base">
+            {attentionLab.description}
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-5 gap-6">
+          {/* Input + Controls */}
+          <div className="lg:col-span-2 space-y-4">
+            {/* Prompt input */}
+            <div className="glass rounded-2xl p-5 space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-white font-mono">PROMPT INPUT</h3>
+                <Sparkles size={14} className="text-ice-400" />
+              </div>
+              <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                rows={3}
+                maxLength={120}
+                className="w-full bg-obsidian-900/50 border border-white/5 rounded-lg px-3 py-2.5 text-sm text-steel-200 font-mono resize-none focus:outline-none focus:border-ice-400/30 transition-colors"
+                placeholder="Type a sentence for the model to attend to..."
+              />
+              <div className="flex flex-wrap gap-2">
+                {attentionLab.samplePrompts.map((prompt, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setInput(prompt)}
+                    className="text-xs px-2.5 py-1.5 rounded-md bg-white/[0.03] border border-white/5 text-steel-400 hover:text-ice-400 hover:border-ice-400/20 transition-all truncate max-w-[180px]"
+                  >
+                    {prompt.slice(0, 28)}
+                    {prompt.length > 28 ? '...' : ''}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Sliders */}
+            <div className="glass rounded-2xl p-5 space-y-5">
+              <h3 className="text-sm font-semibold text-white font-mono">HYPERPARAMETERS</h3>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Layers size={14} className="text-ice-400" />
+                    <span className="text-xs font-medium text-steel-300">Context Length</span>
+                  </div>
+                  <span className="text-xs font-mono text-ice-400">{contextLen} tokens</span>
+                </div>
+                <input
+                  type="range"
+                  min="1"
+                  max="12"
+                  value={contextLen}
+                  onChange={(e) => setContextLen(Number(e.target.value))}
+                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                  style={{
+                    background: `linear-gradient(to right, rgba(56,189,248,0.5) ${((contextLen - 1) / 11) * 100}%, rgba(255,255,255,0.06) ${((contextLen - 1) / 11) * 100}%)`,
+                  }}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Thermometer size={14} className="text-indigo-400" />
+                    <span className="text-xs font-medium text-steel-300">Temperature</span>
+                  </div>
+                  <span className="text-xs font-mono text-indigo-400">{temperature.toFixed(2)}</span>
+                </div>
+                <input
+                  type="range"
+                  min="5"
+                  max="200"
+                  value={Math.round(temperature * 100)}
+                  onChange={(e) => setTemperature(Number(e.target.value) / 100)}
+                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                  style={{
+                    background: `linear-gradient(to right, rgba(99,102,241,0.5) ${((temperature - 0.05) / 1.95) * 100}%, rgba(255,255,255,0.06) ${((temperature - 0.05) / 1.95) * 100}%)`,
+                  }}
+                />
+              </div>
+
+              {/* Head selector */}
+              <div className="space-y-2">
+                <span className="text-xs font-medium text-steel-300">Attention Head</span>
+                <div className="flex gap-2">
+                  {Array.from({ length: attentionLab.heads }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setActiveHead(i)}
+                      className={`flex-1 flex items-center justify-center gap-1.5 px-2 py-2 rounded-lg text-xs font-mono border transition-all ${
+                        activeHead === i
+                          ? 'border-white/15 text-white bg-white/[0.05]'
+                          : 'border-white/5 text-steel-500 hover:text-steel-300'
+                      }`}
+                    >
+                      <span
+                        className="w-2 h-2 rounded-full"
+                      >
+                        <span
+                          className="block w-2 h-2 rounded-full"
+                          style={{ backgroundColor: HEAD_COLORS[i].stroke + '0.8)' }}
+                        />
+                      </span>
+                      H{i}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Next-token predictions */}
+            <div className="glass rounded-2xl p-5 space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-white font-mono">NEXT-TOKEN LOGITS</h3>
+                <Zap size={14} className="text-success" />
+              </div>
+              {nextTokenPredictions.map((pred) => {
+                const pct = pred.prob * 100;
+                return (
+                  <div key={pred.category} className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-mono text-steel-400 uppercase">{pred.category}</span>
+                      <span className="text-xs font-mono text-white">{pct.toFixed(1)}%</span>
+                    </div>
+                    <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-gradient-to-r from-indigo-600 to-ice-400 transition-all duration-500"
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Attention visualization */}
+          <div className="lg:col-span-3 glass rounded-2xl p-5 relative overflow-hidden">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono text-steel-500">transformer / self_attention</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse-dot" />
+                <span className="text-xs font-mono text-success">LIVE</span>
+              </div>
+            </div>
+
+            {displayTokens.length === 0 ? (
+              <div className="flex items-center justify-center h-[400px] text-steel-500 text-sm">
+                Type a prompt to compute attention...
+              </div>
+            ) : (
+              <div className="relative">
+                {/* Token grid */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {displayTokens.map((token, i) => {
+                    const att = token.attention[activeHead] ?? 0;
+                    const isHovered = hoveredToken === i;
+                    const isLast = i === displayTokens.length - 1;
+                    return (
+                      <button
+                        key={i}
+                        onMouseEnter={() => setHoveredToken(i)}
+                        onMouseLeave={() => setHoveredToken(null)}
+                        className="relative px-3 py-2 rounded-lg text-sm font-mono transition-all duration-300"
+                        style={{
+                          background: isLast
+                            ? HEAD_COLORS[activeHead].fill + (0.15 + att * 0.25) + ')'
+                            : `rgba(255,255,255,${0.02 + att * 0.08})`,
+                          border: `1px solid ${HEAD_COLORS[activeHead].stroke + (0.15 + att * 0.5) + ')'}`,
+                          boxShadow: isHovered
+                            ? `0 0 16px ${HEAD_COLORS[activeHead].stroke + '0.3)'}`
+                            : 'none',
+                          transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
+                        }}
+                      >
+                        {token.text}
+                        <span
+                          className="ml-1.5 text-[10px] text-steel-500"
+                        >
+                          {att.toFixed(2)}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Attention weight bar chart */}
+                <div className="space-y-1.5 pt-4 border-t border-white/5">
+                  <div className="text-xs font-mono text-steel-500 mb-2">
+                    Attention weights — Head {activeHead}
+                  </div>
+                  <div className="space-y-1.5 max-h-[200px] overflow-y-auto pr-2">
+                    {displayTokens.map((token, i) => {
+                      const att = token.attention[activeHead] ?? 0;
+                      const isHovered = hoveredToken === i;
+                      return (
+                        <div
+                          key={i}
+                          className="flex items-center gap-3 group cursor-pointer"
+                          onMouseEnter={() => setHoveredToken(i)}
+                          onMouseLeave={() => setHoveredToken(null)}
+                        >
+                          <span className="text-xs font-mono text-steel-400 w-20 truncate text-right">
+                            {token.text}
+                          </span>
+                          <div className="flex-1 h-2 rounded-full bg-white/5 overflow-hidden">
+                            <div
+                              className="h-full rounded-full transition-all duration-300"
+                              style={{
+                                width: `${att * 100}%`,
+                                background: HEAD_COLORS[activeHead].stroke + (isHovered ? '0.9' : '0.6)') + ')',
+                                boxShadow: isHovered
+                                  ? `0 0 8px ${HEAD_COLORS[activeHead].stroke + '0.4)'}`
+                                  : 'none',
+                              }}
+                            />
+                          </div>
+                          <span className="text-xs font-mono text-steel-500 w-12 text-right">
+                            {(att * 100).toFixed(1)}%
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Animated signal flow SVG */}
+                <svg
+                  ref={svgRef}
+                  className="absolute top-0 left-0 w-full h-full pointer-events-none"
+                  style={{ opacity: 0.3 }}
+                >
+                  {displayTokens.length > 1 && animating &&
+                    displayTokens.slice(0, -1).map((_, i) => {
+                      const t = (pulsePhase + i * 0.1) % 1;
+                      return (
+                        <circle
+                          key={i}
+                          r={2}
+                          fill={HEAD_COLORS[activeHead].stroke + '0.6)'}
+                          cx={10 + t * 90}
+                          cy={20 + i * 8}
+                        />
+                      );
+                    })}
+                </svg>
+              </div>
+            )}
+
+            {/* Footer telemetry */}
+            <div className="mt-6 pt-4 border-t border-white/5 flex flex-wrap items-center gap-4 text-xs font-mono text-steel-600">
+              <span className="flex items-center gap-1.5">
+                <Send size={10} className="text-ice-400" />
+                {tokens.length} tokens
+              </span>
+              <span>|</span>
+              <span>{attentionLab.heads} heads</span>
+              <span>|</span>
+              <span>ctx: {contextLen}</span>
+              <span>|</span>
+              <span>temp: {temperature.toFixed(2)}</span>
+              <span>|</span>
+              <span className="text-ice-400">softmax(QKᵀ/√d)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+========================================
+FILE: src/components/InteractiveNeuralNet.tsx
+========================================
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { neuralPlayground } from '@/data/portfolio';
+import { Code, Database, Cpu, Layers, Play, Pause, RotateCcw } from 'lucide-react';
+
+type Vec = number[];
+
+const inputIcons = [Code, Database, Cpu, Layers];
+
+// Pre-initialized weights — a 4→5→3 multi-layer perceptron
+const W1: Vec[] = [
+  [0.8, -0.3, 0.5, 0.2, -0.4],
+  [0.6, 0.7, -0.2, 0.4, 0.3],
+  [-0.5, 0.4, 0.8, -0.3, 0.6],
+  [0.3, -0.5, 0.3, 0.7, -0.2],
+];
+const b1: Vec = [0.1, -0.2, 0.05, 0.15, -0.1];
+
+const W2: Vec[] = [
+  [0.6, -0.4, 0.5],
+  [0.3, 0.8, -0.3],
+  [-0.5, 0.4, 0.6],
+  [0.7, -0.2, 0.4],
+  [0.2, 0.5, -0.5],
+];
+const b2: Vec = [0.1, -0.05, 0.12];
+
+const sigmoid = (x: number): number => 1 / (1 + Math.exp(-x));
+
+function forwardProp(inputs: Vec): { hidden: Vec; outputs: Vec } {
+  const hidden: Vec = new Array(W1[0].length).fill(0);
+  for (let j = 0; j < W1[0].length; j++) {
+    let sum = b1[j];
+    for (let i = 0; i < inputs.length; i++) {
+      sum += inputs[i] * W1[i][j];
+    }
+    hidden[j] = sigmoid(sum);
+  }
+
+  const outputs: Vec = new Array(W2[0].length).fill(0);
+  for (let j = 0; j < W2[0].length; j++) {
+    let sum = b2[j];
+    for (let i = 0; i < hidden.length; i++) {
+      sum += hidden[i] * W2[i][j];
+    }
+    outputs[j] = sigmoid(sum);
+  }
+
+  return { hidden, outputs };
+}
+
+const NODE_R = 14;
+const LAYER_X = [0.08, 0.5, 0.92];
+const HIDDEN_COUNT = 5;
+
+export default function InteractiveNeuralNet() {
+  const [inputs, setInputs] = useState<number[]>(
+    neuralPlayground.inputs.map((i) => i.default / 100),
+  );
+  const [animating, setAnimating] = useState(true);
+  const [pulsePhase, setPulsePhase] = useState(0);
+  const [outputs, setOutputs] = useState<Vec>([0.5, 0.5, 0.5]);
+  const [hidden, setHidden] = useState<Vec>(new Array(HIDDEN_COUNT).fill(0.5));
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Forward propagation
+  useEffect(() => {
+    const result = forwardProp(inputs);
+    setHidden(result.hidden);
+    setOutputs(result.outputs);
+  }, [inputs]);
+
+  // Pulse animation
+  useEffect(() => {
+    if (!animating) return;
+    let raf = 0;
+    const tick = () => {
+      setPulsePhase((p) => (p + 0.015) % 1);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [animating]);
+
+  // Draw network on canvas
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    const W = rect.width;
+    const H = rect.height;
+
+    ctx.clearRect(0, 0, W, H);
+
+    const inputCount = inputs.length;
+    const layers = [
+      { count: inputCount, x: W * LAYER_X[0], values: inputs },
+      { count: HIDDEN_COUNT, x: W * LAYER_X[1], values: hidden },
+      { count: outputs.length, x: W * LAYER_X[2], values: outputs },
+    ];
+
+    const getY = (idx: number, count: number): number => {
+      const spacing = H / (count + 1);
+      return spacing * (idx + 1);
+    };
+
+    // Draw connections
+    for (let l = 0; l < layers.length - 1; l++) {
+      const from = layers[l];
+      const to = layers[l + 1];
+      for (let i = 0; i < from.count; i++) {
+        for (let j = 0; j < to.count; j++) {
+          const x1 = from.x;
+          const y1 = getY(i, from.count);
+          const x2 = to.x;
+          const y2 = getY(j, to.count);
+          const weight = Math.abs(from.values[i] * to.values[j]);
+          const alpha = 0.06 + weight * 0.35;
+          ctx.strokeStyle = `rgba(56, 189, 248, ${alpha})`;
+          ctx.lineWidth = 0.5 + weight * 1.5;
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+
+          // Pulse particle traveling along the connection
+          if (animating) {
+            const t = (pulsePhase + (i * 0.13 + j * 0.07)) % 1;
+            const px = x1 + (x2 - x1) * t;
+            const py = y1 + (y2 - y1) * t;
+            const pAlpha = Math.sin(t * Math.PI) * (0.3 + weight * 0.5);
+            ctx.fillStyle = `rgba(0, 229, 255, ${pAlpha})`;
+            ctx.beginPath();
+            ctx.arc(px, py, 1.5 + weight * 1.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+    }
+
+    // Draw nodes
+    for (let l = 0; l < layers.length; l++) {
+      const layer = layers[l];
+      for (let i = 0; i < layer.count; i++) {
+        const x = layer.x;
+        const y = getY(i, layer.count);
+        const val = layer.values[i];
+        const glow = 0.2 + val * 0.6;
+
+        // Glow
+        const grad = ctx.createRadialGradient(x, y, 0, x, y, NODE_R * 2.5);
+        grad.addColorStop(0, `rgba(56, 189, 248, ${glow * 0.5})`);
+        grad.addColorStop(1, 'rgba(56, 189, 248, 0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(x, y, NODE_R * 2.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Node body
+        ctx.fillStyle = `rgba(15, 23, 42, 0.95)`;
+        ctx.beginPath();
+        ctx.arc(x, y, NODE_R, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Node border with activation color
+        const borderColor = l === 0 ? 'rgba(129, 140, 248, ' : l === layers.length - 1 ? 'rgba(34, 197, 94, ' : 'rgba(56, 189, 248, ';
+        ctx.strokeStyle = borderColor + (0.3 + val * 0.6) + ')';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(x, y, NODE_R, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Inner fill based on activation
+        ctx.fillStyle = `rgba(56, 189, 248, ${val * 0.4})`;
+        ctx.beginPath();
+        ctx.arc(x, y, NODE_R - 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }, [inputs, hidden, outputs, pulsePhase, animating]);
+
+  const reset = useCallback(() => {
+    setInputs(neuralPlayground.inputs.map((i) => i.default / 100));
+  }, []);
+
+  return (
+    <section className="relative py-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Section header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md glass mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-ice-400 animate-pulse-dot" />
+            <span className="text-xs font-mono tracking-wider text-ice-400">
+              [ LIVE MODEL INFERENCE ]
+            </span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+            Interactive Neural Network
+          </h2>
+          <p className="mt-3 text-steel-400 max-w-2xl mx-auto text-sm sm:text-base">
+            {neuralPlayground.description}
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-5 gap-6">
+          {/* Controls panel */}
+          <div className="lg:col-span-1 glass rounded-2xl p-6 space-y-5">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-semibold text-white font-mono">INPUT LAYER</h3>
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
+                <span className="text-xs font-mono text-steel-500">4 nodes</span>
+              </div>
+            </div>
+
+            {neuralPlayground.inputs.map((input, i) => {
+              const Icon = inputIcons[i];
+              return (
+                <div key={input.label} className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Icon size={14} className="text-indigo-400" />
+                      <span className="text-xs font-medium text-steel-300">{input.label}</span>
+                    </div>
+                    <span className="text-xs font-mono text-ice-400">
+                      {Math.round(inputs[i] * 100)}%
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={Math.round(inputs[i] * 100)}
+                    onChange={(e) => {
+                      const newInputs = [...inputs];
+                      newInputs[i] = Number(e.target.value) / 100;
+                      setInputs(newInputs);
+                    }}
+                    className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-white/5 accent-ice-400"
+                    style={{
+                      background: `linear-gradient(to right, rgba(56,189,248,0.5) ${inputs[i] * 100}%, rgba(255,255,255,0.06) ${inputs[i] * 100}%)`,
+                    }}
+                  />
+                </div>
+              );
+            })}
+
+            <div className="pt-3 border-t border-white/5 space-y-2">
+              <button
+                onClick={() => setAnimating((v) => !v)}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg glass glass-hover text-sm font-medium text-steel-200"
+              >
+                {animating ? <Pause size={14} /> : <Play size={14} />}
+                {animating ? 'Pause Signal Flow' : 'Resume Signal Flow'}
+              </button>
+              <button
+                onClick={reset}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-white/[0.02] border border-white/5 text-sm font-medium text-steel-400 hover:text-steel-200 hover:border-white/10 transition-all"
+              >
+                <RotateCcw size={14} />
+                Reset Weights
+              </button>
+            </div>
+          </div>
+
+          {/* Network visualization */}
+          <div className="lg:col-span-3 glass rounded-2xl p-4 relative overflow-hidden">
+            <div className="absolute top-4 left-4 flex items-center gap-2 z-10">
+              <span className="text-xs font-mono text-steel-500">mlp_4-5-3 / forward_pass</span>
+            </div>
+            <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
+              <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse-dot" />
+              <span className="text-xs font-mono text-success">LIVE</span>
+            </div>
+            <canvas
+              ref={canvasRef}
+              className="w-full h-[360px] sm:h-[420px] lg:h-[460px]"
+            />
+            {/* Layer labels */}
+            <div className="flex justify-between px-[8%] pb-1">
+              <span className="text-xs font-mono text-indigo-400/70">INPUT</span>
+              <span className="text-xs font-mono text-ice-400/70">HIDDEN</span>
+              <span className="text-xs font-mono text-success/70">OUTPUT</span>
+            </div>
+          </div>
+
+          {/* Output predictions */}
+          <div className="lg:col-span-1 glass rounded-2xl p-6 space-y-5">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-semibold text-white font-mono">OUTPUT LAYER</h3>
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-success" />
+                <span className="text-xs font-mono text-steel-500">3 nodes</span>
+              </div>
+            </div>
+
+            {neuralPlayground.outputs.map((output, i) => {
+              const raw = outputs[i] ?? 0;
+              const display = output.inverted
+                ? (5 + (1 - raw) * 45).toFixed(1)
+                : (raw * 100).toFixed(1);
+              const pct = output.inverted ? (1 - raw) * 100 : raw * 100;
+              const barColor =
+                output.color === 'ice'
+                  ? 'from-ice-600 to-ice-400'
+                  : output.color === 'success'
+                    ? 'from-green-600 to-success'
+                    : 'from-indigo-600 to-indigo-400';
+              return (
+                <div key={output.label} className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-steel-300">{output.label}</span>
+                    <span className="text-sm font-mono font-semibold text-white">
+                      {display}<span className="text-steel-500 text-xs ml-0.5">{output.unit}</span>
+                    </span>
+                  </div>
+                  <div className="h-2 rounded-full bg-white/5 overflow-hidden">
+                    <div
+                      className={`h-full rounded-full bg-gradient-to-r ${barColor} transition-all duration-500 ease-out`}
+                      style={{ width: `${pct}%`, boxShadow: '0 0 8px rgba(56,189,248,0.3)' }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+
+            <div className="pt-3 border-t border-white/5">
+              <div className="text-xs font-mono text-steel-500 leading-relaxed">
+                <span className="text-ice-400">σ</span>(W·x + b) — sigmoid activation
+                <br />
+                <span className="text-steel-600">2-layer MLP · 35 synaptic weights</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+========================================
+FILE: src/components/MetricsStrip.tsx
+========================================
+import { metrics } from '@/data/portfolio';
+import { Award, Server, Trophy, Cpu } from 'lucide-react';
+
+const icons = [Award, Server, Trophy, Cpu];
+
+export default function MetricsStrip() {
+  const doubled = [...metrics, ...metrics];
+
+  return (
+    <section className="relative py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md glass mb-4">
+            <span className="text-xs font-mono tracking-wider text-ice-400">
+              [ LIVE SYSTEM HIGHLIGHTS ]
+            </span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+            Career Metrics & Accomplishments
+          </h2>
+        </div>
+
+        {/* Metric cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {metrics.map((metric, i) => {
+            const Icon = icons[i];
+            return (
+              <div
+                key={metric.label}
+                className="glass glass-hover rounded-xl p-5 lg:p-6 relative overflow-hidden group"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-radial-glow opacity-20 group-hover:opacity-40 transition-opacity" />
+                <div className="flex items-start justify-between mb-3">
+                  <Icon size={20} className="text-ice-400" />
+                  <span className="w-2 h-2 rounded-full bg-success animate-pulse-dot" />
+                </div>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-3xl lg:text-4xl font-bold text-white font-mono">
+                    {metric.value}
+                  </span>
+                  <span className="text-sm font-mono text-ice-400">{metric.unit}</span>
+                </div>
+                <p className="text-xs text-steel-400 mt-2 leading-snug">{metric.label}</p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Ticker strip */}
+        <div className="relative overflow-hidden glass rounded-xl py-3">
+          <div className="flex gap-8 animate-ticker whitespace-nowrap">
+            {doubled.map((metric, i) => (
+              <div key={i} className="flex items-center gap-3 px-4">
+                <span className="w-1.5 h-1.5 rounded-full bg-ice-400" />
+                <span className="text-sm font-mono text-steel-300">
+                  {metric.label}: <span className="text-ice-400 font-semibold">{metric.value}{metric.unit}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+          {/* Fade edges */}
+          <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-obsidian-950 to-transparent pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-obsidian-950 to-transparent pointer-events-none" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+========================================
+FILE: src/components/Navbar.tsx
+========================================
+import { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { navLinks, profile } from '@/data/portfolio';
+import { Menu, X } from 'lucide-react';
+
+export default function Navbar({ onComingSoon }: { onComingSoon: () => void }) {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0);
+    };
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavClick = (link: (typeof navLinks)[number]) => {
+    if (link.comingSoon) {
+      onComingSoon();
+    } else if (link.href.startsWith('/')) {
+      navigate(link.href);
+    } else if (link.href.startsWith('#')) {
+      document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
+    }
+    setMobileOpen(false);
+  };
+
+  const isActive = (link: (typeof navLinks)[number]) => {
+    if (link.href.startsWith('/')) return location.pathname === link.href;
+    return false;
+  };
+
+  return (
+    <header
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled
+          ? 'bg-obsidian-950/80 backdrop-blur-xl border-b border-ice-400/20'
+          : 'bg-transparent border-b border-transparent'
+        }`}
+      style={
+        scrolled
+          ? { boxShadow: '0 1px 0 0 rgba(56,189,248,0.15), 0 0 24px rgba(56,189,248,0.04)' }
+          : undefined
+      }
+    >
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        {/* Node-graph mark — nods to the RAG/pipeline graphs Soham builds */}
+        <a href="#home" className="flex items-center gap-2.5 group">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" className="transition-transform group-hover:scale-110">
+            {/* Connecting edges */}
+            <line x1="10" y1="26" x2="18" y2="10" stroke="#38BDF8" strokeWidth="1.5" opacity="0.4" />
+            <line x1="18" y1="10" x2="26" y2="26" stroke="#38BDF8" strokeWidth="1.5" opacity="0.4" />
+            <line x1="10" y1="26" x2="26" y2="26" stroke="#38BDF8" strokeWidth="1.5" opacity="0.25" />
+            {/* Nodes */}
+            <circle cx="18" cy="10" r="3" fill="#00E5FF" />
+            <circle cx="10" cy="26" r="2.5" fill="#38BDF8" opacity="0.85" />
+            <circle cx="26" cy="26" r="2.5" fill="#38BDF8" opacity="0.85" />
+            {/* Live pulse on the top node */}
+            <circle cx="18" cy="10" r="5" fill="none" stroke="#00E5FF" strokeWidth="1" opacity="0.5" className="animate-ping origin-center" />
+          </svg>
+          <span className="font-mono text-sm font-semibold text-white tracking-tight">
+            {profile.monogram}
+            <span className="text-ice-400">.ai</span>
+          </span>
+        </a>
+
+        {/* Desktop nav */}
+        <div className="hidden lg:flex items-center gap-1">
+          {navLinks.map((link) => (
+            <button
+              key={link.label}
+              onClick={() => handleNavClick(link)}
+              className="relative px-3 py-2 text-sm font-mono font-medium transition-colors group"
+            >
+              <span className={isActive(link) ? 'text-ice-400' : 'text-steel-400 group-hover:text-steel-200'}>
+                <span className="opacity-0 group-hover:opacity-100 -mr-1 transition-opacity text-ice-400/60">[</span>
+                {link.label}
+                <span className="opacity-0 group-hover:opacity-100 -ml-1 transition-opacity text-ice-400/60">]</span>
+              </span>
+              {link.comingSoon && (
+                <span className="ml-1.5 inline-block px-1.5 py-0.5 rounded text-[9px] font-mono uppercase tracking-wider bg-indigo-500/15 text-indigo-400 border border-indigo-500/20">
+                  Soon
+                </span>
+              )}
+              {isActive(link) && (
+                <span className="absolute -bottom-px left-3 right-3 h-px bg-gradient-to-r from-transparent via-ice-400 to-transparent" />
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* Status indicator */}
+        <div className="hidden lg:flex items-center gap-2.5 px-3 py-1.5 rounded-full glass">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-success opacity-75 animate-ping" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-success" />
+          </span>
+          <span className="text-xs font-mono text-steel-400">{profile.status.label}</span>
+        </div>
+
+        {/* Mobile toggle */}
+        <button
+          className="lg:hidden text-steel-300 p-2"
+          onClick={() => setMobileOpen((v) => !v)}
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </nav>
+
+      {/* Real scroll-progress indicator, not decorative */}
+      <div className="h-[2px] bg-white/5">
+        <div
+          className="h-full bg-gradient-to-r from-ice-600 to-ice-400 transition-[width] duration-150"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="lg:hidden bg-obsidian-950/95 backdrop-blur-xl border-b border-ice-400/15">
+          <div className="px-4 py-4 space-y-1">
+            {navLinks.map((link) => (
+              <button
+                key={link.label}
+                onClick={() => handleNavClick(link)}
+                className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-steel-300 hover:bg-white/5 hover:text-white transition-colors"
+              >
+                <span className={isActive(link) ? 'text-ice-400' : ''}>{link.label}</span>
+                {link.comingSoon && (
+                  <span className="px-1.5 py-0.5 rounded text-[9px] font-mono uppercase bg-indigo-500/15 text-indigo-400 border border-indigo-500/20">
+                    Soon
+                  </span>
+                )}
+              </button>
+            ))}
+            <div className="flex items-center gap-2.5 px-3 py-2.5">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-success opacity-75 animate-ping" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-success" />
+              </span>
+              <span className="text-xs font-mono text-steel-400">{profile.status.label}</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+}
+
+========================================
+FILE: src/components/NERExplorer.tsx
+========================================
+import { useState, useCallback, useRef } from 'react';
+import PipelineSingleton from '@/lib/pipelines';
+import { Loader2, ScanSearch } from 'lucide-react';
+
+const SAMPLES = [
+    'Soham Soni works at AV DEVS Solutions in Vadodara, India.',
+    'Google and Amazon both released new LLM APIs last week.',
+    'Sundar Pichai spoke about Gemini at the Cloud conference in Paris.',
+];
+
+const ENTITY_COLORS: Record<string, string> = {
+    PER: 'bg-indigo-400/20 text-indigo-300 border-indigo-400/30',
+    ORG: 'bg-ice-400/20 text-ice-300 border-ice-400/30',
+    LOC: 'bg-emerald-400/20 text-emerald-300 border-emerald-400/30',
+    MISC: 'bg-amber-400/20 text-amber-300 border-amber-400/30',
+};
+
+type Entity = { entity_group: string; word: string; score: number; start: number; end: number };
+
+export default function NERExplorer() {
+    const [input, setInput] = useState(SAMPLES[0]);
+    const [loadingModel, setLoadingModel] = useState(false);
+    const [progress, setProgress] = useState(0);
+    const [running, setRunning] = useState(false);
+    const [entities, setEntities] = useState<Entity[] | null>(null);
+    const ready = useRef(false);
+
+    const analyze = useCallback(async () => {
+        if (!input.trim()) return;
+        setRunning(true);
+        if (!ready.current) {
+            setLoadingModel(true);
+            await PipelineSingleton.getNER((s: any) => {
+                if (s.status === 'progress' && s.progress) setProgress(Math.round(s.progress));
+            });
+            ready.current = true;
+            setLoadingModel(false);
+        }
+        const ner = await PipelineSingleton.getNER();
+        const output = await ner(input, { aggregation_strategy: 'simple' });
+        setEntities(output as Entity[]);
+        setRunning(false);
+    }, [input]);
+
+    const segments: { text: string; entity?: Entity }[] = [];
+    if (entities) {
+        let cursor = 0;
+        for (const ent of entities) {
+            if (ent.start > cursor) segments.push({ text: input.slice(cursor, ent.start) });
+            segments.push({ text: input.slice(ent.start, ent.end), entity: ent });
+            cursor = ent.end;
+        }
+        if (cursor < input.length) segments.push({ text: input.slice(cursor) });
+    }
+
+    return (
+        <div className="glass rounded-2xl p-5 space-y-4">
+            <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-white font-mono">NAMED ENTITY RECOGNITION</h3>
+                <span className="text-[10px] font-mono text-steel-500">BERT-NER · ONNX · on-device</span>
+            </div>
+
+            <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                rows={2}
+                maxLength={300}
+                className="w-full bg-obsidian-900/50 border border-white/5 rounded-lg px-3 py-2.5 text-sm text-steel-200 font-mono resize-none focus:outline-none focus:border-ice-400/30 transition-colors"
+                placeholder="Type a sentence containing names, places, or organizations..."
+            />
+
+            <div className="flex flex-wrap gap-2">
+                {SAMPLES.map((s) => (
+                    <button
+                        key={s}
+                        onClick={() => setInput(s)}
+                        className="text-xs px-2.5 py-1.5 rounded-md bg-white/[0.03] border border-white/5 text-steel-400 hover:text-ice-400 hover:border-ice-400/20 transition-all truncate max-w-[220px]"
+                    >
+                        {s.slice(0, 34)}...
+                    </button>
+                ))}
+            </div>
+
+            <button
+                onClick={analyze}
+                disabled={running}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-ice-400 text-obsidian-950 font-semibold text-sm transition-all hover:bg-ice-500 disabled:opacity-50"
+            >
+                {running ? <Loader2 size={14} className="animate-spin" /> : <ScanSearch size={14} />}
+                {loadingModel ? `Downloading model… ${progress}%` : running ? 'Scanning entities…' : 'Extract Entities'}
+            </button>
+
+            {entities && (
+                <div className="pt-3 border-t border-white/5 space-y-3">
+                    <p className="text-sm leading-relaxed font-mono">
+                        {segments.map((seg, i) =>
+                            seg.entity ? (
+                                <span
+                                    key={i}
+                                    className={`px-1.5 py-0.5 mx-0.5 rounded-md border text-xs ${ENTITY_COLORS[seg.entity.entity_group] ?? ENTITY_COLORS.MISC}`}
+                                    title={`${seg.entity.entity_group} · ${(seg.entity.score * 100).toFixed(1)}%`}
+                                >
+                                    {seg.text}
+                                </span>
+                            ) : (
+                                <span key={i} className="text-steel-300">{seg.text}</span>
+                            ),
+                        )}
+                    </p>
+                    {entities.length === 0 && <p className="text-xs text-steel-500">No named entities detected.</p>}
+                </div>
+            )}
+        </div>
+    );
+}
+
+========================================
+FILE: src/components/NeuralBackground.tsx
+========================================
+import { useEffect, useRef } from 'react';
+
+/**
+ * Animated neural network canvas overlay.
+ * Renders drifting nodes + connecting synapses with subtle cyan glow.
+ */
+export default function NeuralBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let raf = 0;
+    let w = 0;
+    let h = 0;
+
+    type Node = { x: number; y: number; vx: number; vy: number; r: number };
+    let nodes: Node[] = [];
+
+    const resize = () => {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+      const count = Math.min(60, Math.floor((w * h) / 22000));
+      nodes = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 1.5 + 0.5,
+      }));
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const maxDist = 160;
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+
+      for (const n of nodes) {
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < 0 || n.x > w) n.vx *= -1;
+        if (n.y < 0 || n.y > h) n.vy *= -1;
+      }
+
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < maxDist) {
+            const alpha = (1 - dist / maxDist) * 0.12;
+            ctx.strokeStyle = `rgba(56, 189, 248, ${alpha})`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      for (const n of nodes) {
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.35)';
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      raf = requestAnimationFrame(draw);
+    };
+    draw();
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', resize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 pointer-events-none opacity-40"
+      aria-hidden="true"
+    />
+  );
+}
+
+
+========================================
+FILE: src/components/ResumeQABot.tsx
+========================================
+import { useState, useCallback, useRef } from 'react';
+import PipelineSingleton from '@/lib/pipelines';
+import { getResumeChunks } from '@/data/resume';
+import { Loader2, MessageCircleQuestion, FileSearch } from 'lucide-react';
+
+const SAMPLES = [
+  'Where does Soham currently work?',
+  'What projects has he built?',
+  'What tech stack does he use?',
+];
+
+const SYSTEM_PROMPT = `You are a helpful assistant answering questions about Soham Soni based only on the resume context provided. If multiple facts describe different time periods, always prioritize the one marked "to the present" or "currently" as his current status, and treat any role with an end date in the past as no longer current. Answer in a complete, natural sentence. If the context does not contain the answer, say "I don't have that information in my resume." Do not make anything up.`;
+const TOP_K = 5;
+
+function cosineSimilarity(a: Float32Array, b: Float32Array): number {
+  let dot = 0;
+  for (let i = 0; i < a.length; i++) dot += a[i] * b[i];
+  return dot;
+}
+
+// Small keyword-overlap boost on top of embedding similarity — with a
+// short resume corpus like this, a lightweight hybrid score noticeably
+// improves retrieval over pure embeddings alone.
+function keywordBoost(question: string, chunk: string): number {
+  const stopwords = new Set(['the', 'a', 'an', 'is', 'are', 'he', 'his', 'does', 'do', 'has', 'have', 'in', 'at', 'of', 'to', 'and', 'with']);
+  const qWords = question.toLowerCase().match(/\w+/g)?.filter((w) => !stopwords.has(w)) ?? [];
+  const chunkLower = chunk.toLowerCase();
+  const hits = qWords.filter((w) => chunkLower.includes(w)).length;
+  return qWords.length > 0 ? hits / qWords.length : 0;
+}
+
+export default function ResumeQABot() {
+  const [question, setQuestion] = useState(SAMPLES[0]);
+  const [running, setRunning] = useState(false);
+  const [answer, setAnswer] = useState<{ text: string } | null>(null);
+
+  const chunksRef = useRef<string[]>(getResumeChunks());
+  const chunkEmbeddingsRef = useRef<Float32Array[] | null>(null);
+  const ready = useRef(false);
+
+  const ask = useCallback(async () => {
+    if (!question.trim()) return;
+    setAnswer(null);
+    setRunning(true);
+
+    // Yield to the browser so it can paint the "running" state before
+    // the (synchronous, main-thread-blocking) WASM inference starts.
+    // Without this, cached/fast runs can freeze the tab before React
+    // ever gets to render the spinner.
+    await new Promise((resolve) => setTimeout(resolve, 50));
+
+    if (!ready.current) {
+      const embedder = await PipelineSingleton.getEmbedder();
+
+      const chunkEmbeddings: Float32Array[] = [];
+      for (const chunk of chunksRef.current) {
+        const out = await embedder(chunk, { pooling: 'mean', normalize: true });
+        chunkEmbeddings.push(out.data as Float32Array);
+      }
+      chunkEmbeddingsRef.current = chunkEmbeddings;
+
+      await PipelineSingleton.getGenerator();
+
+      ready.current = true;
+    }
+
+    const embedder = await PipelineSingleton.getEmbedder();
+    const qOut = await embedder(question, { pooling: 'mean', normalize: true });
+    const qEmbedding = qOut.data as Float32Array;
+
+    const ranked = chunksRef.current
+      .map((chunk, i) => {
+        const semanticScore = cosineSimilarity(qEmbedding, chunkEmbeddingsRef.current![i]);
+        const keywordScore = keywordBoost(question, chunk);
+        return { chunk, score: semanticScore * 0.7 + keywordScore * 0.3 };
+      })
+      .sort((a, b) => b.score - a.score)
+      .slice(0, TOP_K);
+
+    const context = ranked
+      .slice()
+      .reverse()
+      .map((r) => r.chunk)
+      .join('\n');
+
+    const prompt = `${SYSTEM_PROMPT}\n\nContext:\n${context}\n\nQuestion: ${question}\n\nAnswer:`;
+
+    const generator = await PipelineSingleton.getGenerator();
+    const output = await generator(prompt, { max_new_tokens: 150 });
+    const generatedText = Array.isArray(output) ? output[0].generated_text : output.generated_text;
+
+    setAnswer({
+      text: generatedText.trim(),
+    });
+    setRunning(false);
+  }, [question]);
+
+  return (
+    <div className="glass rounded-2xl p-5 space-y-4">
+      <div className="flex items-center justify-between">
+        <h3 className="text-sm font-semibold text-white font-mono">ASK ABOUT MY RESUME</h3>
+        <span className="text-[10px] font-mono text-steel-500">AI-powered · runs entirely in your browser</span>
+      </div>
+
+      <textarea
+        value={question}
+        onChange={(e) => setQuestion(e.target.value)}
+        rows={2}
+        maxLength={200}
+        className="w-full bg-obsidian-900/50 border border-white/5 rounded-lg px-3 py-2.5 text-sm text-steel-200 font-mono resize-none focus:outline-none focus:border-ice-400/30 transition-colors"
+        placeholder="Ask something about my background..."
+      />
+
+      <div className="flex flex-wrap gap-2">
+        {SAMPLES.map((s) => (
+          <button
+            key={s}
+            onClick={() => setQuestion(s)}
+            className="text-xs px-2.5 py-1.5 rounded-md bg-white/[0.03] border border-white/5 text-steel-400 hover:text-ice-400 hover:border-ice-400/20 transition-all"
+          >
+            {s}
+          </button>
+        ))}
+      </div>
+
+      <button
+        onClick={ask}
+        disabled={running}
+        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-ice-400 text-obsidian-950 font-semibold text-sm transition-all hover:bg-ice-500 disabled:opacity-50"
+      >
+        {running ? <Loader2 size={14} className="animate-spin" /> : <MessageCircleQuestion size={14} />}
+        {running ? 'Analyzing your question…' : 'Ask'}
+      </button>
+
+      {(running || answer) && (
+        <div className="pt-3 border-t border-white/5">
+          <div className="flex items-start gap-2">
+            {running ? (
+              <>
+                <Loader2 size={16} className="text-ice-400 mt-0.5 shrink-0 animate-spin" />
+                <p className="text-sm text-steel-400 leading-relaxed">Analyzing your question…</p>
+              </>
+            ) : (
+              <>
+                <FileSearch size={16} className="text-ice-400 mt-0.5 shrink-0" />
+                <p className="text-sm text-white font-medium leading-relaxed">{answer!.text}</p>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+========================================
+FILE: src/components/SemanticSimilarity.tsx
+========================================
+import { useState, useCallback, useRef } from 'react';
+import PipelineSingleton from '@/lib/pipelines';
+import { Loader2, GitCompare } from 'lucide-react';
+
+function cosineSimilarity(a: Float32Array, b: Float32Array): number {
+  let dot = 0;
+  for (let i = 0; i < a.length; i++) dot += a[i] * b[i];
+  return dot; // vectors already L2-normalized by the pipeline
+}
+
+export default function SemanticSimilarity() {
+  const [textA, setTextA] = useState('A neural network learns patterns from data.');
+  const [textB, setTextB] = useState('Deep learning models are trained on examples.');
+  const [loadingModel, setLoadingModel] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [running, setRunning] = useState(false);
+  const [similarity, setSimilarity] = useState<number | null>(null);
+  const ready = useRef(false);
+
+  const compare = useCallback(async () => {
+    if (!textA.trim() || !textB.trim()) return;
+    setRunning(true);
+    if (!ready.current) {
+      setLoadingModel(true);
+      await PipelineSingleton.getEmbedder((s: any) => {
+        if (s.status === 'progress' && s.progress) setProgress(Math.round(s.progress));
+      });
+      ready.current = true;
+      setLoadingModel(false);
+    }
+    const embedder = await PipelineSingleton.getEmbedder();
+    const [outA, outB] = await Promise.all([
+      embedder(textA, { pooling: 'mean', normalize: true }),
+      embedder(textB, { pooling: 'mean', normalize: true }),
+    ]);
+    setSimilarity(cosineSimilarity(outA.data as Float32Array, outB.data as Float32Array));
+    setRunning(false);
+  }, [textA, textB]);
+
+  const pct = similarity !== null ? Math.max(0, similarity) * 100 : 0;
+
+  return (
+    <div className="glass rounded-2xl p-5 space-y-4">
+      <div className="flex items-center justify-between">
+        <h3 className="text-sm font-semibold text-white font-mono">SEMANTIC SIMILARITY</h3>
+        <span className="text-[10px] font-mono text-steel-500">MiniLM-L6-v2 embeddings · on-device</span>
+      </div>
+
+      <div className="grid sm:grid-cols-2 gap-3">
+        <textarea
+          value={textA}
+          onChange={(e) => setTextA(e.target.value)}
+          rows={3}
+          className="w-full bg-obsidian-900/50 border border-white/5 rounded-lg px-3 py-2.5 text-sm text-steel-200 font-mono resize-none focus:outline-none focus:border-ice-400/30 transition-colors"
+          placeholder="Sentence A"
+        />
+        <textarea
+          value={textB}
+          onChange={(e) => setTextB(e.target.value)}
+          rows={3}
+          className="w-full bg-obsidian-900/50 border border-white/5 rounded-lg px-3 py-2.5 text-sm text-steel-200 font-mono resize-none focus:outline-none focus:border-ice-400/30 transition-colors"
+          placeholder="Sentence B"
+        />
+      </div>
+
+      <button
+        onClick={compare}
+        disabled={running}
+        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-ice-400 text-obsidian-950 font-semibold text-sm transition-all hover:bg-ice-500 disabled:opacity-50"
+      >
+        {running ? <Loader2 size={14} className="animate-spin" /> : <GitCompare size={14} />}
+        {loadingModel ? `Downloading model… ${progress}%` : running ? 'Computing embeddings…' : 'Compare Meaning'}
+      </button>
+
+      {similarity !== null && (
+        <div className="pt-3 border-t border-white/5 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-mono text-steel-400">Cosine similarity</span>
+            <span className="text-sm font-mono font-semibold text-white">{similarity.toFixed(3)}</span>
+          </div>
+          <div className="h-2 rounded-full bg-white/5 overflow-hidden">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-indigo-600 to-ice-400 transition-all duration-500"
+              style={{ width: `${pct}%` }}
+            />
+          </div>
+          <p className="text-[10px] font-mono text-steel-600">
+            384-dim sentence embeddings compared via dot product (pre-normalized vectors)
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+========================================
+FILE: src/components/SentimentAnalyzer.tsx
+========================================
+import { useState, useCallback, useRef } from 'react';
+import PipelineSingleton from '@/lib/pipelines';
+import { Smile, Frown, Loader2, Zap } from 'lucide-react';
+
+const SAMPLES = [
+  'I absolutely love how this model runs entirely in my browser.',
+  'This deployment pipeline keeps failing and it is frustrating.',
+  'The results are okay, nothing special either way.',
+];
+
+export default function SentimentAnalyzer() {
+  const [input, setInput] = useState(SAMPLES[0]);
+  const [loadingModel, setLoadingModel] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [running, setRunning] = useState(false);
+  const [result, setResult] = useState<{ label: string; score: number } | null>(null);
+  const ready = useRef(false);
+
+  const analyze = useCallback(async () => {
+    if (!input.trim()) return;
+    setRunning(true);
+    if (!ready.current) {
+      setLoadingModel(true);
+      await PipelineSingleton.getSentiment((s: any) => {
+        if (s.status === 'progress' && s.progress) setProgress(Math.round(s.progress));
+      });
+      ready.current = true;
+      setLoadingModel(false);
+    }
+    const classifier = await PipelineSingleton.getSentiment();
+    const output = await classifier(input);
+    const top = Array.isArray(output) ? output[0] : output;
+    setResult({ label: top.label, score: top.score });
+    setRunning(false);
+  }, [input]);
+
+  const isPositive = result?.label === 'POSITIVE';
+
+  return (
+    <div className="glass rounded-2xl p-5 space-y-4">
+      <div className="flex items-center justify-between">
+        <h3 className="text-sm font-semibold text-white font-mono">SENTIMENT ANALYSIS</h3>
+        <span className="text-[10px] font-mono text-steel-500">DistilBERT SST-2 · ONNX · on-device</span>
+      </div>
+
+      <textarea
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        rows={3}
+        maxLength={300}
+        className="w-full bg-obsidian-900/50 border border-white/5 rounded-lg px-3 py-2.5 text-sm text-steel-200 font-mono resize-none focus:outline-none focus:border-ice-400/30 transition-colors"
+        placeholder="Type a sentence to classify..."
+      />
+
+      <div className="flex flex-wrap gap-2">
+        {SAMPLES.map((s) => (
+          <button
+            key={s}
+            onClick={() => setInput(s)}
+            className="text-xs px-2.5 py-1.5 rounded-md bg-white/[0.03] border border-white/5 text-steel-400 hover:text-ice-400 hover:border-ice-400/20 transition-all truncate max-w-[220px]"
+          >
+            {s.slice(0, 34)}...
+          </button>
+        ))}
+      </div>
+
+      <button
+        onClick={analyze}
+        disabled={running}
+        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-ice-400 text-obsidian-950 font-semibold text-sm transition-all hover:bg-ice-500 disabled:opacity-50"
+      >
+        {running ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} />}
+        {loadingModel ? `Downloading model… ${progress}%` : running ? 'Running inference…' : 'Analyze Sentiment'}
+      </button>
+
+      {result && (
+        <div className="pt-3 border-t border-white/5 space-y-2">
+          <div className="flex items-center gap-2">
+            {isPositive ? <Smile size={18} className="text-success" /> : <Frown size={18} className="text-rose-400" />}
+            <span className={`text-sm font-mono font-semibold ${isPositive ? 'text-success' : 'text-rose-400'}`}>
+              {result.label}
+            </span>
+            <span className="text-xs font-mono text-steel-500 ml-auto">
+              {(result.score * 100).toFixed(1)}% confidence
+            </span>
+          </div>
+          <div className="h-2 rounded-full bg-white/5 overflow-hidden">
+            <div
+              className={`h-full rounded-full transition-all duration-500 ${isPositive ? 'bg-gradient-to-r from-green-600 to-success' : 'bg-gradient-to-r from-rose-600 to-rose-400'}`}
+              style={{ width: `${result.score * 100}%` }}
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+========================================
+FILE: src/components/Specialization.tsx
+========================================
+import { specialization, type Skill, type Tool, type Chip } from '@/data/portfolio';
+import { Activity, Network, Database, Cloud } from 'lucide-react';
+
+const icons = [Activity, Network, Database, Cloud];
+
+function ProgressBar({ skill }: { skill: Skill }) {
+  return (
+    <div className="space-y-1.5">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium text-steel-300">{skill.name}</span>
+        <span className="text-xs font-mono text-ice-400">{skill.level}%</span>
+      </div>
+      <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+        <div
+          className="h-full rounded-full bg-gradient-to-r from-ice-600 to-ice-400 transition-all duration-1000 ease-out"
+          style={{ width: `${skill.level}%`, boxShadow: '0 0 8px rgba(56,189,248,0.4)' }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function NetworkNode({ tool, index }: { tool: Tool; index: number }) {
+  return (
+    <div className="relative flex flex-col items-center gap-2 group">
+      <div
+        className="w-12 h-12 rounded-xl glass flex items-center justify-center transition-all group-hover:border-ice-400/40 group-hover:shadow-lg"
+        style={{ boxShadow: '0 0 12px rgba(56,189,248,0.05)' }}
+      >
+        <span className="text-xs font-mono font-semibold text-steel-300">
+          {tool.name.slice(0, 2).toUpperCase()}
+        </span>
+      </div>
+      <span className="text-xs text-steel-400 text-center">{tool.name}</span>
+      {index < 4 && (
+        <div className="hidden sm:block absolute top-6 left-full w-full h-px neural-line" />
+      )}
+    </div>
+  );
+}
+
+function GridTile({ tool }: { tool: Tool }) {
+  return (
+    <div className="glass glass-hover rounded-lg p-3 flex items-center justify-between">
+      <div>
+        <div className="text-sm font-medium text-steel-300">{tool.name}</div>
+        {tool.latency && (
+          <div className="text-xs font-mono text-steel-500 mt-0.5">{tool.latency}</div>
+        )}
+      </div>
+      <div className="flex items-center gap-1.5">
+        <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse-dot" />
+        <span className="text-xs font-mono text-success">{tool.status}</span>
+      </div>
+    </div>
+  );
+}
+
+function ChipItem({ chip }: { chip: Chip }) {
+  return (
+    <span
+      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium border transition-all ${
+        chip.active
+          ? 'glass border-ice-400/30 text-steel-200'
+          : 'bg-white/[0.02] border-white/5 text-steel-500'
+      }`}
+      style={chip.active ? { boxShadow: '0 0 12px rgba(56,189,248,0.1)' } : undefined}
+    >
+      <span
+        className={`w-1.5 h-1.5 rounded-full ${chip.active ? 'bg-ice-400 animate-pulse-dot' : 'bg-steel-600'}`}
+      />
+      {chip.name}
+    </span>
+  );
+}
+
+function QuadrantCard({ section, index }: { section: (typeof specialization)[number]; index: number }) {
+  const Icon = icons[index];
+
+  return (
+    <div className="glass glass-hover rounded-2xl p-6 lg:p-7 relative overflow-hidden group">
+      {/* Top accent line */}
+      <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-ice-400/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+      <div className="flex items-start gap-3 mb-5">
+        <div className="w-10 h-10 rounded-lg glass flex items-center justify-center shrink-0">
+          <Icon size={18} className="text-ice-400" />
+        </div>
+        <div>
+          <h3 className="text-base font-semibold text-white">{section.title}</h3>
+          <p className="text-xs font-mono text-steel-500 mt-0.5">{section.subtitle}</p>
+        </div>
+      </div>
+
+      {/* Render based on type */}
+      {section.type === 'bars' && (
+        <div className="space-y-4">
+          {(section.skills as Skill[]).map((skill) => (
+            <ProgressBar key={skill.name} skill={skill} />
+          ))}
+        </div>
+      )}
+
+      {section.type === 'network' && (
+        <div className="flex items-start justify-between gap-2 pt-2">
+          {(section.tools as Tool[]).map((tool, i) => (
+            <NetworkNode key={tool.name} tool={tool} index={i} />
+          ))}
+        </div>
+      )}
+
+      {section.type === 'grid' && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          {(section.tools as Tool[]).map((tool) => (
+            <GridTile key={tool.name} tool={tool} />
+          ))}
+        </div>
+      )}
+
+      {section.type === 'chips' && (
+        <div className="flex flex-wrap gap-2.5 pt-1">
+          {(section.tools as Chip[]).map((chip) => (
+            <ChipItem key={chip.name} chip={chip} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function Specialization() {
+  return (
+    <section id="specialization" className="relative py-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Section header */}
+        <div className="text-center mb-14">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md glass mb-4">
+            <span className="text-xs font-mono tracking-wider text-ice-400">
+              [ TECHNICAL TELEMETRY DASHBOARD ]
+            </span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+            Technical Specialization & Toolset
+          </h2>
+          <p className="mt-3 text-steel-400 max-w-2xl mx-auto">
+            A live readout of core engineering fluency, framework mastery, data infrastructure, and
+            deployment orchestration across the full ML lifecycle.
+          </p>
+        </div>
+
+        {/* 4-quadrant grid */}
+        <div className="grid md:grid-cols-2 gap-5 lg:gap-6">
+          {specialization.map((section, i) => (
+            <QuadrantCard key={section.id} section={section} index={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+========================================
+FILE: src/data/portfolio.ts
+========================================
+export const profile = {
+  fullName: 'Soham Soni',
+  monogram: 'SS',
+  preTitle: 'AI ENGINEER / LLM SYSTEMS SPECIALIST',
+  subtitle: 'Machine Learning Architect | Deep Learning & LLM Systems Specialist',
+  summary:
+    'I design and ship high-scale neural architectures, fine-tune large language models for domain-specific reasoning, and deploy low-latency production inference pipelines. My work spans research-grade model design to hardened MLOps — turning cutting-edge ML into measurable business impact at global scale.',
+  resumeUrl: '#',
+  portraitImage:
+    'https://images.pexels.com/photos/31660586/pexels-photo-31660586.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+  status: {
+    label: 'Open for AI Engagements / Available for Hire',
+    latency: 'Inference Latency: 12ms',
+    systemState: 'System Active',
+  },
+};
+
+export const navLinks = [
+  { label: 'Home', href: '/', comingSoon: false },
+  { label: 'AI Lab', href: '/ai-lab', comingSoon: false },
+  { label: 'Skills', href: '/skills', comingSoon: false },
+  { label: 'Certifications', href: '/certifications', comingSoon: false },
+  { label: 'Projects', href: '/projects', comingSoon: false },
+  { label: 'Experience', href: '/experience', comingSoon: false },
+  { label: 'Contact', href: '/contact', comingSoon: false },
+];
+
+export type Skill = { name: string; level: number };
+export type Tool = { name: string; status?: string; latency?: string };
+export type Chip = { name: string; active?: boolean };
+
+export const specialization = [
+  {
+    id: 'languages',
+    title: 'Programming & Core Languages',
+    subtitle: 'Core engineering fluency',
+    type: 'bars',
+    skills: [
+      { name: 'Python', level: 98 },
+      { name: 'C++', level: 90 },
+      { name: 'SQL', level: 92 },
+      { name: 'Rust', level: 78 },
+    ] as Skill[],
+  },
+  {
+    id: 'frameworks',
+    title: 'ML / DL Frameworks & Compute',
+    subtitle: 'Model training & acceleration',
+    type: 'network',
+    tools: [
+      { name: 'PyTorch' },
+      { name: 'TensorFlow' },
+      { name: 'Scikit-Learn' },
+      { name: 'JAX' },
+      { name: 'Hugging Face' },
+    ] as Tool[],
+  },
+  {
+    id: 'data',
+    title: 'Data Infrastructure & Streaming',
+    subtitle: 'Pipelines & storage layer',
+    type: 'grid',
+    tools: [
+      { name: 'Apache Spark', status: 'Active', latency: '2.1ms' },
+      { name: 'PostgreSQL', status: 'Active', latency: '0.8ms' },
+      { name: 'Pandas / Polars', status: 'Active', latency: '1.4ms' },
+      { name: 'Redis', status: 'Active', latency: '0.3ms' },
+      { name: 'Pinecone / Milvus', status: 'Active', latency: '4.2ms' },
+    ] as Tool[],
+  },
+  {
+    id: 'mlops',
+    title: 'MLOps, Orchestration & Cloud',
+    subtitle: 'Deployment & observability',
+    type: 'chips',
+    tools: [
+      { name: 'Docker', active: true },
+      { name: 'Kubernetes', active: true },
+      { name: 'AWS SageMaker', active: true },
+      { name: 'GCP Vertex AI', active: false },
+      { name: 'MLflow', active: true },
+      { name: 'CI/CD', active: true },
+    ] as Chip[],
+  },
+];
+
+export const metrics = [
+  { label: 'NeurIPS / CVPR Research Accepted', value: '3', unit: 'Papers' },
+  { label: 'Production Pipeline Uptime', value: '99.98', unit: '%' },
+  { label: 'Kaggle Global Ranking', value: 'Top 1', unit: '% Grandmaster' },
+  { label: 'Models Deployed in Production', value: '40', unit: '+' },
+];
+
+export const socials = [
+  { label: 'GitHub', href: 'https://github.com', icon: 'github' as const },
+  { label: 'LinkedIn', href: 'https://linkedin.com', icon: 'linkedin' as const },
+  { label: 'ArXiv', href: 'https://arxiv.org', icon: 'arxiv' as const },
+  { label: 'Hugging Face', href: 'https://huggingface.co', icon: 'hf' as const },
+];
+
+export const comingSoonMessage =
+  'Module Under Optimization — Detailed View Coming Soon in v2.0 Release.';
+
+export const neuralPlayground = {
+  inputs: [
+    { label: 'Python Fluency', icon: 'code' as const, default: 95 },
+    { label: 'Dataset Quality', icon: 'database' as const, default: 80 },
+    { label: 'GPU Availability', icon: 'cpu' as const, default: 70 },
+    { label: 'Model Complexity', icon: 'layers' as const, default: 60 },
+  ],
+  outputs: [
+    { label: 'Accuracy', unit: '%', color: 'ice' as const },
+    { label: 'Inference Speed', unit: 'ms', color: 'success' as const, inverted: true },
+    { label: 'Deploy Readiness', unit: '%', color: 'indigo' as const },
+  ],
+  description:
+    'A live multi-layer perceptron running real-time forward propagation. Adjust the input parameters to watch how signal flows through the network and shapes the output predictions.',
+};
+
+export const attentionLab = {
+  samplePrompts: [
+    'The neural network learned to generate code',
+    'Transformers revolutionized natural language processing',
+    'The model converges faster with batch normalization',
+    'Large language models reshape how we build software',
+  ],
+  tokenCategories: ['technical', 'reasoning', 'creative', 'procedural'] as const,
+  description:
+    'A live self-attention visualization. Type a sentence or pick a sample, then watch how a multi-head transformer distributes attention across tokens.',
+  heads: 4,
+};
+
+// ─── CERTIFICATIONS ──────────────────────────────────────────────────────────
+export const certifications = [
+  {
+    id: 'aws-ml',
+    title: 'AWS Certified Machine Learning – Specialty',
+    issuer: 'Amazon Web Services',
+    date: 'Mar 2024',
+    expiry: 'Mar 2027',
+    credentialId: 'AWS-ML-2024-SS-0421',
+    badge: 'AWS',
+    color: 'amber',
+    skills: ['SageMaker', 'Data Engineering', 'Model Deployment', 'MLOps'],
+    verifyUrl: '#',
+  },
+  {
+    id: 'gcp-pro-ml',
+    title: 'Professional Machine Learning Engineer',
+    issuer: 'Google Cloud',
+    date: 'Jan 2024',
+    expiry: 'Jan 2026',
+    credentialId: 'GCP-MLE-2024-SS-0187',
+    badge: 'GCP',
+    color: 'ice',
+    skills: ['Vertex AI', 'BigQuery ML', 'TFX Pipelines', 'Model Monitoring'],
+    verifyUrl: '#',
+  },
+  {
+    id: 'deep-learning-spec',
+    title: 'Deep Learning Specialization',
+    issuer: 'DeepLearning.AI / Coursera',
+    date: 'Sep 2023',
+    expiry: 'No Expiry',
+    credentialId: 'DLS-2023-SS-5522',
+    badge: 'DL',
+    color: 'indigo',
+    skills: ['CNNs', 'RNNs', 'Transformers', 'Hyperparameter Tuning'],
+    verifyUrl: '#',
+  },
+  {
+    id: 'tensorflow-dev',
+    title: 'TensorFlow Developer Certificate',
+    issuer: 'Google / TensorFlow',
+    date: 'Jun 2023',
+    expiry: 'Jun 2026',
+    credentialId: 'TFD-2023-SS-3341',
+    badge: 'TF',
+    color: 'success',
+    skills: ['Computer Vision', 'NLP', 'Time Series', 'Neural Architecture'],
+    verifyUrl: '#',
+  },
+  {
+    id: 'kaggle-gm',
+    title: 'Kaggle Competitions Grandmaster',
+    issuer: 'Kaggle',
+    date: 'Nov 2023',
+    expiry: 'No Expiry',
+    credentialId: 'KGM-SS-GLOBAL-TOP1',
+    badge: 'KG',
+    color: 'ice',
+    skills: ['Feature Engineering', 'Ensemble Methods', 'XGBoost', 'AutoML'],
+    verifyUrl: '#',
+  },
+  {
+    id: 'mlops-specialization',
+    title: 'Machine Learning Engineering for Production',
+    issuer: 'DeepLearning.AI / Coursera',
+    date: 'Apr 2023',
+    expiry: 'No Expiry',
+    credentialId: 'MLEP-2023-SS-8812',
+    badge: 'ML',
+    color: 'indigo',
+    skills: ['ML Pipelines', 'Data Drift', 'Model Serving', 'Monitoring'],
+    verifyUrl: '#',
+  },
+];
+
+// ─── PROJECTS ─────────────────────────────────────────────────────────────────
+export const projects = [
+  {
+    id: 'llm-finetuner',
+    title: 'LLM Domain Fine-Tuner',
+    subtitle: 'Production-grade LLM adaptation pipeline',
+    description:
+      'End-to-end framework for fine-tuning LLaMA-2 / Mistral on domain-specific corpora using QLoRA. Achieves 94% task accuracy with 3× lower inference cost via quantization and speculative decoding.',
+    tags: ['PyTorch', 'QLoRA', 'PEFT', 'vLLM', 'FastAPI', 'Docker'],
+    category: 'LLM Systems',
+    metrics: { stars: '1.2k', accuracy: '94%', latency: '18ms' },
+    status: 'Production',
+    gradient: 'from-indigo-500/20 to-ice-500/10',
+    accent: 'indigo',
+    githubUrl: '#',
+    demoUrl: '#',
+    featured: true,
+  },
+  {
+    id: 'realtime-cv',
+    title: 'Real-Time Vision Pipeline',
+    subtitle: 'Edge-optimized object detection & tracking',
+    description:
+      'Multi-camera inference system using YOLOv9 + ByteTrack running at 60 FPS on NVIDIA Jetson. Deployed across 200+ retail locations for footfall analytics with 99.7% uptime.',
+    tags: ['YOLOv9', 'TensorRT', 'CUDA', 'ByteTrack', 'RTSP', 'Kafka'],
+    category: 'Computer Vision',
+    metrics: { stars: '890', accuracy: '99.7%', latency: '16ms' },
+    status: 'Production',
+    gradient: 'from-ice-500/20 to-cyan-500/10',
+    accent: 'ice',
+    githubUrl: '#',
+    demoUrl: '#',
+    featured: true,
+  },
+  {
+    id: 'rag-engine',
+    title: 'Enterprise RAG Engine',
+    subtitle: 'Retrieval-augmented generation at scale',
+    description:
+      'Hybrid dense-sparse retrieval system with reranking. Indexes 50M+ documents across Pinecone + BM25, serving sub-50ms retrieval with hallucination rate below 2% on internal benchmarks.',
+    tags: ['LangChain', 'Pinecone', 'BM25', 'FastAPI', 'Redis', 'OpenAI'],
+    category: 'LLM Systems',
+    metrics: { stars: '2.1k', accuracy: '98%', latency: '42ms' },
+    status: 'Production',
+    gradient: 'from-violet-500/20 to-indigo-500/10',
+    accent: 'violet',
+    githubUrl: '#',
+    demoUrl: '#',
+    featured: true,
+  },
+  {
+    id: 'anomaly-detector',
+    title: 'Time-Series Anomaly Detector',
+    subtitle: 'Self-supervised detection for IoT streams',
+    description:
+      'Transformer-based anomaly detection on multivariate sensor streams. Trained via contrastive learning with zero labeled anomalies. Deployed on AWS SageMaker serving 10K+ device feeds.',
+    tags: ['Transformers', 'Contrastive Learning', 'SageMaker', 'Kafka', 'InfluxDB'],
+    category: 'MLOps',
+    metrics: { stars: '540', accuracy: '96.3%', latency: '8ms' },
+    status: 'Production',
+    gradient: 'from-emerald-500/20 to-ice-500/10',
+    accent: 'success',
+    githubUrl: '#',
+    demoUrl: null,
+    featured: false,
+  },
+  {
+    id: 'multimodal-search',
+    title: 'Multimodal Semantic Search',
+    subtitle: 'Unified text + image embedding retrieval',
+    description:
+      'CLIP-based search engine with cross-modal retrieval. Supports image-to-text, text-to-image, and hybrid queries. Handles 1M+ product SKUs with 99.9% index freshness.',
+    tags: ['CLIP', 'FAISS', 'PyTorch', 'FastAPI', 'Next.js', 'Elasticsearch'],
+    category: 'Computer Vision',
+    metrics: { stars: '730', accuracy: '97.1%', latency: '28ms' },
+    status: 'Research',
+    gradient: 'from-amber-500/20 to-orange-500/10',
+    accent: 'amber',
+    githubUrl: '#',
+    demoUrl: '#',
+    featured: false,
+  },
+  {
+    id: 'auto-ml-platform',
+    title: 'AutoML Experimentation Platform',
+    subtitle: 'Automated model selection & HPO',
+    description:
+      'Internal platform for automated hyperparameter optimization using Optuna + Ray Tune. Reduces experiment cycle time by 70%. Integrates with MLflow for full reproducibility.',
+    tags: ['Optuna', 'Ray Tune', 'MLflow', 'Kubernetes', 'Grafana', 'Prometheus'],
+    category: 'MLOps',
+    metrics: { stars: '410', accuracy: '—', latency: '—' },
+    status: 'Internal',
+    gradient: 'from-rose-500/20 to-pink-500/10',
+    accent: 'rose',
+    githubUrl: '#',
+    demoUrl: null,
+    featured: false,
+  },
+];
+
+// ─── EXPERIENCE ───────────────────────────────────────────────────────────────
+export const experiences = [
+  {
+    id: 'av-devs',
+    role: 'ML Engineer — AI Systems',
+    company: 'AV DEVS Solutions Pvt. Ltd.',
+    location: 'Vadodara, India',
+    period: 'Jun 2025 — Present',
+    type: 'Full-time',
+    current: true,
+    description:
+      'Architecting production ML pipelines and LLM-powered features across client verticals. Leading model fine-tuning, inference optimization, and MLOps infrastructure.',
+    highlights: [
+      'Reduced inference latency by 60% via TensorRT quantization on CV pipelines',
+      'Built RAG system serving 50M+ documents with sub-50ms retrieval',
+      'Established CI/CD for model deployment cutting release cycles from weeks to hours',
+      'Mentoring 3 junior engineers on deep learning best practices',
+    ],
+    stack: ['PyTorch', 'vLLM', 'FastAPI', 'Docker', 'Kubernetes', 'AWS'],
+  },
+  {
+    id: 'freelance-ml',
+    role: 'Freelance ML Consultant',
+    company: 'Independent / Remote',
+    location: 'Remote',
+    period: 'Jan 2024 — May 2025',
+    type: 'Contract',
+    current: false,
+    description:
+      'Delivered end-to-end ML solutions for 8 clients spanning retail, fintech, and healthcare. Specialized in computer vision, NLP, and production deployment.',
+    highlights: [
+      'Deployed YOLOv9-based footfall analytics for retail chain across 200+ locations',
+      'Built NLP pipeline for automated contract analysis saving 400+ hours/month',
+      'Fine-tuned domain-specific LLM for legal Q&A with 94% accuracy',
+      'Shipped multimodal search for e-commerce with 1M+ SKU index',
+    ],
+    stack: ['Python', 'TensorFlow', 'LangChain', 'Pinecone', 'GCP', 'FastAPI'],
+  },
+  {
+    id: 'parul-research',
+    role: 'Research Intern — Computer Vision',
+    company: 'Parul University AI Research Lab',
+    location: 'Vadodara, India',
+    period: 'Aug 2023 — Dec 2023',
+    type: 'Internship',
+    current: false,
+    description:
+      'Conducted research on lightweight neural architectures for edge deployment. Co-authored paper accepted at CVPR 2024 workshop on efficient vision models.',
+    highlights: [
+      'Proposed pruning strategy achieving 4× compression with <1% accuracy drop',
+      'Co-authored CVPR 2024 workshop paper on efficient transformer variants',
+      'Benchmarked 12 SOTA models on custom edge-device dataset',
+      'Presented findings at internal symposium to faculty and industry guests',
+    ],
+    stack: ['PyTorch', 'ONNX', 'TensorRT', 'OpenCV', 'Weights & Biases'],
+  },
+  {
+    id: 'kaggle-research',
+    role: 'Independent Researcher & Competitor',
+    company: 'Kaggle / Open Source',
+    location: 'Remote',
+    period: 'Jan 2022 — Present',
+    type: 'Research',
+    current: true,
+    description:
+      'Achieved Grandmaster rank (Top 1% globally) across Competitions, Notebooks, and Datasets tracks. Published 3 peer-reviewed papers and 20+ open-source notebooks.',
+    highlights: [
+      'Top 1% globally across Competitions, Notebooks, and Datasets tracks',
+      '3 papers accepted at NeurIPS and CVPR workshops',
+      'Open-source notebooks with 50K+ cumulative views',
+      'Gold medals in tabular, NLP, and CV competition tracks',
+    ],
+    stack: ['XGBoost', 'LightGBM', 'PyTorch', 'Scikit-Learn', 'Polars', 'Optuna'],
+  },
+];
+
+// ─── CONTACT ──────────────────────────────────────────────────────────────────
+export const contact = {
+  email: 'soham.soni@example.com',
+  phone: '+91 98765 43210',
+  location: 'Vadodara, Gujarat, India',
+  availability: 'Open to full-time, contract & research collaborations',
+  responseTime: '< 24 hours',
+  channels: [
+    { label: 'Email', value: 'soham.soni@example.com', href: 'mailto:soham.soni@example.com', icon: 'mail' },
+    { label: 'LinkedIn', value: 'linkedin.com/in/soham-soni-ai', href: 'https://linkedin.com', icon: 'linkedin' },
+    { label: 'GitHub', value: 'github.com/soham-soni', href: 'https://github.com', icon: 'github' },
+    { label: 'Calendly', value: 'Book a 30-min call', href: '#', icon: 'calendar' },
+  ],
+  faqs: [
+    { q: 'What engagement types do you take?', a: 'Full-time roles, 3–6 month contracts, research collaborations, and advisory.' },
+    { q: 'Are you open to relocation?', a: 'Open to remote-first and hybrid setups. Relocation negotiable for the right opportunity.' },
+    { q: 'What industries have you worked in?', a: 'Retail, fintech, healthcare, legal-tech, and applied research.' },
+    { q: 'Do you take on open-source projects?', a: 'Yes — particularly NLP tooling, CV pipelines, and MLOps infrastructure.' },
+  ],
+};
+
+========================================
+FILE: src/data/resume.ts
+========================================
+// Resume content used for retrieval.
+// IMPORTANT: Each independent fact/topic is separated by a line containing only "---".
+// Each block becomes one retrievable chunk.
+// Keep one topic per block for best retrieval accuracy.
+
+export const RESUME_TEXT = `
+Soham Soni is an AI-focused Software Engineer based in Vadodara, India, with hands-on experience integrating AI coding tools into real production workflows. He specializes in Python, TypeScript/JavaScript, prompt engineering, LLM governance, and CI/CD pipelines.
+---
+Soham has hands-on experience using AI coding tools including Cursor, GitHub Copilot, and Claude in production engineering workflows.
+---
+Soham has experience building reusable AI development patterns, automating complex processes using n8n, and enabling non-traditional developers to build secure, production-ready AI solutions.
+---
+Soham has experience establishing governance guardrails and validation processes for AI-generated code, including defining engineering best practices and reusable prompt libraries.
+---
+Soham has experience integrating AI automation into legacy systems using n8n workflows.
+---
+Soham has experience deploying and maintaining services on AWS, including applications using PostgreSQL hosted on Amazon RDS.
+---
+Soham has experience coaching and enabling team members to use AI coding tools effectively and securely, with the goal of reducing onboarding time and improving code consistency.
+---
+Soham worked as a Software Engineer – AI Integration at AV DEVS Solutions Pvt. Ltd. in Vadodara, India, from August 2025 to the present.
+---
+At AV DEVS Solutions Pvt. Ltd., Soham leads AI-assisted development initiatives using Cursor, GitHub Copilot, and Claude to accelerate engineering workflows and enforce code quality standards.
+---
+At AV DEVS Solutions Pvt. Ltd., Soham establishes governance guardrails and validation processes for AI-generated code and defines best practices and reusable prompt libraries for the engineering team.
+---
+At AV DEVS Solutions Pvt. Ltd., Soham integrates AI automation into legacy systems using n8n workflows and deploys and maintains services on AWS with PostgreSQL on Amazon RDS.
+---
+At AV DEVS Solutions Pvt. Ltd., Soham enables and coaches team members on the effective and secure use of AI coding tools, helping reduce onboarding time and improve code consistency.
+---
+Soham previously worked as a Software Engineering Intern at Linde Engineering India Pvt. Ltd. in Vadodara, India, from December 2024 to April 2025.
+---
+During his internship at Linde Engineering India Pvt. Ltd., Soham built a full-stack document Q&A web application using React, FastAPI with Python, PostgreSQL, and Azure Blob Storage.
+---
+Soham's document Q&A application at Linde Engineering India Pvt. Ltd. used Retrieval-Augmented Generation (RAG) architecture and the Gemini API.
+---
+During his internship at Linde Engineering India Pvt. Ltd., Soham implemented an OCR automation pipeline using Tesseract.
+---
+Soham applied secure coding practices and ensured compliance across data flows while working on document-processing and AI applications at Linde Engineering India Pvt. Ltd.
+---
+Soham built an AI Agents – n8n Automation Suite using Python, n8n, Gemini API, and RAG architecture.
+---
+The AI Agents – n8n Automation Suite contains five production-ready AI agents: a resume screener, an inventory chatbot, a RAG documentation Q&A agent, an AI code commenter called CodeSage, and a structured PDF data extractor.
+---
+Soham designed reusable n8n workflow templates for the five AI agents in his AI Agents – n8n Automation Suite.
+---
+Soham defined prompt libraries, input validation patterns, and output guardrails for his AI agents to ensure safe and consistent AI-generated outputs.
+---
+Soham built an AI Multitasker App using Flutter, TypeScript, Gemini API, and Firebase.
+---
+The AI Multitasker App contains 19 AI-powered tools, including a chatbot, code explainer, and multiple content-generation tools, within a cross-platform Flutter application.
+---
+Soham integrated Firebase authentication into the AI Multitasker App.
+---
+Soham integrated Stability AI image generation into the AI Multitasker App.
+---
+Soham implemented PDF generation functionality in the AI Multitasker App.
+---
+Soham built a Road Accident Detection System using Python, CNN, OpenCV, and Firebase.
+---
+The Road Accident Detection System uses a real-time CNN and OpenCV-based accident detection pipeline.
+---
+Soham implemented automated Twilio alerts in the Road Accident Detection System to notify users when an accident is detected.
+---
+Soham used Firebase cloud storage as part of the Road Accident Detection System.
+---
+Soham designed the Road Accident Detection System as a production-ready machine learning pipeline.
+---
+Soham's programming skills include Python.
+---
+Soham's programming skills include TypeScript and JavaScript.
+---
+Soham has experience with React.
+---
+Soham has experience with FastAPI and Python-based backend development.
+---
+Soham has expertise in prompt engineering.
+---
+Soham has professional experience with AI coding tools including Cursor, GitHub Copilot, and Claude.
+---
+Soham has experience with LLM governance.
+---
+Soham has experience with n8n automation and workflow development.
+---
+Soham has experience designing and implementing Retrieval-Augmented Generation (RAG) architectures.
+---
+Soham has experience with CI/CD pipelines.
+---
+Soham has experience with AWS, Azure, and Google Cloud Platform (GCP).
+---
+Soham has experience with PostgreSQL and Amazon RDS.
+---
+Soham follows secure coding practices.
+---
+Soham has experience with machine learning.
+---
+Soham has experience with API integration.
+---
+Soham has experience with code review.
+---
+Soham has experience enabling and coaching teams on AI development practices and tools.
+---
+Soham holds the Oracle Cloud Infrastructure 2024 Generative AI Certified Professional certification from Oracle.
+---
+Soham completed the Build AI Agents and Chatbots with LangGraph course through LinkedIn Learning.
+---
+Soham completed Advanced Machine Learning Training through Edunet Foundation.
+---
+Soham participated in Google Cloud Generative AI Study Jams through GDG.
+---
+Soham holds the Oracle Fusion Cloud HCM Certified Foundations Associate certification from Oracle, earned in 2025.
+---
+Soham completed a B.Tech in Computer Science Engineering from Parul University from 2021 to 2025.
+---
+Soham graduated from Parul University with a CGPA of 7.63.
+---
+Soham's education is in Computer Science Engineering.
+---
+Soham is based in Vadodara, India.
+---
+Soham's professional focus is on AI integration, AI-assisted software engineering, AI automation, LLM applications, RAG systems, and production-ready AI solutions.
+`;
+
+export function getResumeChunks(): string[] {
+  return RESUME_TEXT
+    .split(/\n-{3,}\n/)
+    .map((c) => c.trim())
+    .filter((c) => c.length > 0 && !c.startsWith('['));
+}
+
+========================================
+FILE: src/index.css
+========================================
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-obsidian-950 text-steel-300 font-sans antialiased overflow-x-hidden;
+  }
+  ::selection {
+    @apply bg-ice-500/30 text-white;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-obsidian-950;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-obsidian-700 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-ice-600;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.06];
+  }
+  .glass-hover {
+    @apply transition-all duration-300 hover:border-ice-400/30 hover:bg-white/[0.05];
+  }
+  .glow-border {
+    box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.15), 0 0 24px rgba(56, 189, 248, 0.08);
+  }
+  .text-glow {
+    text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+  }
+  .neural-line {
+    background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.4), transparent);
+  }
+}
+
+
+========================================
+FILE: src/lib/pipelines.ts
+========================================
+// Loaded directly from the CDN as a native browser ES module — this
+// deliberately bypasses Vite/esbuild's dependency pre-bundling, which
+// breaks onnxruntime-web's internal backend registration (the
+// `registerBackend` crash) because that vendor bundle relies on
+// top-level await that Vite's dev optimizer doesn't preserve.
+
+type ProgressCallback = (status: { status: string; progress?: number; file?: string }) => void;
+
+let transformersPromise: Promise<any> | null = null;
+
+function loadTransformers(): Promise<any> {
+  if (!transformersPromise) {
+    transformersPromise = import(
+      /* @vite-ignore */
+      'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2'
+    ).then((mod) => {
+      mod.env.allowLocalModels = false;
+      mod.env.useBrowserCache = true;
+      return mod;
+    });
+  }
+  return transformersPromise;
+}
+
+class PipelineSingleton {
+  private static sentimentInstance: Promise<any> | null = null;
+  private static nerInstance: Promise<any> | null = null;
+  private static embeddingInstance: Promise<any> | null = null;
+
+  static async getSentiment(onProgress?: ProgressCallback) {
+    if (!this.sentimentInstance) {
+      const { pipeline } = await loadTransformers();
+      this.sentimentInstance = pipeline(
+        'sentiment-analysis',
+        'Xenova/distilbert-base-uncased-finetuned-sst-2-english',
+        { progress_callback: onProgress },
+      );
+    }
+    return this.sentimentInstance;
+  }
+
+  static async getNER(onProgress?: ProgressCallback) {
+    if (!this.nerInstance) {
+      const { pipeline } = await loadTransformers();
+      this.nerInstance = pipeline(
+        'token-classification',
+        'Xenova/bert-base-NER',
+        { progress_callback: onProgress },
+      );
+    }
+    return this.nerInstance;
+  }
+
+  static async getEmbedder(onProgress?: ProgressCallback) {
+    if (!this.embeddingInstance) {
+      const { pipeline } = await loadTransformers();
+      this.embeddingInstance = pipeline(
+        'feature-extraction',
+        'Xenova/all-MiniLM-L6-v2',
+        { progress_callback: onProgress },
+      );
+    }
+    return this.embeddingInstance;
+  }
+  private static qaInstance: Promise<any> | null = null;
+  static async getQA(onProgress?: ProgressCallback) {
+    if (!this.qaInstance) {
+      const { pipeline } = await loadTransformers();
+      this.qaInstance = pipeline(
+        'question-answering',
+        'Xenova/distilbert-base-cased-distilled-squad',
+        { progress_callback: onProgress },
+      );
+    }
+    return this.qaInstance;
+  }
+
+  private static generatorInstance: Promise<any> | null = null;
+
+  static async getGenerator(onProgress?: ProgressCallback) {
+    if (!this.generatorInstance) {
+      const { pipeline } = await loadTransformers();
+      this.generatorInstance = pipeline(
+        'text2text-generation',
+        'Xenova/LaMini-Flan-T5-248M',
+        { progress_callback: onProgress },
+      );
+    }
+    return this.generatorInstance;
+  }
+}
+
+
+
+export default PipelineSingleton;
+
+========================================
+FILE: src/main.tsx
+========================================
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App.tsx';
+import './index.css';
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
+);
+
+========================================
+FILE: src/Pages/AILabPage.tsx
+========================================
+import NeuralBackground from '@/components/NeuralBackground';
+import ResumeQABot from '@/components/ResumeQABot';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import { useState } from 'react';
+import ComingSoonModal from '@/components/ComingSoonModal';
+import { Brain, Cpu } from 'lucide-react';
+
+export default function AILabPage() {
+    const [comingSoon, setComingSoon] = useState(false);
+
+    return (
+        <div className="relative min-h-screen bg-obsidian-950 overflow-x-hidden">
+            <NeuralBackground />
+            <div className="fixed inset-0 bg-grid-pattern bg-grid-40 pointer-events-none opacity-30" />
+            <div className="fixed inset-0 bg-radial-glow pointer-events-none opacity-50" />
+
+            <div className="relative z-10">
+                <Navbar onComingSoon={() => setComingSoon(true)} />
+
+                <main className="pt-24">
+                    {/* Hero banner */}
+                    <section className="py-16 px-4 sm:px-6 lg:px-8 text-center">
+                        <div className="max-w-3xl mx-auto">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md glass mb-4">
+                                <Brain size={12} className="text-indigo-400" />
+                                <span className="text-xs font-mono tracking-wider text-indigo-400">
+                                    [ SOHAM SONI / AI LAB ]
+                                </span>
+                            </div>
+                            <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-4">
+                                Interactive AI Lab
+                            </h1>
+                            <p className="text-steel-400 text-base sm:text-lg leading-relaxed">
+                                My personal AI assistant — ask it anything about me, my work, or my
+                                projects. It runs entirely in your browser, powered by real on-device
+                                AI models.
+                            </p>
+                        </div>
+                    </section>
+
+                    {/* Divider */}
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="h-px bg-gradient-to-r from-transparent via-ice-400/20 to-transparent" />
+                    </div>
+
+                    <section className="py-16 px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-5xl mx-auto space-y-6">
+                        <ResumeQABot />
+                    </div>
+                    </section>
+                </main>
+
+                <Footer />
+            </div>
+
+            <ComingSoonModal open={comingSoon} onClose={() => setComingSoon(false)} />
+        </div>
+    );
+}
+
+========================================
+FILE: src/Pages/CertificationsPage.tsx
+========================================
+import { useState } from 'react';
+import NeuralBackground from '@/components/NeuralBackground';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import ComingSoonModal from '@/components/ComingSoonModal';
+import { certifications } from '@/data/portfolio';
+import { Award, ExternalLink, CheckCircle, Calendar, Hash } from 'lucide-react';
+
+const colorMap: Record<string, string> = {
+  amber:   'text-amber-400 border-amber-400/30 bg-amber-400/10',
+  ice:     'text-ice-400 border-ice-400/30 bg-ice-400/10',
+  indigo:  'text-indigo-400 border-indigo-400/30 bg-indigo-400/10',
+  success: 'text-emerald-400 border-emerald-400/30 bg-emerald-400/10',
+};
+
+const glowMap: Record<string, string> = {
+  amber:   '0 0 24px rgba(251,191,36,0.15)',
+  ice:     '0 0 24px rgba(56,189,248,0.15)',
+  indigo:  '0 0 24px rgba(99,102,241,0.15)',
+  success: '0 0 24px rgba(34,197,94,0.15)',
+};
+
+export default function CertificationsPage() {
+  const [comingSoon, setComingSoon] = useState(false);
+
+  return (
+    <div className="relative min-h-screen bg-obsidian-950 overflow-x-hidden">
+      <NeuralBackground />
+      <div className="fixed inset-0 bg-grid-pattern bg-grid-40 pointer-events-none opacity-30" />
+      <div className="fixed inset-0 bg-radial-glow pointer-events-none opacity-50" />
+
+      <div className="relative z-10">
+        <Navbar onComingSoon={() => setComingSoon(true)} />
+
+        <main className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto">
+
+            <div className="text-center mb-14">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md glass mb-4">
+                <Award size={12} className="text-amber-400" />
+                <span className="text-xs font-mono tracking-wider text-amber-400">
+                  [ VERIFIED CREDENTIALS ]
+                </span>
+              </div>
+              <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">
+                Certifications
+              </h1>
+              <p className="mt-3 text-steel-400 max-w-xl mx-auto text-sm sm:text-base">
+                Industry-recognized credentials across cloud ML, deep learning, and production systems.
+              </p>
+              <div className="mt-6 flex flex-wrap justify-center gap-6 text-xs font-mono text-steel-500">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  <span>{certifications.length} Active Credentials</span>
+                </span>
+                <span>|</span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle size={10} className="text-ice-400" />
+                  <span>All Independently Verified</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {certifications.map((cert) => {
+                const cls = colorMap[cert.color] ?? colorMap.ice;
+                return (
+                  <div
+                    key={cert.id}
+                    className="glass rounded-2xl p-6 flex flex-col gap-4 group transition-all duration-300 hover:border-white/10"
+                    style={{ boxShadow: glowMap[cert.color] }}
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className={`w-14 h-14 rounded-xl border flex items-center justify-center font-mono font-bold text-lg ${cls}`}>
+                        {cert.badge}
+                      </div>
+                      <span className="text-[10px] font-mono px-2 py-1 rounded-md bg-white/5 text-steel-400 border border-white/5">
+                        {cert.date}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className="text-sm font-semibold text-white leading-snug">{cert.title}</h3>
+                      <p className="text-xs text-steel-400 mt-1">{cert.issuer}</p>
+                    </div>
+
+                    <div className="flex flex-wrap gap-1.5">
+                      {cert.skills.map((s) => (
+                        <span
+                          key={s}
+                          className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.04] border border-white/5 text-steel-400"
+                        >
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-1.5 text-[10px] font-mono text-steel-500">
+                          <Calendar size={9} />
+                          <span>Expires: {cert.expiry}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-[10px] font-mono text-steel-600">
+                          <Hash size={9} />
+                          <span>{cert.credentialId}</span>
+                        </div>
+                      </div>
+                      <a
+                        href={cert.verifyUrl}
+                        className="flex items-center gap-1 text-[10px] font-mono text-ice-400 hover:text-white transition-colors"
+                      >
+                        <span>Verify</span>
+                        <ExternalLink size={9} />
+                      </a>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+          </div>
+        </main>
+
+        <Footer />
+      </div>
+      <ComingSoonModal open={comingSoon} onClose={() => setComingSoon(false)} />
+    </div>
+  );
+}
+
+========================================
+FILE: src/Pages/ContactPage.tsx
+========================================
+import { useState } from 'react';
+import NeuralBackground from '@/components/NeuralBackground';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import ComingSoonModal from '@/components/ComingSoonModal';
+import { contact } from '@/data/portfolio';
+import { Mail, Linkedin, Github, Calendar, MapPin, Clock, Send, ChevronDown } from 'lucide-react';
+
+const iconMap: Record<string, React.ElementType> = {
+  mail:     Mail,
+  linkedin: Linkedin,
+  github:   Github,
+  calendar: Calendar,
+};
+
+export default function ContactPage() {
+  const [comingSoon, setComingSoon] = useState(false);
+  const [openFaq, setOpenFaq]       = useState<number | null>(null);
+  const [form, setForm]             = useState({ name: '', email: '', type: 'Full-time', message: '' });
+  const [sent, setSent]             = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSent(true);
+  };
+
+  return (
+    <div className="relative min-h-screen bg-obsidian-950 overflow-x-hidden">
+      <NeuralBackground />
+      <div className="fixed inset-0 bg-grid-pattern bg-grid-40 pointer-events-none opacity-30" />
+      <div className="fixed inset-0 bg-radial-glow pointer-events-none opacity-50" />
+
+      <div className="relative z-10">
+        <Navbar onComingSoon={() => setComingSoon(true)} />
+
+        <main className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-5xl mx-auto">
+
+            <div className="text-center mb-14">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md glass mb-4">
+                <Send size={12} className="text-ice-400" />
+                <span className="text-xs font-mono tracking-wider text-ice-400">
+                  [ OPEN CHANNEL ]
+                </span>
+              </div>
+              <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">
+                Get in Touch
+              </h1>
+              <p className="mt-3 text-steel-400 max-w-xl mx-auto text-sm sm:text-base">
+                {contact.availability}
+              </p>
+            </div>
+
+            <div className="grid lg:grid-cols-5 gap-6">
+
+              <div className="lg:col-span-2 space-y-5">
+
+                <div className="glass rounded-2xl p-5 space-y-4">
+                  <h3 className="text-sm font-semibold text-white font-mono">CONTACT INFO</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3 text-xs text-steel-400">
+                      <MapPin size={13} className="text-ice-400 flex-shrink-0" />
+                      <span>{contact.location}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-steel-400">
+                      <Clock size={13} className="text-ice-400 flex-shrink-0" />
+                      <span>Response time: <span className="text-white font-mono">{contact.responseTime}</span></span>
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-steel-400">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
+                      <span>{contact.availability}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="glass rounded-2xl p-5 space-y-3">
+                  <h3 className="text-sm font-semibold text-white font-mono">CHANNELS</h3>
+                  {contact.channels.map((ch) => {
+                    const Icon = iconMap[ch.icon] ?? Mail;
+                    return (
+                      <a
+                        key={ch.label}
+                        href={ch.href}
+                        className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-ice-400/20 hover:bg-white/[0.04] transition-all group"
+                      >
+                        <div className="w-8 h-8 rounded-lg glass flex items-center justify-center flex-shrink-0">
+                          <Icon size={14} className="text-ice-400" />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="text-xs font-semibold text-white">{ch.label}</div>
+                          <div className="text-[10px] font-mono text-steel-500 truncate">{ch.value}</div>
+                        </div>
+                      </a>
+                    );
+                  })}
+                </div>
+
+                <div className="glass rounded-2xl p-5 space-y-2">
+                  <h3 className="text-sm font-semibold text-white font-mono mb-3">FAQ</h3>
+                  {contact.faqs.map((faq, i) => (
+                    <div key={i} className="border border-white/5 rounded-xl overflow-hidden">
+                      <button
+                        onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                        className="w-full flex items-center justify-between px-4 py-3 text-left text-xs font-medium text-steel-300 hover:text-white transition-colors"
+                      >
+                        <span>{faq.q}</span>
+                        <ChevronDown
+                          size={12}
+                          className={`flex-shrink-0 transition-transform text-steel-500 ${openFaq === i ? 'rotate-180' : ''}`}
+                        />
+                      </button>
+                      {openFaq === i && (
+                        <div className="px-4 pb-3 pt-2 text-xs text-steel-400 leading-relaxed border-t border-white/5">
+                          {faq.a}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="lg:col-span-3 glass rounded-2xl p-6 sm:p-8">
+                {sent ? (
+                  <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center gap-4">
+                    <div
+                      className="w-16 h-16 rounded-2xl glass flex items-center justify-center border border-emerald-400/30"
+                      style={{ boxShadow: '0 0 24px rgba(34,197,94,0.15)' }}
+                    >
+                      <Send size={24} className="text-emerald-400" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white">Message Received</h3>
+                    <p className="text-sm text-steel-400 max-w-xs">
+                      I'll be in touch within {contact.responseTime}. Looking forward to connecting.
+                    </p>
+                    <button
+                      onClick={() => {
+                        setSent(false);
+                        setForm({ name: '', email: '', type: 'Full-time', message: '' });
+                      }}
+                      className="mt-2 px-5 py-2 rounded-lg glass border border-white/10 text-sm font-medium text-steel-300 hover:text-white transition-colors"
+                    >
+                      Send Another
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <h3 className="text-sm font-semibold text-white font-mono mb-6">SEND A MESSAGE</h3>
+
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-mono text-steel-400">Name</label>
+                        <input
+                          required
+                          value={form.name}
+                          onChange={(e) => setForm({ ...form, name: e.target.value })}
+                          placeholder="Soham Soni"
+                          className="w-full bg-obsidian-900/50 border border-white/5 rounded-lg px-3 py-2.5 text-sm text-steel-200 font-mono placeholder:text-steel-600 focus:outline-none focus:border-ice-400/30 transition-colors"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-mono text-steel-400">Email</label>
+                        <input
+                          required
+                          type="email"
+                          value={form.email}
+                          onChange={(e) => setForm({ ...form, email: e.target.value })}
+                          placeholder="you@company.com"
+                          className="w-full bg-obsidian-900/50 border border-white/5 rounded-lg px-3 py-2.5 text-sm text-steel-200 font-mono placeholder:text-steel-600 focus:outline-none focus:border-ice-400/30 transition-colors"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-mono text-steel-400">Engagement Type</label>
+                      <select
+                        value={form.type}
+                        onChange={(e) => setForm({ ...form, type: e.target.value })}
+                        className="w-full bg-obsidian-900/50 border border-white/5 rounded-lg px-3 py-2.5 text-sm text-steel-200 font-mono focus:outline-none focus:border-ice-400/30 transition-colors"
+                      >
+                        {['Full-time', 'Contract', 'Research Collaboration', 'Advisory', 'Open Source'].map((t) => (
+                          <option key={t} value={t} className="bg-obsidian-900">{t}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-mono text-steel-400">Message</label>
+                      <textarea
+                        required
+                        rows={6}
+                        value={form.message}
+                        onChange={(e) => setForm({ ...form, message: e.target.value })}
+                        placeholder="Tell me about your project, timeline, and what you're looking for..."
+                        className="w-full bg-obsidian-900/50 border border-white/5 rounded-lg px-3 py-2.5 text-sm text-steel-200 font-mono placeholder:text-steel-600 resize-none focus:outline-none focus:border-ice-400/30 transition-colors"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-ice-400 text-obsidian-950 font-semibold text-sm transition-all hover:bg-ice-500"
+                      style={{ boxShadow: '0 0 24px rgba(56,189,248,0.3)' }}
+                    >
+                      <Send size={15} />
+                      <span>Send Message</span>
+                    </button>
+
+                    <p className="text-center text-[10px] font-mono text-steel-600">
+                      No spam, no cold pitches. Genuine inquiries only.
+                    </p>
+                  </form>
+                )}
+              </div>
+            </div>
+
+          </div>
+        </main>
+
+        <Footer />
+      </div>
+      <ComingSoonModal open={comingSoon} onClose={() => setComingSoon(false)} />
+    </div>
+  );
+}
+
+========================================
+FILE: src/Pages/ExperiencePage.tsx
+========================================
+import { useState } from 'react';
+import NeuralBackground from '@/components/NeuralBackground';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import ComingSoonModal from '@/components/ComingSoonModal';
+import { experiences } from '@/data/portfolio';
+import { Briefcase, MapPin, CalendarDays, ChevronRight } from 'lucide-react';
+
+const typeColor: Record<string, string> = {
+  'Full-time':  'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
+  'Contract':   'text-amber-400  bg-amber-400/10  border-amber-400/20',
+  'Internship': 'text-indigo-400 bg-indigo-400/10 border-indigo-400/20',
+  'Research':   'text-ice-400    bg-ice-400/10    border-ice-400/20',
+};
+
+export default function ExperiencePage() {
+  const [comingSoon, setComingSoon] = useState(false);
+
+  return (
+    <div className="relative min-h-screen bg-obsidian-950 overflow-x-hidden">
+      <NeuralBackground />
+      <div className="fixed inset-0 bg-grid-pattern bg-grid-40 pointer-events-none opacity-30" />
+      <div className="fixed inset-0 bg-radial-glow pointer-events-none opacity-50" />
+
+      <div className="relative z-10">
+        <Navbar onComingSoon={() => setComingSoon(true)} />
+
+        <main className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+
+            {/* Header */}
+            <div className="text-center mb-14">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md glass mb-4">
+                <Briefcase size={12} className="text-ice-400" />
+                <span className="text-xs font-mono tracking-wider text-ice-400">
+                  [ CAREER TIMELINE ]
+                </span>
+              </div>
+              <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">Experience</h1>
+              <p className="mt-3 text-steel-400 max-w-xl mx-auto text-sm sm:text-base">
+                A track record of shipping ML systems that matter — from research internships to production at scale.
+              </p>
+            </div>
+
+            {/* Timeline */}
+            <div className="relative">
+              {/* Vertical spine */}
+              <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-ice-400/30 via-ice-400/10 to-transparent" />
+
+              <div className="space-y-8">
+                {experiences.map((exp, i) => (
+                  <div key={exp.id} className="relative flex gap-8">
+                    {/* Node */}
+                    <div className="relative flex-shrink-0 flex flex-col items-center">
+                      <div
+                        className={`w-12 h-12 rounded-xl glass flex items-center justify-center z-10 border ${
+                          exp.current ? 'border-ice-400/40' : 'border-white/10'
+                        }`}
+                        style={exp.current ? { boxShadow: '0 0 16px rgba(56,189,248,0.2)' } : undefined}
+                      >
+                        <Briefcase size={16} className={exp.current ? 'text-ice-400' : 'text-steel-500'} />
+                      </div>
+                      {exp.current && (
+                        <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-emerald-400 border-2 border-obsidian-950 animate-pulse" />
+                      )}
+                    </div>
+
+                    {/* Card */}
+                    <div className={`flex-1 glass rounded-2xl p-6 mb-2 transition-all duration-300 hover:border-white/10 ${
+                      exp.current ? 'border-ice-400/15' : ''
+                    }`}>
+                      {/* Top row */}
+                      <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
+                        <div>
+                          <h3 className="text-base font-semibold text-white">{exp.role}</h3>
+                          <p className="text-sm text-ice-400 font-medium mt-0.5">{exp.company}</p>
+                        </div>
+                        <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md border text-[10px] font-mono ${typeColor[exp.type]}`}>
+                          {exp.type}
+                        </span>
+                      </div>
+
+                      {/* Meta */}
+                      <div className="flex flex-wrap gap-4 mb-4 text-xs font-mono text-steel-500">
+                        <span className="flex items-center gap-1.5">
+                          <CalendarDays size={10} /> {exp.period}
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <MapPin size={10} /> {exp.location}
+                        </span>
+                      </div>
+
+                      <p className="text-xs text-steel-400 leading-relaxed mb-4">{exp.description}</p>
+
+                      {/* Highlights */}
+                      <ul className="space-y-2 mb-4">
+                        {exp.highlights.map((h) => (
+                          <li key={h} className="flex items-start gap-2 text-xs text-steel-300">
+                            <ChevronRight size={12} className="text-ice-400 mt-0.5 flex-shrink-0" />
+                            {h}
+                          </li>
+                        ))}
+                      </ul>
+
+                      {/* Stack */}
+                      <div className="flex flex-wrap gap-1.5 pt-4 border-t border-white/5">
+                        {exp.stack.map((s) => (
+                          <span key={s} className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.04] border border-white/5 text-steel-400">
+                            {s}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <Footer />
+      </div>
+      <ComingSoonModal open={comingSoon} onClose={() => setComingSoon(false)} />
+    </div>
+  );
+}
+
+========================================
+FILE: src/Pages/HomePage.tsx
+========================================
+import { useState } from 'react';
+import NeuralBackground from '@/components/NeuralBackground';
+import Navbar from '@/components/Navbar';
+import Hero from '@/components/Hero';
+import MetricsStrip from '@/components/MetricsStrip';
+import Footer from '@/components/Footer';
+import ComingSoonModal from '@/components/ComingSoonModal';
+
+export default function HomePage() {
+  const [comingSoon, setComingSoon] = useState(false);
+
+  return (
+    <div className="relative min-h-screen bg-obsidian-950 overflow-x-hidden">
+      <NeuralBackground />
+      <div className="fixed inset-0 bg-grid-pattern bg-grid-40 pointer-events-none opacity-30" />
+      <div className="fixed inset-0 bg-radial-glow pointer-events-none opacity-50" />
+
+      <div className="relative z-10">
+        <Navbar onComingSoon={() => setComingSoon(true)} />
+        <main>
+          <Hero />
+          <MetricsStrip />
+        </main>
+        <Footer />
+      </div>
+
+      <ComingSoonModal open={comingSoon} onClose={() => setComingSoon(false)} />
+    </div>
+  );
+}
+
+========================================
+FILE: src/Pages/ProjectsPage.tsx
+========================================
+import { useState } from 'react';
+import NeuralBackground from '@/components/NeuralBackground';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import ComingSoonModal from '@/components/ComingSoonModal';
+import { projects } from '@/data/portfolio';
+import { Github, ExternalLink, Star, Zap, CheckCircle, FlaskConical } from 'lucide-react';
+
+const statusIcon = {
+  Production: <CheckCircle size={10} className="text-emerald-400" />,
+  Research:   <FlaskConical size={10} className="text-indigo-400" />,
+  Internal:   <Zap size={10} className="text-amber-400" />,
+};
+const statusColor = {
+  Production: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
+  Research:   'text-indigo-400 bg-indigo-400/10 border-indigo-400/20',
+  Internal:   'text-amber-400 bg-amber-400/10 border-amber-400/20',
+};
+
+const accentBorder: Record<string, string> = {
+  indigo:  'hover:border-indigo-400/30',
+  ice:     'hover:border-ice-400/30',
+  violet:  'hover:border-violet-400/30',
+  success: 'hover:border-emerald-400/30',
+  amber:   'hover:border-amber-400/30',
+  rose:    'hover:border-rose-400/30',
+};
+
+export default function ProjectsPage() {
+  const [comingSoon, setComingSoon] = useState(false);
+  const [filter, setFilter] = useState<string>('All');
+
+  const categories = ['All', ...Array.from(new Set(projects.map((p) => p.category)))];
+  const filtered = filter === 'All' ? projects : projects.filter((p) => p.category === filter);
+  const featured = filtered.filter((p) => p.featured);
+  const rest     = filtered.filter((p) => !p.featured);
+
+  return (
+    <div className="relative min-h-screen bg-obsidian-950 overflow-x-hidden">
+      <NeuralBackground />
+      <div className="fixed inset-0 bg-grid-pattern bg-grid-40 pointer-events-none opacity-30" />
+      <div className="fixed inset-0 bg-radial-glow pointer-events-none opacity-50" />
+
+      <div className="relative z-10">
+        <Navbar onComingSoon={() => setComingSoon(true)} />
+
+        <main className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto">
+
+            {/* Header */}
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md glass mb-4">
+                <FlaskConical size={12} className="text-ice-400" />
+                <span className="text-xs font-mono tracking-wider text-ice-400">
+                  [ PRODUCTION SYSTEMS & RESEARCH ]
+                </span>
+              </div>
+              <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">Projects</h1>
+              <p className="mt-3 text-steel-400 max-w-xl mx-auto text-sm sm:text-base">
+                From research prototypes to systems handling millions of inferences daily.
+              </p>
+            </div>
+
+            {/* Filter pills */}
+            <div className="flex flex-wrap justify-center gap-2 mb-10">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setFilter(cat)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-mono border transition-all ${
+                    filter === cat
+                      ? 'bg-ice-400/10 border-ice-400/30 text-ice-400'
+                      : 'bg-white/[0.03] border-white/5 text-steel-500 hover:text-steel-300'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            {/* Featured — large cards */}
+            {featured.length > 0 && (
+              <div className="grid lg:grid-cols-3 gap-5 mb-5">
+                {featured.map((p) => (
+                  <div
+                    key={p.id}
+                    className={`glass rounded-2xl p-6 flex flex-col gap-4 transition-all duration-300 bg-gradient-to-br ${p.gradient} ${accentBorder[p.accent]}`}
+                  >
+                    <div className="flex items-start justify-between">
+                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[10px] font-mono ${statusColor[p.status as keyof typeof statusColor]}`}>
+                        {statusIcon[p.status as keyof typeof statusIcon]}
+                        {p.status}
+                      </span>
+                      <span className="text-[10px] font-mono text-steel-500 px-2 py-0.5 glass rounded-md">
+                        {p.category}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className="text-base font-semibold text-white">{p.title}</h3>
+                      <p className="text-xs text-steel-400 mt-0.5">{p.subtitle}</p>
+                    </div>
+
+                    <p className="text-xs text-steel-400 leading-relaxed flex-1">{p.description}</p>
+
+                    {/* Metrics */}
+                    <div className="grid grid-cols-3 gap-2">
+                      {[
+                        { label: '⭐ Stars',    val: p.metrics.stars    },
+                        { label: '✓ Accuracy',  val: p.metrics.accuracy },
+                        { label: '⚡ Latency',  val: p.metrics.latency  },
+                      ].map((m) => (
+                        <div key={m.label} className="glass rounded-lg p-2 text-center">
+                          <div className="text-xs font-mono font-semibold text-white">{m.val}</div>
+                          <div className="text-[9px] font-mono text-steel-500 mt-0.5">{m.label}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-1.5">
+                      {p.tags.map((t) => (
+                        <span key={t} className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.04] border border-white/5 text-steel-400">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Links */}
+                    <div className="flex items-center gap-3 pt-3 border-t border-white/5">
+                      <a href={p.githubUrl} className="flex items-center gap-1.5 text-xs font-mono text-steel-400 hover:text-white transition-colors">
+                        <Github size={13} /> Code
+                      </a>
+                      {p.demoUrl && (
+                        <a href={p.demoUrl} className="flex items-center gap-1.5 text-xs font-mono text-ice-400 hover:text-white transition-colors ml-auto">
+                          Live Demo <ExternalLink size={11} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Rest — compact cards */}
+            {rest.length > 0 && (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {rest.map((p) => (
+                  <div
+                    key={p.id}
+                    className={`glass rounded-2xl p-5 flex flex-col gap-3 transition-all duration-300 ${accentBorder[p.accent]}`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-sm font-semibold text-white">{p.title}</h3>
+                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[10px] font-mono ${statusColor[p.status as keyof typeof statusColor]}`}>
+                        {statusIcon[p.status as keyof typeof statusIcon]}
+                        {p.status}
+                      </span>
+                    </div>
+                    <p className="text-xs text-steel-400 leading-relaxed">{p.description}</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {p.tags.slice(0, 4).map((t) => (
+                        <span key={t} className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.04] border border-white/5 text-steel-400">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-3 pt-2 border-t border-white/5">
+                      <a href={p.githubUrl} className="flex items-center gap-1.5 text-xs font-mono text-steel-400 hover:text-white transition-colors">
+                        <Github size={12} /> Code
+                      </a>
+                      {p.demoUrl && (
+                        <a href={p.demoUrl} className="flex items-center gap-1.5 text-xs font-mono text-ice-400 hover:text-white transition-colors ml-auto">
+                          Demo <ExternalLink size={10} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </main>
+
+        <Footer />
+      </div>
+      <ComingSoonModal open={comingSoon} onClose={() => setComingSoon(false)} />
+    </div>
+  );
+}
+
+========================================
+FILE: src/Pages/SkillsPage.tsx
+========================================
+import { useState } from 'react';
+import NeuralBackground from '@/components/NeuralBackground';
+import Navbar from '@/components/Navbar';
+import Specialization from '@/components/Specialization';
+import Footer from '@/components/Footer';
+import ComingSoonModal from '@/components/ComingSoonModal';
+
+export default function SkillsPage() {
+  const [comingSoon, setComingSoon] = useState(false);
+
+  return (
+    <div className="relative min-h-screen bg-obsidian-950 overflow-x-hidden">
+      <NeuralBackground />
+      <div className="fixed inset-0 bg-grid-pattern bg-grid-40 pointer-events-none opacity-30" />
+      <div className="fixed inset-0 bg-radial-glow pointer-events-none opacity-50" />
+
+      <div className="relative z-10">
+        <Navbar onComingSoon={() => setComingSoon(true)} />
+        <main className="pt-24">
+          <Specialization />
+        </main>
+        <Footer />
+      </div>
+
+      <ComingSoonModal open={comingSoon} onClose={() => setComingSoon(false)} />
+    </div>
+  );
+}
+
+========================================
+FILE: src/vite-env.d.ts
+========================================
+/// <reference types="vite/client" />
+
+

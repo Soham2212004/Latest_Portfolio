@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-obsidian-950 text-steel-300 font-sans antialiased overflow-x-hidden;
+  }
+  ::selection {
+    @apply bg-ice-500/30 text-white;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-obsidian-950;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-obsidian-700 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-ice-600;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.06];
+  }
+  .glass-hover {
+    @apply transition-all duration-300 hover:border-ice-400/30 hover:bg-white/[0.05];
+  }
+  .glow-border {
+    box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.15), 0 0 24px rgba(56, 189, 248, 0.08);
+  }
+  .text-glow {
+    text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+  }
+  .neural-line {
+    background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.4), transparent);
+  }
+}
