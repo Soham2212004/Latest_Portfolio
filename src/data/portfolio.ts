@@ -657,8 +657,7 @@ export const contact = {
 export const siteContent = {
   hero: {
     systemRoleLabel: 'SYSTEM ROLE',
-    resumeButtonLabel: 'Download Resume / CV',
-    ctaButtonLabel: 'View Production Systems',
+    resumeButtonLabel: 'View Resume / CV',
   },
   footer: {
     roleLine: 'Software Engineer & AI Systems Developer',
