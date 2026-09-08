@@ -14,7 +14,7 @@ import precomputedEmbeddings from '@/data/resume-embeddings.json';
 import { Loader2, MessageCircleQuestion, FileSearch, AlertCircle } from 'lucide-react';
 
 const SAMPLES      = siteContent.resumeBot.sampleQuestions;
-const TOP_K        = 5;
+const TOP_K        = 7;
 const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY as string;
 const GROQ_MODEL   = 'qwen/qwen3.8-27b';
 
@@ -57,6 +57,10 @@ const QUESTION_MAP: { pattern: RegExp; replacement: string }[] = [
     pattern: /^(how can i contact|what is your email|contact info)[?.]?$/i,
     replacement: 'What is Soham Soni email and contact information?',
   },
+  {
+  pattern: /^(tell me about his projects?|what projects?|what has he built|what did he build)[?.]?$/i,
+  replacement: 'What projects has Soham Soni built?',
+},
 ];
 
 function normalizeQuestion(q: string): string {
@@ -64,7 +68,7 @@ function normalizeQuestion(q: string): string {
   for (const { pattern, replacement } of QUESTION_MAP) {
     if (pattern.test(trimmed)) return replacement;
   }
-  return /soham/i.test(trimmed) ? trimmed : `Soham Soni — ${trimmed}`;
+  return /soham/i.test(trimmed) ? trimmed : `Soham Soni ${trimmed}`;
 }
 
 // ── Retrieval helpers ─────────────────────────────────────────────────────────
@@ -118,11 +122,13 @@ async function askGroq(question: string, context: string): Promise<string> {
   // NOTE: Qwen3 on Groq does NOT support the `thinking` parameter.
   // Disable chain-of-thought via the system prompt instead — "/no_think"
   // is Qwen3's official instruction to skip internal reasoning.
-  const systemPrompt = `You are a helpful assistant answering questions about Soham Soni's professional background. /no_think
-You are given relevant excerpts from his resume as context.
-Answer concisely and naturally in 1-2 sentences using ONLY the information provided in the context.
-If the context does not contain enough information, say "I don't have that detail in my resume."
-Never make up information. Never say "based on the context" — just answer directly.`;
+const systemPrompt = `You are Soham Soni's personal AI assistant — friendly, direct, and professional.
+Answer questions about Soham as if you're his trusted assistant who knows him well. /no_think
+Use ONLY the information provided in the context.
+Speak naturally in first person on his behalf where appropriate — e.g. "Soham works at..." or "He built...".
+Keep answers to 1-2 sentences, confident and conversational.
+If the context doesn't have the answer, say "I don't have that detail handy."
+Never say "based on the context". Never make up information.`;
 
   const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
@@ -132,8 +138,8 @@ Never make up information. Never say "based on the context" — just answer dire
     },
     body: JSON.stringify({
       model: GROQ_MODEL,
-      temperature: 0.2,
-      max_tokens: 150,
+      temperature: 0.4,
+      max_tokens: 200,
       messages: [
         {
           role: 'system',
