@@ -2,18 +2,16 @@ import profileImage from '@/assets/images/profile.jpeg';
 export const profile = {
   fullName: 'Soham Soni',
   monogram: 'SS',
-preTitle: 'SOFTWARE ENGINEER / AI SYSTEMS DEVELOPER',
+preTitle: 'Software Engineer / AI Systems Developer',
 subtitle: 'Software Engineer | Turning AI Ideas into Production-Ready Systems',
 summary: 'I build and ship AI-powered applications — integrating LLMs, RAG pipelines, and agentic workflows into real products. From full-stack web apps to cloud-deployed ML systems, my focus is on turning cutting-edge AI into tangible software that solves real business problems.',
   resumeUrl: 'https://drive.google.com/file/d/1AGgnbFG0Kk5oOTZoQUpyad7oK8RJMCTW/view?usp=drive_link',
   portraitImage: profileImage,
-  status: {
-    label: 'Open for AI Engagements / Available for Hire',
-  },
 };
 
 export const navLinks = [
   { label: 'Home', href: '/', comingSoon: false },
+  { label: 'About', href: '/about', comingSoon: false },
   { label: 'AI Lab', href: '/ai-lab', comingSoon: false },
   { label: 'Skills', href: '/skills', comingSoon: false },
   { label: 'Certifications', href: '/certifications', comingSoon: false },
@@ -656,7 +654,7 @@ export const contact = {
 
 export const siteContent = {
   hero: {
-    systemRoleLabel: 'SYSTEM ROLE',
+    systemRoleLabel: 'HELLO, I\'M SOHAM',
     resumeButtonLabel: 'View Resume / CV',
   },
   footer: {
@@ -670,7 +668,7 @@ export const siteContent = {
     },
   },
   metrics: {
-    eyebrow: 'LIVE SYSTEM HIGHLIGHTS',
+    eyebrow: 'A FEW THINGS I\'VE DONE',
     title: 'Career Metrics & Accomplishments',
   },
   specialization: {

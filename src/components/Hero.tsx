@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { profile, siteContent } from '@/data/portfolio';
-import { Download, X, ExternalLink } from 'lucide-react';
+import { ArrowDownRight, Check, Download, ExternalLink, Github, X } from 'lucide-react';
 
 // ── Resume Modal ──────────────────────────────────────────────────────────────
 function ResumeModal({ onClose }: { onClose: () => void }) {
@@ -82,99 +82,48 @@ export default function Hero() {
 
   return (
     <>
-      <section id="home" className="relative min-h-screen flex items-center pt-24 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <section id="home" className="relative min-h-[calc(100vh-4.5rem)] flex items-center pt-28 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto w-full">
 
-          {/* Left — Holographic Profile */}
-          <div className="relative flex justify-center lg:justify-start order-1 lg:order-1 animate-fade-in">
-            <div className="relative w-[300px] h-[300px] sm:w-[360px] sm:h-[360px] lg:w-[400px] lg:h-[400px]">
-
-              {/* Outer rotating ring */}
-              <div className="absolute inset-0 animate-spin-slow">
-                <svg viewBox="0 0 400 400" className="w-full h-full">
-                  <path
-                    d="M200 8 L249 51 L314 51 L349 86 L392 86 L392 151 L435 200 L392 249 L392 314 L349 349 L314 349 L249 392 L200 435 L151 392 L86 349 L51 349 L8 314 L8 249 L-35 200 L8 151 L8 86 L51 86 L86 51 L151 51 Z"
-                    fill="none"
-                    stroke="rgba(56,189,248,0.15)"
-                    strokeWidth="1"
-                    strokeDasharray="4 8"
-                  />
-                </svg>
-              </div>
-
-              {/* Inner counter-rotating ring */}
-              <div className="absolute inset-6 animate-spin-reverse-slow">
-                <svg viewBox="0 0 400 400" className="w-full h-full">
-                  <polygon
-                    points="200,20 346,120 346,280 200,380 54,280 54,120"
-                    fill="none"
-                    stroke="rgba(0,229,255,0.2)"
-                    strokeWidth="1"
-                  />
-                </svg>
-              </div>
-
-              {/* Corner brackets */}
-              {[
-                'top-0 left-0 border-t border-l',
-                'top-0 right-0 border-t border-r',
-                'bottom-0 left-0 border-b border-l',
-                'bottom-0 right-0 border-b border-r',
-              ].map((cls) => (
-                <span
-                  key={cls}
-                  className={`absolute ${cls} w-8 h-8 border-ice-400/50`}
-                  style={{ filter: 'drop-shadow(0 0 4px rgba(56,189,248,0.4))' }}
-                />
-              ))}
-
-              {/* Portrait container */}
-              <div className="absolute inset-10 rounded-2xl overflow-hidden glass glow-border">
-                <img
-                  src={profile.portraitImage}
-                  alt={profile.fullName}
-                  className="w-full h-full object-cover opacity-90"
-                  style={{ filter: 'contrast(1.05) saturate(0.85) brightness(0.95)' }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-transparent to-transparent" />
-                {/* Scan line */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                  <div className="absolute inset-x-0 h-px bg-ice-400/30 animate-scan" />
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          {/* Right — Introduction */}
-          <div className="order-2 lg:order-2 space-y-6 animate-fade-up">
+          {/* Introduction */}
+          <div className="space-y-7 text-center animate-fade-up">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md glass">
               <span className="w-1.5 h-1.5 rounded-full bg-ice-400 animate-pulse-dot" />
               <span className="text-xs font-mono tracking-wider text-ice-400">
-                [ {siteContent.hero.systemRoleLabel} : {profile.preTitle} ]
+                [ {siteContent.hero.systemRoleLabel} ]
               </span>
             </div>
 
             <div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight">
-                {profile.fullName}
+              <h1 className="mx-auto max-w-4xl text-4xl sm:text-5xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight">
+                I turn ambitious AI ideas into
+                <span className="block text-ice-400 text-glow">useful software.</span>
               </h1>
-              <p className="mt-3 text-lg sm:text-xl font-medium text-steel-300">
-                {profile.subtitle}
+              <p className="mt-5 text-base sm:text-lg font-medium text-steel-300">
+                {profile.fullName} <span className="text-steel-500">/</span> {profile.preTitle}
               </p>
             </div>
 
-            <p className="text-base text-steel-400 leading-relaxed max-w-xl">
+            <p className="mx-auto max-w-2xl text-base sm:text-lg text-steel-400 leading-relaxed">
               {profile.summary}
             </p>
 
-            <div className="flex flex-wrap gap-4 pt-2">
+            <div className="flex flex-wrap justify-center gap-2.5">
+              {['LLM applications', 'RAG pipelines', 'Agentic workflows', 'Full-stack delivery'].map((item) => (
+                <span key={item} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-steel-300">
+                  <Check size={12} className="text-ice-400" />
+                  {item}
+                </span>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap justify-center gap-3 pt-2">
               {/* Primary — opens modal */}
               <button
                 onClick={() => setShowResume(true)}
                 className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg
                            bg-ice-400 text-obsidian-950 font-semibold text-sm
-                           transition-all hover:bg-ice-500"
+                           transition-all hover:bg-ice-500 hover:-translate-y-0.5"
                 style={{ boxShadow: '0 0 24px rgba(56,189,248,0.35)' }}
               >
                 <Download size={16} />
@@ -183,16 +132,22 @@ export default function Hero() {
 
               {/* Secondary — direct download */}
               <a
-  href={profile.resumeUrl}
-  target="_blank"
-  rel="noopener noreferrer"
+  href="/projects"
   className="inline-flex items-center gap-2 px-6 py-3 rounded-lg
              glass border border-white/10 text-steel-300 text-sm font-medium
              hover:text-white hover:border-white/20 transition-all"
 >
-  <ExternalLink size={15} />
-  Download CV
+  <ArrowDownRight size={15} />
+  See selected work
 </a>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-2 text-xs font-mono text-steel-500">
+              <a href="https://github.com/Soham2212004" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-white transition-colors">
+                <Github size={14} /> GitHub / shipped work
+              </a>
+              <span className="h-1 w-1 rounded-full bg-steel-600" />
+              <span>Vadodara, India</span>
             </div>
           </div>
 

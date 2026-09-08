@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { navLinks, profile } from '@/data/portfolio';
+import { navLinks } from '@/data/portfolio';
 import { Menu, X } from 'lucide-react';
 
 export default function Navbar({ onComingSoon }: { onComingSoon: () => void }) {
@@ -39,49 +39,24 @@ export default function Navbar({ onComingSoon }: { onComingSoon: () => void }) {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled
-          ? 'bg-obsidian-950/80 backdrop-blur-xl border-b border-ice-400/20'
-          : 'bg-transparent border-b border-transparent'
-        }`}
-      style={
-        scrolled
-          ? { boxShadow: '0 1px 0 0 rgba(56,189,248,0.15), 0 0 24px rgba(56,189,248,0.04)' }
-          : undefined
-      }
+      className={`fixed top-0 inset-x-0 z-50 border-b transition-all duration-300 ${scrolled
+          ? 'bg-obsidian-950/95 border-ice-400/20'
+          : 'bg-obsidian-950/70 border-white/10'
+        } backdrop-blur-xl`}
+      style={{ boxShadow: '0 1px 0 0 rgba(56,189,248,0.12), 0 8px 24px rgba(3,7,18,0.18)' }}
     >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Node-graph mark — nods to the RAG/pipeline graphs Soham builds */}
-        <a href="#home" className="flex items-center gap-2.5 group">
-          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" className="transition-transform group-hover:scale-110">
-            {/* Connecting edges */}
-            <line x1="10" y1="26" x2="18" y2="10" stroke="#38BDF8" strokeWidth="1.5" opacity="0.4" />
-            <line x1="18" y1="10" x2="26" y2="26" stroke="#38BDF8" strokeWidth="1.5" opacity="0.4" />
-            <line x1="10" y1="26" x2="26" y2="26" stroke="#38BDF8" strokeWidth="1.5" opacity="0.25" />
-            {/* Nodes */}
-            <circle cx="18" cy="10" r="3" fill="#00E5FF" />
-            <circle cx="10" cy="26" r="2.5" fill="#38BDF8" opacity="0.85" />
-            <circle cx="26" cy="26" r="2.5" fill="#38BDF8" opacity="0.85" />
-            {/* Live pulse on the top node */}
-            <circle cx="18" cy="10" r="5" fill="none" stroke="#00E5FF" strokeWidth="1" opacity="0.5" className="animate-ping origin-center" />
-          </svg>
-          <span className="font-mono text-sm font-semibold text-white tracking-tight">
-            {profile.monogram}
-            <span className="text-ice-400">.ai</span>
-          </span>
-        </a>
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[4.5rem] flex items-center justify-center">
 
         {/* Desktop nav */}
-        <div className="hidden lg:flex items-center gap-1">
+        <div className="hidden lg:flex items-center justify-center gap-1">
           {navLinks.map((link) => (
             <button
               key={link.label}
               onClick={() => handleNavClick(link)}
-              className="relative px-3 py-2 text-sm font-mono font-medium transition-colors group"
+              className="relative px-3 py-2 text-xs font-mono font-medium tracking-wide transition-colors group"
             >
               <span className={isActive(link) ? 'text-ice-400' : 'text-steel-400 group-hover:text-steel-200'}>
-                <span className="opacity-0 group-hover:opacity-100 -mr-1 transition-opacity text-ice-400/60">[</span>
                 {link.label}
-                <span className="opacity-0 group-hover:opacity-100 -ml-1 transition-opacity text-ice-400/60">]</span>
               </span>
               {link.comingSoon && (
                 <span className="ml-1.5 inline-block px-1.5 py-0.5 rounded text-[9px] font-mono uppercase tracking-wider bg-indigo-500/15 text-indigo-400 border border-indigo-500/20">
@@ -95,18 +70,9 @@ export default function Navbar({ onComingSoon }: { onComingSoon: () => void }) {
           ))}
         </div>
 
-        {/* Status indicator */}
-        <div className="hidden lg:flex items-center gap-2.5 px-3 py-1.5 rounded-full glass">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full rounded-full bg-success opacity-75 animate-ping" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-success" />
-          </span>
-          <span className="text-xs font-mono text-steel-400">{profile.status.label}</span>
-        </div>
-
         {/* Mobile toggle */}
         <button
-          className="lg:hidden text-steel-300 p-2"
+          className="lg:hidden justify-self-end text-steel-300 p-2"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="Toggle menu"
         >
@@ -140,13 +106,6 @@ export default function Navbar({ onComingSoon }: { onComingSoon: () => void }) {
                 )}
               </button>
             ))}
-            <div className="flex items-center gap-2.5 px-3 py-2.5">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-success opacity-75 animate-ping" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-success" />
-              </span>
-              <span className="text-xs font-mono text-steel-400">{profile.status.label}</span>
-            </div>
           </div>
         </div>
       )}
