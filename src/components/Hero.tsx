@@ -96,8 +96,8 @@ export default function Hero() {
 
             <div>
               <h1 className="mx-auto max-w-4xl text-4xl sm:text-5xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight">
-                I turn ambitious AI ideas into
-                <span className="block text-ice-400 text-glow">useful software.</span>
+                I build AI systems that
+                <span className="block text-ice-400 text-glow">people can use.</span>
               </h1>
             </div>
 
@@ -106,7 +106,7 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-wrap justify-center gap-2.5">
-              {['LLM applications', 'RAG pipelines', 'Agentic workflows', 'Full-stack delivery'].map((item) => (
+              {['LLM applications', 'Retrieval-augmented generation', 'AI automation', 'Full-stack systems'].map((item) => (
                 <span key={item} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-steel-300">
                   <Check size={12} className="text-ice-400" />
                   {item}
@@ -141,7 +141,7 @@ export default function Hero() {
 
             <div className="flex flex-wrap items-center justify-center gap-4 pt-2 text-xs font-mono text-steel-500">
               <a href="https://github.com/Soham2212004" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-white transition-colors">
-                <Github size={14} /> GitHub / shipped work
+                <Github size={14} /> GitHub / project archive
               </a>
               <span className="h-1 w-1 rounded-full bg-steel-600" />
               <span>Vadodara, India</span>
