@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { profile, siteContent } from '@/data/portfolio';
 import { ArrowDownRight, Check, Download, ExternalLink, Github, X } from 'lucide-react';
 
@@ -128,15 +129,15 @@ export default function Hero() {
               </button>
 
               {/* Secondary — direct download */}
-              <a
-  href="/projects"
+              <Link
+  to="/projects"
   className="inline-flex items-center gap-2 px-6 py-3 rounded-lg
              glass border border-white/10 text-steel-300 text-sm font-medium
              hover:text-white hover:border-white/20 transition-all"
 >
   <ArrowDownRight size={15} />
   See selected work
-</a>
+</Link>
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-4 pt-2 text-xs font-mono text-steel-500">
