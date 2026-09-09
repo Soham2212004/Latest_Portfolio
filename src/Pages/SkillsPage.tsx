@@ -3,7 +3,20 @@ import NeuralBackground from '@/components/NeuralBackground';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ComingSoonModal from '@/components/ComingSoonModal';
-import { X, Github, ExternalLink } from 'lucide-react';
+import {
+  ArrowUpRight,
+  BrainCircuit,
+  CheckCircle2,
+  CloudCog,
+  Code2,
+  ExternalLink,
+  Github,
+  GitBranch,
+  Layers3,
+  Search,
+  Sparkles,
+  X,
+} from 'lucide-react';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 interface BarSkill  { name: string; level: number; tag?: string }
@@ -301,6 +314,10 @@ function BarsCard({ items, onSkillClick }: { items: BarSkill[]; onSkillClick: (n
     <div className="space-y-5">
       {items.map((s) => (
         <div key={s.name} className="cursor-pointer group/bar" onClick={() => onSkillClick(s.name)}>
+          {(() => {
+            const evidenceCount = skillProjects[s.name]?.length ?? 0;
+            return (
+              <>
           <div className="flex items-center justify-between mb-1.5">
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-white/90 group-hover/bar:text-cyan-300 transition-colors">{s.name}</span>
@@ -308,13 +325,19 @@ function BarsCard({ items, onSkillClick }: { items: BarSkill[]; onSkillClick: (n
                 <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">{s.tag}</span>
               )}
             </div>
-            <span className="text-xs font-mono text-cyan-400">{s.level}%</span>
+            <span className="text-[10px] font-mono text-white/30 group-hover/bar:text-cyan-400 transition-colors">{evidenceCount} LINKED PROJECT{evidenceCount === 1 ? '' : 'S'}</span>
           </div>
-          <div className="relative h-1.5 bg-white/5 rounded-full overflow-hidden">
-            <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-cyan-500 to-cyan-400
-                            group-hover/bar:from-cyan-400 group-hover/bar:to-cyan-300 transition-colors"
-                 style={{ width: `${s.level}%` }} />
+          <div className="flex items-center gap-1.5">
+            {[0, 1, 2, 3, 4].map((segment) => (
+              <span
+                key={segment}
+                className={`h-1 flex-1 rounded-full ${segment < Math.min(5, evidenceCount) ? 'bg-cyan-400/70 group-hover/bar:bg-cyan-300' : 'bg-white/8'} transition-colors`}
+              />
+            ))}
           </div>
+              </>
+            );
+          })()}
         </div>
       ))}
     </div>
@@ -410,56 +433,222 @@ function SkillCard({ group, onSkillClick }: { group: SkillGroup; onSkillClick: (
   );
 }
 
-// ── Page ─────────────────────────────────────────────────────────────────────
-export default function SkillsPage() {
-  const [comingSoon,  setComingSoon]  = useState(false);
-  const [activeSkill, setActiveSkill] = useState<string | null>(null);
+const capabilityTracks = [
+  {
+    id: 'ai-systems',
+    icon: BrainCircuit,
+    label: 'AI systems',
+    description: 'RAG, agents, LLM applications, and evaluation workflows that turn models into useful products.',
+    skills: ['RAG Architecture', 'Large Language Models', 'Agentic AI Development', 'Prompt Engineering'],
+    accent: 'text-cyan-300',
+  },
+  {
+    id: 'product-engineering',
+    icon: Code2,
+    label: 'Product engineering',
+    description: 'Interfaces, APIs, data layers, and mobile experiences built from idea through delivery.',
+    skills: ['Python', 'TypeScript / JavaScript', 'React', 'FastAPI', 'Flutter'],
+    accent: 'text-indigo-300',
+  },
+  {
+    id: 'cloud-delivery',
+    icon: CloudCog,
+    label: 'Cloud delivery',
+    description: 'Deployable systems with containers, managed databases, cloud services, and practical automation.',
+    skills: ['Amazon Web Services (AWS)', 'Google Cloud Platform', 'Microsoft Azure', 'Docker', 'CI/CD Pipelines'],
+    accent: 'text-emerald-300',
+  },
+];
+
+const groupIcons = {
+  languages: Code2,
+  'ai-ml': BrainCircuit,
+  frameworks: Layers3,
+  'ai-tools': Sparkles,
+  cloud: CloudCog,
+};
+
+function EvidencePanel({ skillName, trackId, onSkillClick }: {
+  skillName: string | null;
+  trackId: string;
+  onSkillClick: (name: string) => void;
+}) {
+  const track = capabilityTracks.find((item) => item.id === trackId) ?? capabilityTracks[0];
+  const related = skillName ? skillProjects[skillName] ?? [] : [];
+  const Icon = track.icon;
 
   return (
-    <div className="relative min-h-screen bg-obsidian-950 overflow-x-hidden">
+    <aside className="rounded-2xl border border-white/10 bg-obsidian-900/70 p-5 lg:sticky lg:top-24">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-400/20 bg-cyan-400/10">
+            <Icon size={19} className="text-cyan-300" />
+          </div>
+          <div>
+            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-cyan-400/70">Capability track</p>
+            <h2 className="mt-1 text-lg font-semibold text-white">{track.label}</h2>
+          </div>
+        </div>
+        <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2 py-1 text-[9px] font-mono text-emerald-300">ACTIVE</span>
+      </div>
+
+      <p className="mt-5 text-sm leading-relaxed text-steel-400">{track.description}</p>
+
+      <div className="mt-5 border-t border-white/8 pt-4">
+        <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-steel-500">
+          {skillName ? 'Selected skill' : 'Core capabilities'}
+        </p>
+        {skillName ? (
+          <>
+            <div className="mt-3 flex items-center justify-between gap-3">
+              <h3 className="text-base font-semibold text-white">{skillName}</h3>
+              <span className="text-[10px] font-mono text-cyan-400">{related.length} PROJECT{related.length === 1 ? '' : 'S'}</span>
+            </div>
+            <p className="mt-2 text-xs leading-relaxed text-steel-500">Select another skill below to inspect its project evidence.</p>
+            {related.length > 0 && (
+              <div className="mt-4 space-y-2">
+                {related.slice(0, 3).map((project) => (
+                  <a key={project.title} href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between gap-3 rounded-lg border border-white/8 bg-white/[0.03] px-3 py-2.5 hover:border-cyan-400/30 hover:bg-cyan-400/5">
+                    <span className="text-xs text-steel-300 group-hover:text-white">{project.title}</span>
+                    <ArrowUpRight size={13} className="flex-shrink-0 text-steel-600 group-hover:text-cyan-300" />
+                  </a>
+                ))}
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="mt-3 space-y-2">
+            {track.skills.map((skill) => (
+              <button key={skill} onClick={() => onSkillClick(skill)} className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm text-steel-300 hover:bg-white/5 hover:text-cyan-300">
+                <CheckCircle2 size={14} className="text-cyan-400/70" />
+                {skill}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </aside>
+  );
+}
+
+// ── Page ─────────────────────────────────────────────────────────────────────
+export default function SkillsPage() {
+  const [comingSoon, setComingSoon] = useState(false);
+  const [activeSkill, setActiveSkill] = useState<string | null>(null);
+  const [activeTrack, setActiveTrack] = useState('ai-systems');
+  const [query, setQuery] = useState('');
+
+  const normalizedQuery = query.trim().toLowerCase();
+  const visibleGroups = groups.map((group) => ({
+    ...group,
+    items: group.items.filter((item) => item.name.toLowerCase().includes(normalizedQuery)),
+  })).filter((group) => group.items.length > 0);
+  const totalSkills = groups.reduce((total, group) => total + group.items.length, 0);
+  const linkedProjects = new Set(Object.values(skillProjects).flat().map((project) => project.title)).size;
+
+  const selectSkill = (skill: string) => {
+    setActiveSkill(skill);
+    const matchingTrack = capabilityTracks.find((track) => track.skills.includes(skill));
+    if (matchingTrack) setActiveTrack(matchingTrack.id);
+  };
+
+  return (
+    <div className="relative min-h-screen overflow-x-hidden bg-obsidian-950">
       <NeuralBackground />
-      <div className="fixed inset-0 bg-grid-pattern bg-grid-40 pointer-events-none opacity-30" />
-      <div className="fixed inset-0 bg-radial-glow pointer-events-none opacity-50" />
+      <div className="fixed inset-0 pointer-events-none bg-grid-pattern bg-grid-40 opacity-30" />
+      <div className="fixed inset-0 pointer-events-none bg-radial-glow opacity-50" />
 
       <div className="relative z-10">
         <Navbar onComingSoon={() => setComingSoon(true)} />
 
         <main className="pt-24 pb-20">
-          <div className="text-center mb-14 px-4">
-            <p className="text-[11px] font-mono tracking-[0.25em] text-cyan-500/70 uppercase mb-3">
-              [ TECHNICAL TELEMETRY DASHBOARD ]
-            </p>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Technical Specialization &amp; Toolset
-            </h1>
-            <p className="text-white/50 text-sm max-w-xl mx-auto leading-relaxed">
-              A diagnostic readout of core engineering fluency, framework mastery,
-              data infrastructure, and deployment orchestration across the full ML lifecycle.
-            </p>
-            <p className="text-[11px] font-mono text-cyan-500/40 mt-3 tracking-wide">
-              ↓ CLICK ANY SKILL TO SEE RELATED PROJECTS
-            </p>
-          </div>
+          <section className="mx-auto max-w-6xl px-4 pb-12 pt-12 sm:px-6 lg:px-8">
+            <div className="grid items-end gap-8 lg:grid-cols-[1fr_auto]">
+              <div className="max-w-3xl animate-fade-up">
+                <div className="mb-5 inline-flex items-center gap-2 rounded-md border border-cyan-400/20 bg-cyan-400/5 px-3 py-1.5">
+                  <GitBranch size={13} className="text-cyan-300" />
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-cyan-300">Engineering capability map</span>
+                </div>
+                <h1 className="text-4xl font-bold leading-tight tracking-tight text-white sm:text-6xl">Skills with <span className="text-cyan-300 text-glow">receipts.</span></h1>
+                <p className="mt-5 max-w-2xl text-base leading-relaxed text-steel-400 sm:text-lg">A practical view of the technologies I use to design, build, and ship AI-powered software. Every highlighted capability connects to real project work.</p>
+              </div>
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:w-[380px]">
+                {[
+                  ['Skills indexed', totalSkills.toString()],
+                  ['Projects linked', linkedProjects.toString()],
+                  ['Focus tracks', capabilityTracks.length.toString()],
+                ].map(([label, value]) => (
+                  <div key={label} className="border-l border-cyan-400/30 pl-3 py-2">
+                    <p className="text-2xl font-semibold text-white">{value}</p>
+                    <p className="mt-1 text-[10px] font-mono uppercase tracking-wider text-steel-500">{label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
 
-          <div className="max-w-6xl mx-auto px-4 md:px-8 space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <SkillCard group={groups[0]} onSkillClick={setActiveSkill} />
-              <SkillCard group={groups[1]} onSkillClick={setActiveSkill} />
+          <section className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="grid gap-4 lg:grid-cols-[1.35fr_0.65fr]">
+              <div className="grid gap-3 sm:grid-cols-3">
+                {capabilityTracks.map((track) => {
+                  const Icon = track.icon;
+                  const selected = activeTrack === track.id;
+                  return (
+                    <button key={track.id} onClick={() => { setActiveTrack(track.id); setActiveSkill(null); }} className={`group rounded-2xl border p-5 text-left transition-all ${selected ? 'border-cyan-400/40 bg-cyan-400/10 shadow-[0_0_30px_rgba(34,211,238,0.08)]' : 'border-white/8 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.05]'}`}>
+                      <Icon size={20} className={selected ? 'text-cyan-300' : 'text-steel-500 group-hover:text-cyan-300'} />
+                      <h2 className="mt-5 text-sm font-semibold text-white">{track.label}</h2>
+                      <p className="mt-2 text-xs leading-relaxed text-steel-500">{track.description}</p>
+                      <span className="mt-4 inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-cyan-400/70">{track.skills.length} capabilities <ArrowUpRight size={11} /></span>
+                    </button>
+                  );
+                })}
+              </div>
+              <EvidencePanel skillName={activeSkill} trackId={activeTrack} onSkillClick={selectSkill} />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <SkillCard group={groups[2]} onSkillClick={setActiveSkill} />
-              <SkillCard group={groups[3]} onSkillClick={setActiveSkill} />
-            </div>
-            <div>
-              <SkillCard group={groups[4]} onSkillClick={setActiveSkill} />
-            </div>
-          </div>
+          </section>
 
-          <div className="max-w-6xl mx-auto px-4 md:px-8 mt-8">
-            <div className="flex items-center gap-2 text-[10px] font-mono text-white/20">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-500/60 animate-pulse" />
-              SYSTEM SCAN COMPLETE — {groups.reduce((a, g) => a + g.items.length, 0)} SKILLS INDEXED
+          <section className="mx-auto mt-16 max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+              <div>
+                <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-cyan-400/70">The stack</p>
+                <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">Tools I can put to work.</h2>
+              </div>
+              <label className="flex w-full items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2.5 sm:w-64">
+                <Search size={15} className="text-steel-500" />
+                <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Filter skills" className="w-full bg-transparent text-xs text-white outline-none placeholder:text-steel-600" />
+              </label>
             </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              {visibleGroups.map((group) => {
+                const Icon = groupIcons[group.id as keyof typeof groupIcons];
+                return (
+                  <div key={group.id} className="rounded-2xl border border-white/8 bg-white/[0.03] p-5 transition-colors hover:border-cyan-400/20">
+                    <div className="flex items-start justify-between gap-4 border-b border-white/8 pb-4">
+                      <div className="flex items-center gap-3">
+                        <Icon size={18} className="text-cyan-300" />
+                        <div>
+                          <h3 className="text-sm font-semibold text-white">{group.title}</h3>
+                          <p className="mt-1 text-xs text-steel-500">{group.subtitle}</p>
+                        </div>
+                      </div>
+                      <span className="text-[10px] font-mono text-steel-600">{group.items.length} ITEMS</span>
+                    </div>
+                    <div className="mt-4">
+                      {group.variant === 'bars' && <BarsCard items={group.items as BarSkill[]} onSkillClick={selectSkill} />}
+                      {group.variant === 'tags' && <TagsCard items={group.items as TagSkill[]} onSkillClick={selectSkill} />}
+                      {group.variant === 'tools' && <ToolsCard items={group.items as ToolSkill[]} onSkillClick={selectSkill} />}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            {visibleGroups.length === 0 && <p className="rounded-xl border border-dashed border-white/10 py-10 text-center text-sm text-steel-500">No matching skills found.</p>}
+          </section>
+
+          <div className="mx-auto mt-10 flex max-w-6xl items-center gap-2 px-4 text-[10px] font-mono uppercase tracking-wider text-steel-600 sm:px-6 lg:px-8">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+            Project evidence linked · select a capability to inspect the work behind it
           </div>
         </main>
 

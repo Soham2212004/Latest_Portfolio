@@ -99,9 +99,6 @@ export default function Hero() {
                 I turn ambitious AI ideas into
                 <span className="block text-ice-400 text-glow">useful software.</span>
               </h1>
-              <p className="mt-5 text-base sm:text-lg font-medium text-steel-300">
-                {profile.fullName} <span className="text-steel-500">/</span> {profile.preTitle}
-              </p>
             </div>
 
             <p className="mx-auto max-w-2xl text-base sm:text-lg text-steel-400 leading-relaxed">
