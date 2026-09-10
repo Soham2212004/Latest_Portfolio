@@ -6,7 +6,7 @@
 export const RESUME_TEXT = `
 Soham Soni is an AI-focused Software Engineer based in Vadodara, India, with hands-on experience integrating AI coding tools into real production workflows. He specializes in Python, TypeScript/JavaScript, prompt engineering, LLM governance, and CI/CD pipelines.
 ---
-Soham has hands-on experience using AI coding tools including Cursor, GitHub Copilot, and Claude in production engineering workflows.
+Soham has hands-on experience using GitHub Copilot and Claude Code for coding, inline coding help, and production engineering workflows.
 ---
 Soham has experience building reusable AI development patterns, automating complex processes using n8n, and enabling non-traditional developers to build secure, production-ready AI solutions.
 ---
@@ -20,7 +20,7 @@ Soham has experience coaching and enabling team members to use AI coding tools e
 ---
 Soham worked as a Software Engineer – AI Integration at AV DEVS Solutions Pvt. Ltd. in Vadodara, India (remote), from August 2025 to the present.
 ---
-At AV DEVS Solutions Pvt. Ltd., Soham leads AI-assisted development initiatives using Cursor, GitHub Copilot, and Claude to accelerate engineering workflows and enforce code quality standards.
+At AV DEVS Solutions Pvt. Ltd., Soham uses GitHub Copilot for coding, inline coding help, and GitHub automation, and uses Claude Code for development.
 ---
 At AV DEVS Solutions Pvt. Ltd., Soham establishes governance guardrails and validation processes for AI-generated code and defines best practices and reusable prompt libraries for the engineering team.
 ---
@@ -28,11 +28,22 @@ At AV DEVS Solutions Pvt. Ltd., Soham integrates AI automation into legacy syste
 ---
 At AV DEVS Solutions Pvt. Ltd., Soham enables and coaches team members on the effective and secure use of AI coding tools, helping reduce onboarding time and improve code consistency.
 ---
+At AV DEVS Solutions Pvt. Ltd., Soham built a Chrome extension using the Gemini API to capture webpage content and let users ask questions directly through a chat interface.
+---
+At AV DEVS Solutions Pvt. Ltd., Soham used OpenAI APIs for a booking application and for a chatbot supporting drivers.
+---
+At AV DEVS Solutions Pvt. Ltd., Soham used Claude API keys across multiple client projects.
+At AV DEVS Solutions Pvt. Ltd., Soham used AWS Bedrock to access Claude's API within a client's existing AWS infrastructure, keeping API credentials and client data inside a controlled environment and avoiding unnecessary exposure outside the client's infrastructure.
+---
+At AV DEVS Solutions Pvt. Ltd., Soham used Ollama locally to test and refine prompts through trial and error before using paid API keys. This workflow reduced unnecessary token usage and helped save costs for clients.
+---
+Soham used Bolt and Lovable to build multiple MVPs for initial client approval, functionality validation, and demo purposes.
+---
 Soham previously worked as a Software Engineering Intern at Linde Engineering India Pvt. Ltd. in Vadodara, India, from December 2024 to April 2025.
 ---
 During his internship at Linde Engineering India Pvt. Ltd., Soham built a full-stack document Q&A web application using React, FastAPI with Python, PostgreSQL, and Azure Blob Storage.
 ---
-Soham's document Q&A application at Linde Engineering India Pvt. Ltd. used Retrieval-Augmented Generation (RAG) architecture and the Gemini API.
+Soham's document Q&A application at Linde Engineering India Pvt. Ltd. used Retrieval-Augmented Generation (RAG) architecture and OpenAI APIs to answer questions from uploaded documents.
 ---
 During his internship at Linde Engineering India Pvt. Ltd., Soham implemented an OCR automation pipeline using Tesseract.
 ---
@@ -76,7 +87,7 @@ Soham has experience with FastAPI and Python-based backend development.
 ---
 Soham has expertise in prompt engineering.
 ---
-Soham has professional experience with AI coding tools including Cursor, GitHub Copilot, and Claude.
+Soham has professional experience with GitHub Copilot, Claude Code, Claude APIs, Gemini API, and OpenAI APIs.
 ---
 Soham has experience with LLM governance.
 ---

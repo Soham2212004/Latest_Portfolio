@@ -120,6 +120,7 @@ const skillProjects: Record<string, RelatedProject[]> = {
   ],
   'Docker': [
     { title: 'LuxeStay', description: 'Docker Compose orchestrates React, FastAPI, PostgreSQL, and Nginx containers.', tags: ['Docker', 'Nginx', 'PostgreSQL'], githubUrl: 'https://github.com/Soham2212004/LuxeStay' },
+    { title: 'AV DEVS Production Systems', description: 'Used Docker on AWS EC2 instances to package and run client applications consistently across AV DEVS deployments.', tags: ['Docker', 'EC2', 'AWS', 'Deployment'], githubUrl: 'https://github.com/Soham2212004' },
   ],
   'Gemini API': [
     { title: 'LuxeStay', description: 'Gemini powers the role-aware AI chat concierge and RAG FAQ pipeline.', tags: ['Gemini', 'RAG', 'FastAPI'], githubUrl: 'https://github.com/Soham2212004/LuxeStay' },
@@ -129,17 +130,72 @@ const skillProjects: Record<string, RelatedProject[]> = {
   'OpenAI API': [
     { title: 'Linde Engineering Internship', description: 'Built a RAG-based Q&A chatbot using OpenAI API, React, Azure, and FastAPI.', tags: ['OpenAI', 'RAG', 'Azure'], githubUrl: 'https://github.com/Soham2212004' },
   ],
+   'Claude': [
+     { title: 'AV DEVS Client Projects', description: 'Used Claude Code for development and Claude API keys across multiple client projects at AV DEVS.', tags: ['Claude', 'Claude Code', 'Anthropic API'], githubUrl: 'https://github.com/Soham2212004' },
+   ],
+  'Ollama': [
+    { title: 'AV DEVS Prompt Development', description: 'Used Ollama locally to test and refine prompts through trial and error before switching to paid APIs, reducing unnecessary token usage and client costs.', tags: ['Ollama', 'Prompt Engineering', 'Local LLM'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'GitHub Copilot': [
+    { title: 'AV DEVS Client Projects', description: 'Used GitHub Copilot for coding, inline coding assistance, and GitHub automation across client projects at AV DEVS.', tags: ['GitHub Copilot', 'AI Code', 'GitHub Automation'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'Bolt': [
+    { title: 'AV DEVS MVP Prototypes', description: 'Built multiple MVPs with Bolt to validate functionality and get initial client approval through working demos.', tags: ['Bolt', 'MVP', 'Rapid Prototyping'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'Lovable': [
+    { title: 'AV DEVS MVP Prototypes', description: 'Built multiple MVPs with Lovable to validate functionality and get initial client approval through working demos.', tags: ['Lovable', 'MVP', 'Rapid Prototyping'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
   'Stability AI': [
     { title: 'AI Multitasker App', description: 'Stability AI powers the image generation tool — one of 19 tools in the Flutter app.', tags: ['Stability AI', 'Image Gen', 'Flutter'], githubUrl: 'https://github.com/Soham2212004/AI-Multitasker' },
   ],
   'Amazon Web Services (AWS)': [
-    { title: 'AV DEVS Production Systems', description: 'AWS used in production at AV DEVS — EC2, S3, RDS, SES, and Route 53 across client deployments.', tags: ['AWS', 'EC2', 'S3', 'RDS'], githubUrl: 'https://github.com/Soham2212004' },
+    { title: 'AV DEVS Production Systems', description: 'Used AWS to deploy and maintain client applications at AV DEVS. The production setup used EC2 with Docker, S3 for storage and backups, RDS for PostgreSQL, SES for email delivery, and Route 53 for DNS.', tags: ['AWS', 'EC2', 'Docker', 'S3', 'RDS', 'SES', 'Route 53'], githubUrl: 'https://github.com/Soham2212004' },
   ],
+   'AWS Bedrock': [
+     { title: 'AV DEVS Secure AI Infrastructure', description: "Used AWS Bedrock to access Claude's API within the client's existing AWS infrastructure, keeping API credentials and client data inside a controlled environment instead of sending them outside the infrastructure.", tags: ['AWS Bedrock', 'Claude', 'AWS Security'], githubUrl: 'https://github.com/Soham2212004' },
+   ],
   'Google Cloud Platform': [
-    { title: 'Gen AI Study Jams', description: 'Completed GCP Cloud Study Jam — hands-on with GCP services, Qwiklabs, and Vertex AI.', tags: ['GCP', 'Vertex AI', 'Cloud'], githubUrl: 'https://github.com/Soham2212004' },
+    { title: 'AV DEVS Client Deployments', description: 'Used Google Cloud at AV DEVS to deploy and support client projects, working with cloud-hosted application infrastructure and managed services.', tags: ['Google Cloud', 'GCP', 'Client Deployments'], githubUrl: 'https://github.com/Soham2212004' },
+    { title: 'Gen AI Study Jams', description: 'Completed GCP Cloud Study Jam with hands-on practice using Google Cloud services and Vertex AI.', tags: ['GCP', 'Vertex AI', 'Cloud'], githubUrl: 'https://github.com/Soham2212004' },
   ],
   'Microsoft Azure': [
-    { title: 'Linde Engineering Internship', description: 'Azure used for hosting, Blob Storage, and Entra ID auth in the RAG chatbot project.', tags: ['Azure', 'Blob Storage', 'Entra ID'], githubUrl: 'https://github.com/Soham2212004' },
+    { title: 'Linde Engineering Document Q&A', description: 'Used Microsoft Azure during the Linde Engineering internship to support a document Q&A application, including Azure Blob Storage for documents and Microsoft Entra ID for identity and access.', tags: ['Azure', 'Blob Storage', 'Entra ID', 'RAG'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'EC2 / S3 / RDS': [
+    { title: 'AV DEVS Production Systems', description: 'Deployed client applications on EC2 with Docker, used S3 for storage and backups, and ran PostgreSQL on Amazon RDS for managed database hosting.', tags: ['EC2', 'Docker', 'S3', 'PostgreSQL', 'RDS'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'AWS SES': [
+    { title: 'AV DEVS Client Applications', description: 'Used Amazon SES for transactional email delivery in client applications deployed through AV DEVS production infrastructure.', tags: ['AWS SES', 'Email Delivery', 'AWS'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'Amazon Route 53': [
+    { title: 'AV DEVS Production Systems', description: 'Used Amazon Route 53 for DNS management and routing domains to client applications hosted on AWS.', tags: ['Route 53', 'DNS', 'AWS'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'Azure Blob Storage': [
+    { title: 'Linde Engineering Document Q&A', description: 'Used Azure Blob Storage to store and retrieve documents for the document Q&A application built during the Linde Engineering internship.', tags: ['Azure', 'Blob Storage', 'Document Q&A'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'Microsoft Entra ID': [
+    { title: 'Linde Engineering Document Q&A', description: 'Used Microsoft Entra ID to support identity and access management for the Azure-hosted document Q&A application at Linde Engineering.', tags: ['Azure', 'Entra ID', 'Authentication'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'CloudWatch': [
+    { title: 'AV DEVS Production Monitoring', description: 'Used Amazon CloudWatch to monitor AWS-hosted client applications and infrastructure as part of production operations at AV DEVS.', tags: ['CloudWatch', 'Monitoring', 'AWS'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'CloudWatch Alarms': [
+    { title: 'AV DEVS Production Monitoring', description: 'Configured CloudWatch alarms to surface important infrastructure and application conditions during AV DEVS client deployments.', tags: ['CloudWatch Alarms', 'Monitoring', 'AWS'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'DNS Management': [
+    { title: 'AV DEVS Production Systems', description: 'Managed application DNS with Amazon Route 53 for client deployments hosted on AWS. Also familiar with domain and DNS management through GoDaddy and Namecheap.', tags: ['DNS', 'Route 53', 'GoDaddy', 'Namecheap'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'GoDaddy': [
+    { title: 'DNS and Domain Management', description: 'Familiar with using GoDaddy for domain registration and DNS management, alongside production DNS work with Amazon Route 53.', tags: ['GoDaddy', 'DNS', 'Domains'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'Namecheap': [
+    { title: 'DNS and Domain Management', description: 'Familiar with using Namecheap for domain registration and DNS management, alongside production DNS work with Amazon Route 53.', tags: ['Namecheap', 'DNS', 'Domains'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'Cloud Infrastructure': [
+    { title: 'AV DEVS Client Deployments', description: 'Worked across AWS and Google Cloud to deploy and maintain client applications, with containerized services, managed storage and databases, DNS, monitoring, and operational alerts.', tags: ['AWS', 'Google Cloud', 'Docker', 'Monitoring'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'CI/CD Pipelines': [
+    { title: 'AV DEVS Delivery Workflows', description: 'Applied CI/CD practices to support repeatable delivery and maintenance of production client applications at AV DEVS.', tags: ['CI/CD', 'Deployment', 'DevOps'], githubUrl: 'https://github.com/Soham2212004' },
   ],
 };
 
@@ -285,9 +341,9 @@ const groups: SkillGroup[] = [
       { name: 'Claude',         label: 'Anthropic' },
       { name: 'Ollama',         label: 'Local LLM' },
       { name: 'Stability AI',   label: 'Image Gen' },
-      { name: 'Cursor',         label: 'AI IDE'    },
       { name: 'GitHub Copilot', label: 'AI Code'   },
       { name: 'Bolt',           label: 'AI Dev'    },
+      { name: 'Lovable',        label: 'AI Dev'    },
     ] as ToolSkill[],
   },
   {
@@ -297,12 +353,18 @@ const groups: SkillGroup[] = [
       { name: 'Google Cloud Platform',     tier: 'primary'   },
       { name: 'Microsoft Azure',           tier: 'primary'   },
       { name: 'EC2 / S3 / RDS',           tier: 'primary'   },
+      { name: 'AWS Bedrock',               tier: 'primary'   },
+      { name: 'Docker',                   tier: 'primary'   },
       { name: 'AWS SES',                   tier: 'secondary' },
       { name: 'Amazon Route 53',           tier: 'secondary' },
+      { name: 'CloudWatch',                tier: 'secondary' },
+      { name: 'CloudWatch Alarms',         tier: 'secondary' },
       { name: 'Azure Blob Storage',        tier: 'secondary' },
       { name: 'Microsoft Entra ID',        tier: 'secondary' },
       { name: 'Cloud Infrastructure',      tier: 'secondary' },
       { name: 'DNS Management',            tier: 'secondary' },
+      { name: 'GoDaddy',                   tier: 'secondary' },
+      { name: 'Namecheap',                 tier: 'secondary' },
       { name: 'CI/CD Pipelines',           tier: 'secondary' },
     ] as TagSkill[],
   },
