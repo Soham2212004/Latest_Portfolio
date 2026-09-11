@@ -4,7 +4,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ComingSoonModal from '@/components/ComingSoonModal';
 import { contact, siteContent } from '@/data/portfolio';
-import { Mail, Linkedin, Github, Award, MapPin, Clock, Send, ChevronDown, ArrowUpRight, MessageSquare, Sparkles } from 'lucide-react';
+import { Mail, Linkedin, Github, Award, MapPin, Clock, Send, ChevronDown, ArrowUpRight, MessageSquare, Sparkles, BriefcaseBusiness, Handshake } from 'lucide-react';
 
 const iconMap: Record<string, React.ElementType> = {
   mail:     Mail,
@@ -12,6 +12,14 @@ const iconMap: Record<string, React.ElementType> = {
   github:   Github,
   award:    Award,
 };
+
+const opportunityTypes = [
+  { title: 'Full-time roles', description: 'AI systems, software engineering, and full-stack product opportunities.' },
+  { title: 'Part-time work', description: 'Focused engineering support for well-defined product or automation needs.' },
+  { title: 'Freelance projects', description: 'Practical AI, web, mobile, and automation builds from idea to delivery.' },
+  { title: 'Contract engagements', description: 'Hands-on help with integrations, APIs, RAG systems, and production delivery.' },
+  { title: 'Research collaborations', description: 'Applied work across machine learning, NLP, computer vision, and AI systems.' },
+];
 
 export default function ContactPage() {
   const [comingSoon, setComingSoon] = useState(false);
@@ -53,9 +61,23 @@ export default function ContactPage() {
 
               <div className="space-y-5">
 
-                <div className="rounded-2xl border border-cyan-400/15 bg-cyan-400/5 p-5">
-                  <div className="flex items-center gap-2"><Sparkles size={15} className="text-cyan-300" /><h3 className="text-sm font-semibold text-white">Good fit for</h3></div>
+                <div className="rounded-2xl border border-emerald-400/15 bg-emerald-400/[0.04] p-5">
+                  <div className="flex items-center justify-between gap-3"><div className="flex items-center gap-2"><Sparkles size={15} className="text-emerald-300" /><h3 className="text-sm font-semibold text-white">Available to hire</h3></div><span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" /></div>
                   <p className="mt-3 text-sm leading-relaxed text-steel-400">{contact.availability}. I&apos;m especially interested in AI product engineering, RAG systems, automation, and full-stack delivery.</p>
+                  <div className="mt-5 grid gap-2 sm:grid-cols-2">
+                    {opportunityTypes.map((type, index) => (
+                      <div key={type.title} className="rounded-xl border border-white/8 bg-white/[0.03] p-3">
+                        <div className="flex items-start justify-between gap-2"><span className="text-[10px] font-mono text-emerald-300/70">0{index + 1}</span><BriefcaseBusiness size={13} className="text-emerald-300/70" /></div>
+                        <h4 className="mt-3 text-xs font-semibold text-white">{type.title}</h4>
+                        <p className="mt-1 text-[11px] leading-relaxed text-steel-500">{type.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="rounded-2xl border border-cyan-400/15 bg-cyan-400/[0.04] p-5">
+                  <div className="flex items-center gap-2"><Handshake size={15} className="text-cyan-300" /><h3 className="text-sm font-semibold text-white">Current engagement</h3></div>
+                  <p className="mt-3 text-sm leading-relaxed text-steel-400">Currently working as a Software Engineer at AV DEVS Solutions, while open to the right opportunity.</p>
                 </div>
 
                 <div className="glass space-y-4 rounded-2xl p-5">
@@ -101,33 +123,12 @@ export default function ContactPage() {
                   })}
                 </div>
 
-                <div className="glass space-y-2 rounded-2xl p-5">
-                  <h3 className="mb-3 text-[10px] font-mono uppercase tracking-[0.18em] text-cyan-300/80">{siteContent.contactPage.faqLabel}</h3>
-                  {contact.faqs.map((faq, i) => (
-                    <div key={i} className="border border-white/5 rounded-xl overflow-hidden">
-                      <button
-                        onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                        className="w-full flex items-center justify-between px-4 py-3 text-left text-xs font-medium text-steel-300 hover:text-white transition-colors"
-                      >
-                        <span>{faq.q}</span>
-                        <ChevronDown
-                          size={12}
-                          className={`flex-shrink-0 transition-transform text-steel-500 ${openFaq === i ? 'rotate-180' : ''}`}
-                        />
-                      </button>
-                      {openFaq === i && (
-                        <div className="px-4 pb-3 pt-2 text-xs text-steel-400 leading-relaxed border-t border-white/5">
-                          {faq.a}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
               </div>
 
-              <div className="glass rounded-2xl border-white/10 p-6 sm:p-8">
+              <div className="min-w-0">
+                <div className="glass self-start rounded-2xl border-white/10 p-6 sm:p-8">
                 {sent ? (
-                  <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center gap-4">
+                  <div className="flex flex-col items-center justify-center text-center gap-4">
                     <div
                       className="w-16 h-16 rounded-2xl glass flex items-center justify-center border border-emerald-400/30"
                       style={{ boxShadow: '0 0 24px rgba(34,197,94,0.15)' }}
@@ -215,6 +216,30 @@ export default function ContactPage() {
                     </p>
                   </form>
                 )}
+                </div>
+
+                <div className="glass mt-6 space-y-2 rounded-2xl p-5">
+                <h3 className="mb-3 text-[10px] font-mono uppercase tracking-[0.18em] text-cyan-300/80">{siteContent.contactPage.faqLabel}</h3>
+                {contact.faqs.map((faq, i) => (
+                  <div key={i} className="border border-white/5 rounded-xl overflow-hidden">
+                    <button
+                      onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                      className="w-full flex items-center justify-between px-4 py-3 text-left text-xs font-medium text-steel-300 hover:text-white transition-colors"
+                    >
+                      <span>{faq.q}</span>
+                      <ChevronDown
+                        size={12}
+                        className={`flex-shrink-0 transition-transform text-steel-500 ${openFaq === i ? 'rotate-180' : ''}`}
+                      />
+                    </button>
+                    {openFaq === i && (
+                      <div className="px-4 pb-3 pt-2 text-xs text-steel-400 leading-relaxed border-t border-white/5">
+                        {faq.a}
+                      </div>
+                    )}
+                  </div>
+                ))}
+                </div>
               </div>
             </div>
 

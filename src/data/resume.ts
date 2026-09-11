@@ -133,8 +133,6 @@ Soham has published 13 portfolio projects on GitHub, including AI, RAG, automati
 ---
 Soham has shipped a six-agent AI and n8n automation suite.
 ---
-Soham is ready for a job change and is available to join after serving a 60-day notice period.
----
 Soham can be contacted at sonisoham91@gmail.com or +91 97234 41407.
 ---
 Soham's LinkedIn profile is linkedin.com/in/sohamsoni220104.

@@ -772,7 +772,7 @@ export const contact = {
   email: 'sonisoham91@gmail.com',
   phone: '+91 97234 41407',
   location: 'Vadodara, Gujarat, India',
-  availability: 'Ready for a job change · 60-day notice period',
+  availability: 'Open to full-time, part-time, freelance, contract & research opportunities',
   responseTime: '< 24 hours',
   channels: [
     { label: 'Email', value: 'sonisoham91@gmail.com', href: 'mailto:sonisoham91@gmail.com', icon: 'mail' },
@@ -782,7 +782,7 @@ export const contact = {
   ],
   faqs: [
     { q: 'What engagement types do you take?', a: 'Full-time roles, 3–6 month contracts, research collaborations, and advisory.' },
-    { q: 'Are you ready for a job change?', a: 'Yes. Soham is ready for a job change and can join after serving a 60-day notice period.' },
+    { q: 'What opportunities are you open to?', a: 'Soham is open to full-time, part-time, freelance, contract, and research opportunities while currently working at AV DEVS.' },
     { q: 'Are you open to relocation?', a: 'Open to remote-first and hybrid setups. Relocation negotiable for the right opportunity.' },
     { q: 'What industries have you worked in?', a: 'Retail, fintech, healthcare, legal-tech, and applied research.' },
     { q: 'Do you take on open-source projects?', a: 'Yes — particularly NLP tooling, CV pipelines, and MLOps infrastructure.' },
@@ -820,14 +820,14 @@ export const siteContent = {
     footerNote: 'System will notify on release',
   },
   aiLab: {
-    eyebrow: 'SOHAM SONI / AI STUDIO',
-    title: 'Resume Q&A',
+    eyebrow: 'SOHAM SONI / PERSONAL AI CHATBOT',
+    title: 'Personal AI Chatbot',
     description:
-      'A retrieval-grounded assistant for exploring my professional experience, projects, skills, education, and certifications.',
+      'A personal AI chatbot for exploring Soham Soni\'s professional experience, projects, skills, education, and certifications.',
   },
   resumeBot: {
-    heading: 'ASK ABOUT MY RESUME',
-    tagline: 'AI-powered · embeddings run in your browser',
+    heading: 'ASK MY AI CHATBOT',
+    tagline: 'Personal AI assistant · ask anything',
     sampleQuestions: [
       'Where does Soham currently work?',
       'What projects has he built?',

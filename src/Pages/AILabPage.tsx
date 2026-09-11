@@ -28,11 +28,11 @@ export default function AILabPage() {
                   <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-cyan-300">{siteContent.aiLab.eyebrow}</span>
                 </div>
                 <h1 className="text-4xl font-bold leading-tight tracking-tight text-white sm:text-6xl">
-                  Ask the resume.
-                  <span className="block text-cyan-300 text-glow">Get the evidence.</span>
+                  Ask my personal AI chatbot.
+                  <span className="block text-cyan-300 text-glow">Get to know the work.</span>
                 </h1>
                 <p className="mt-5 max-w-2xl text-base leading-relaxed text-steel-400 sm:text-lg">
-                  Ask direct questions about my experience, projects, skills, and education. The system retrieves relevant resume sections before generating a concise answer.
+                  Ask direct questions about my experience, projects, skills, education, and approach to building AI-powered software.
                 </p>
               </div>
             </div>
