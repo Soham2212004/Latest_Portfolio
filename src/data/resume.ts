@@ -1,117 +1,123 @@
-// Resume content used for retrieval.
-// IMPORTANT: Each independent fact/topic is separated by a line containing only "---".
-// Each block becomes one retrievable chunk.
-// Keep one topic per block for best retrieval accuracy.
+// Resume content used by the retrieval-augmented resume assistant.
+// Keep one independent fact or topic per block so each block becomes a focused
+// embedding chunk. Regenerate resume-embeddings.json after changing this file.
 
 export const RESUME_TEXT = `
-Soham Soni is an AI-focused Software Engineer based in Vadodara, India, with hands-on experience integrating AI coding tools into real production workflows. He specializes in Python, TypeScript/JavaScript, prompt engineering, LLM governance, and CI/CD pipelines.
+Soham Soni is a Software Engineer and AI Systems Developer based in Vadodara, Gujarat, India.
 ---
-Soham has hands-on experience using GitHub Copilot and Claude Code for coding, inline coding help, and production engineering workflows.
+Soham's professional focus is practical AI integration, LLM applications, retrieval-augmented generation (RAG), agentic systems, AI automation, computer vision, and full-stack product engineering.
 ---
-Soham has experience building reusable AI development patterns, automating complex processes using n8n, and enabling non-traditional developers to build secure, production-ready AI solutions.
+Soham's core programming languages are Python, TypeScript, JavaScript, SQL, and Dart.
 ---
-Soham has experience establishing governance guardrails and validation processes for AI-generated code, including defining engineering best practices and reusable prompt libraries.
+Soham earned a B.Tech in Computer Science Engineering from Parul University from 2021 to 2025, graduating with a CGPA of 7.63.
 ---
-Soham has experience integrating AI automation into legacy systems using n8n workflows.
+Soham currently works as a Software Engineer at AV DEVS Solutions Pvt. Ltd. in Vadodara, India, from August 2025 to the present.
 ---
-Soham has experience deploying and maintaining services on AWS, including applications using PostgreSQL hosted on Amazon RDS.
+At AV DEVS, Soham develops production AI features, LLM workflows, agentic systems, and n8n automations for client applications.
 ---
-Soham has experience coaching and enabling team members to use AI coding tools effectively and securely, with the goal of reducing onboarding time and improving code consistency.
+At AV DEVS, Soham built a Chrome extension with the Gemini API that captures webpage content and lets users ask questions through chat.
 ---
-Soham worked as a Software Engineer – AI Integration at AV DEVS Solutions Pvt. Ltd. in Vadodara, India (remote), from August 2025 to the present.
+At AV DEVS, Soham used OpenAI APIs for a booking application and a chatbot supporting drivers.
 ---
-At AV DEVS Solutions Pvt. Ltd., Soham uses GitHub Copilot for coding, inline coding help, and GitHub automation, and uses Claude Code for development.
+At AV DEVS, Soham used Claude APIs across multiple client projects and used Claude Code for software development.
 ---
-At AV DEVS Solutions Pvt. Ltd., Soham establishes governance guardrails and validation processes for AI-generated code and defines best practices and reusable prompt libraries for the engineering team.
+At AV DEVS, Soham used AWS Bedrock to access Claude's API inside a client's existing AWS infrastructure, keeping credentials and client data within a controlled environment.
 ---
-At AV DEVS Solutions Pvt. Ltd., Soham integrates AI automation into legacy systems using n8n workflows and deploys and maintains services on AWS with PostgreSQL on Amazon RDS.
+At AV DEVS, Soham used Ollama locally to test and refine prompts before using paid APIs, helping reduce unnecessary token usage and client costs.
 ---
-At AV DEVS Solutions Pvt. Ltd., Soham enables and coaches team members on the effective and secure use of AI coding tools, helping reduce onboarding time and improve code consistency.
+At AV DEVS, Soham used Bolt and Lovable to build MVPs for early client approval and functionality demonstrations.
 ---
-At AV DEVS Solutions Pvt. Ltd., Soham built a Chrome extension using the Gemini API to capture webpage content and let users ask questions directly through a chat interface.
+At AV DEVS, Soham delivered full-stack applications using React, FastAPI, Django, AWS, Docker, and cloud databases.
 ---
-At AV DEVS Solutions Pvt. Ltd., Soham used OpenAI APIs for a booking application and for a chatbot supporting drivers.
+Soham works with Python for AI applications, backend APIs, RAG pipelines, automation workflows, and machine learning projects.
 ---
-At AV DEVS Solutions Pvt. Ltd., Soham used Claude API keys across multiple client projects.
-At AV DEVS Solutions Pvt. Ltd., Soham used AWS Bedrock to access Claude's API within a client's existing AWS infrastructure, keeping API credentials and client data inside a controlled environment and avoiding unnecessary exposure outside the client's infrastructure.
+Soham works with TypeScript and JavaScript for React interfaces, web applications, browser experiences, and frontend integrations.
 ---
-At AV DEVS Solutions Pvt. Ltd., Soham used Ollama locally to test and refine prompts through trial and error before using paid API keys. This workflow reduced unnecessary token usage and helped save costs for clients.
+Soham works with SQL, PostgreSQL, SQLite, Google Cloud SQL, and pgvector for application data and vector retrieval.
 ---
-Soham used Bolt and Lovable to build multiple MVPs for initial client approval, functionality validation, and demo purposes.
+Soham works with Dart and Flutter for cross-platform mobile applications, including AI Multitasker and the Road Accident Detection mobile app.
 ---
-Soham previously worked as a Software Engineering Intern at Linde Engineering India Pvt. Ltd. in Vadodara, India, from December 2024 to April 2025.
+Soham previously worked as an Artificial Intelligence Intern at Linde Engineering India Pvt. Ltd. in Vadodara from December 2024 to April 2025.
 ---
-During his internship at Linde Engineering India Pvt. Ltd., Soham built a full-stack document Q&A web application using React, FastAPI with Python, PostgreSQL, and Azure Blob Storage.
+At Linde Engineering, Soham built a full-stack document question-answering application with React, FastAPI, Python, PostgreSQL, and Azure Blob Storage.
 ---
-Soham's document Q&A application at Linde Engineering India Pvt. Ltd. used Retrieval-Augmented Generation (RAG) architecture and OpenAI APIs to answer questions from uploaded documents.
+The Linde Engineering document question-answering application used RAG architecture and OpenAI APIs to answer questions about uploaded documents.
 ---
-During his internship at Linde Engineering India Pvt. Ltd., Soham implemented an OCR automation pipeline using Tesseract.
+At Linde Engineering, Soham implemented an OCR automation pipeline using Tesseract.
 ---
-Soham applied secure coding practices and ensured compliance across data flows while working on document-processing and AI applications at Linde Engineering India Pvt. Ltd.
+At Linde Engineering, Soham applied secure coding practices to document processing and AI application data flows.
 ---
-Soham built an AI Agents – n8n Automation Suite using Python, n8n, Gemini API, and RAG architecture.
+Soham worked as a Freelance Web Developer for independent and local businesses from January 2024 to the present.
 ---
-The AI Agents – n8n Automation Suite contains five production-ready AI agents: a resume screener, an inventory chatbot, a RAG documentation Q&A agent, an AI code commenter called CodeSage, and a structured PDF data extractor.
+As a freelance web developer, Soham builds and deploys responsive websites, manages updates and performance, and handles domain setup, hosting, and basic SEO.
 ---
-Soham designed reusable n8n workflow templates for the five AI agents in his AI Agents – n8n Automation Suite.
+Soham completed a Summer Internship at byteXL in Vadodara from May 2024 to June 2024, focused on data structures, algorithms, and cloud fundamentals.
 ---
-Soham defined prompt libraries, input validation patterns, and output guardrails for his AI agents to ensure safe and consistent AI-generated outputs.
+Soham completed a Cloud Computing Internship with UniConverge Technologies remotely from April 25, 2024 to June 15, 2024, focused on cloud architecture and Microsoft Azure.
 ---
-Soham built an AI Multitasker App using Flutter, TypeScript, Gemini API, and Firebase.
+Soham completed a Web Development and Designing Internship with Oasis Infobyte remotely in September 2023.
 ---
-The AI Multitasker App contains 19 AI-powered tools, including a chatbot, code explainer, and multiple content-generation tools, within a cross-platform Flutter application.
+Soham completed a Data Science and Machine Learning Internship with YBI Foundation remotely in January 2024.
 ---
-Soham integrated Firebase authentication into the AI Multitasker App.
+Soham built LuxeStay, a full-stack hotel booking system with a role-aware AI chat concierge.
 ---
-Soham integrated Stability AI image generation into the AI Multitasker App.
+LuxeStay uses React, FastAPI, PostgreSQL with pgvector, Gemini API, JWT authentication, Nginx, and Docker Compose.
 ---
-Soham implemented PDF generation functionality in the AI Multitasker App.
+LuxeStay includes a RAG-based hotel FAQ pipeline and lets guests book through a dashboard or natural-language chat.
 ---
-Soham built a Road Accident Detection System using Python, CNN, OpenCV, and Firebase.
+Soham built TemporalRAG, a time-aware RAG system with LangGraph, Pinecone, Gemini API, FastAPI, Redis, exponential decay reranking, contradiction detection, and point-in-time queries.
 ---
-The Road Accident Detection System uses a real-time CNN and OpenCV-based accident detection pipeline.
+Soham built AI-Agents, a suite of six production n8n automation agents using Python, Gemini AI, and RAG architecture.
 ---
-Soham implemented automated Twilio alerts in the Road Accident Detection System to notify users when an accident is detected.
+The six AI-Agents are HireLens_AI for resume screening, DeskStock_AI for inventory management, PyDrift_AI for Python documentation, CodeSage_AI for code commenting, InsightBoard_AI for document-to-CSV extraction, and AutoTutor_AI for PDF-based MCQ generation.
 ---
-Soham used Firebase cloud storage as part of the Road Accident Detection System.
+Soham designed reusable n8n workflow templates, prompt libraries, input validation patterns, and output guardrails for the AI-Agents suite.
 ---
-Soham designed the Road Accident Detection System as a production-ready machine learning pipeline.
+Soham built Resume Analyzer and Job Matcher, a Streamlit application that generates Gemini embeddings and uses Pinecone vector similarity to rank jobs against uploaded resumes.
 ---
-Soham's programming skills include Python.
+Resume Analyzer and Job Matcher produces ranked job matches, cover letters, interview questions, and skill gap analysis.
 ---
-Soham's programming skills include TypeScript and JavaScript.
+Soham built AI Multitasker, a cross-platform Flutter mobile application with 19 AI-powered tools using Dart, Gemini API, Firebase, and Stability AI.
 ---
-Soham has experience with React.
+AI Multitasker includes a chatbot, code explainer, study buddy, interview coach, travel planner, content generation tools, image generation, resume builder, OCR extractor, and PDF generation.
 ---
-Soham has experience with FastAPI and Python-based backend development.
+Soham built Road Accident Detection, a real-time computer vision system using Python, CNN concepts, OpenCV, Firebase, and Flutter.
 ---
-Soham has expertise in prompt engineering.
+Road Accident Detection captures an accident image and sends an alert notification to the Flutter mobile app so a person can review the image and call for assistance.
 ---
-Soham has professional experience with GitHub Copilot, Claude Code, Claude APIs, Gemini API, and OpenAI APIs.
+Road Accident Detection uses automated alerts and mobile incident handling to help connect an identified accident with an assistance response.
 ---
-Soham has experience with LLM governance.
+Soham built SafaaiBuddy, an AI-powered deep-cleaning estimation application using JavaScript, n8n webhooks, Pinecone vector search, and market-relevant pricing data.
 ---
-Soham has experience with n8n automation and workflow development.
+Soham built StudyGenius AI, a React and TypeScript study assistant using Gemini API, image input, session history, and PDF export.
 ---
-Soham has experience designing and implementing Retrieval-Augmented Generation (RAG) architectures.
+Soham built Craftly.AI, a React and Python generative AI platform using Gemini API for creative content, copywriting, and structured text.
 ---
-Soham has experience with CI/CD pipelines.
+Soham built AI Document Analyzer, a Python and Gemini application that uses LLM-powered extraction, summarization, and document question answering.
 ---
-Soham has experience with AWS, Azure, and Google Cloud Platform (GCP).
+Soham built Personal Assistant, a Python conversational assistant using Gemini API for task management, reminders, and general questions.
 ---
-Soham has experience with PostgreSQL and Amazon RDS.
+Soham built Financial Advisor, a Gemini-powered application that provides AI-generated financial guidance, budgeting plans, and investment suggestions.
 ---
-Soham follows secure coding practices.
+Soham built ML Models Collection, which covers classification, regression, clustering, and deep learning implementations using Scikit-Learn, TensorFlow, and PyTorch.
 ---
-Soham has experience with machine learning.
+Soham used Dart and Flutter for the ML Models mobile application and for the Road Accident Detection mobile application.
 ---
-Soham has experience with API integration.
+Soham's AI and machine learning skills include RAG Architecture, Large Language Models, Agentic AI Development, Generative AI, Prompt Engineering, Machine Learning, Computer Vision, CNNs, OCR, and model integration.
 ---
-Soham has experience with code review.
+Soham's AI tooling experience includes Gemini API, OpenAI API, Claude, AWS Bedrock, Ollama, Stability AI, GitHub Copilot, and Claude Code.
 ---
-Soham has experience enabling and coaching teams on AI development practices and tools.
+Soham's computer vision experience includes CNN-based accident detection, real-time OpenCV processing, captured incident images, mobile notifications, and assistance workflows.
 ---
-Soham holds the Oracle Cloud Infrastructure 2024 Generative AI Certified Professional certification from Oracle.
+Soham's OCR experience includes implementing a Tesseract automation pipeline during the Linde Engineering internship and building an OCR extractor in AI Multitasker.
+---
+Soham's machine learning tools include Scikit-Learn, PyTorch, TensorFlow, Python, embeddings, vector search, and model deployment workflows.
+---
+Soham's cloud and delivery experience includes AWS, EC2, S3, RDS, SES, Route 53, Google Cloud Platform, Cloud SQL, Vertex AI, Microsoft Azure, Azure Blob Storage, Docker, and CI/CD practices.
+---
+Soham's backend and data experience includes FastAPI, Django, PostgreSQL, pgvector, Redis, SQLite, Firebase, Pinecone, REST APIs, and API integration.
+---
+Soham's certifications and learning records include Oracle Cloud Infrastructure 2024 Generative AI Certified Professional.
 ---
 Soham completed the Build AI Agents and Chatbots with LangGraph course through LinkedIn Learning.
 ---
@@ -119,23 +125,21 @@ Soham completed Advanced Machine Learning Training through Edunet Foundation.
 ---
 Soham participated in Google Cloud Generative AI Study Jams through GDG.
 ---
-Soham holds the Oracle Fusion Cloud HCM Certified Foundations Associate certification from Oracle, earned in 2025.
+Soham holds the Oracle Fusion Cloud HCM Certified Foundations Associate certification, earned in 2025.
 ---
-Soham completed a B.Tech in Computer Science Engineering from Parul University from 2021 to 2025.
+Soham also holds learning and participation records in Google Cloud, machine learning, data analytics, cybersecurity, software engineering, web development, cloud computing, programming, hackathons, innovation, and technical events.
 ---
-Soham graduated from Parul University with a CGPA of 7.63.
+Soham has published 13 portfolio projects on GitHub, including AI, RAG, automation, mobile, computer vision, web, and machine learning projects.
 ---
-Soham's education is in Computer Science Engineering.
+Soham has shipped a six-agent AI and n8n automation suite.
 ---
-Soham is based in Vadodara, India.
+Soham is ready for a job change and is available to join after serving a 60-day notice period.
 ---
-Soham's professional focus is on AI integration, AI-assisted software engineering, AI automation, LLM applications, RAG systems, and production-ready AI solutions.
----
-Soham can be reached by email at sonisoham91@gmail.com.
----
-Soham's phone number is +91-9723441407.
+Soham can be contacted at sonisoham91@gmail.com or +91 97234 41407.
 ---
 Soham's LinkedIn profile is linkedin.com/in/sohamsoni220104.
+---
+Soham's GitHub profile is github.com/Soham2212004.
 ---
 Soham's portfolio website is soham-soni.vercel.app.
 `;
@@ -143,6 +147,6 @@ Soham's portfolio website is soham-soni.vercel.app.
 export function getResumeChunks(): string[] {
   return RESUME_TEXT
     .split(/\n-{3,}\n/)
-    .map((c) => c.trim())
-    .filter((c) => c.length > 0 && !c.startsWith('['));
+    .map((chunk) => chunk.trim())
+    .filter((chunk) => chunk.length > 0 && !chunk.startsWith('['));
 }

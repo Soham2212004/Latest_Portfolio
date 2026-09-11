@@ -74,7 +74,11 @@ export default function Navbar({ onComingSoon }: { onComingSoon: () => void }) {
       <nav className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
 
         <button onClick={() => navigate('/')} className="group flex min-w-0 items-center gap-3 text-left" aria-label="Go to homepage">
-          <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl border border-ice-400/30 bg-ice-400/10 font-mono text-sm font-semibold text-ice-300 transition-colors group-hover:border-ice-300/60 group-hover:bg-ice-400/20">{profile.monogram}</span>
+          <img
+            src={profile.portraitImage}
+            alt={`${profile.fullName} profile`}
+            className="h-9 w-9 flex-shrink-0 rounded-xl border border-ice-400/30 object-cover transition-colors group-hover:border-ice-300/60"
+          />
           <span className="hidden min-w-0 sm:block">
             <span className="block truncate text-sm font-semibold tracking-tight text-white">{profile.fullName}</span>
             <span className="mt-0.5 block truncate text-[9px] font-mono uppercase tracking-[0.14em] text-steel-500">AI systems · software</span>

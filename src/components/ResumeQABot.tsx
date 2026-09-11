@@ -34,12 +34,20 @@ const QUESTION_MAP: { pattern: RegExp; replacement: string }[] = [
     replacement: 'Where does Soham Soni currently work?',
   },
   {
+    pattern: /^where does (soham|he) currently work[?.]?$/i,
+    replacement: 'Where does Soham Soni currently work?',
+  },
+  {
     pattern: /^what (are your skills|can you do|technologies do you know)[?.]?$/i,
     replacement: 'What are Soham Soni programming skills and technical expertise?',
   },
   {
-    pattern: /^what (projects|have you built|did you build)[?.]?$/i,
+    pattern: /^what (projects|have you built|did you build|projects has he built)[?.]?$/i,
     replacement: 'What projects has Soham Soni built?',
+  },
+  {
+    pattern: /^what tech stack does (he|soham) use[?.]?$/i,
+    replacement: 'What tech stack does Soham Soni use?',
   },
   {
     pattern: /^(where are you from|where do you live|what is your location)[?.]?$/i,
@@ -70,6 +78,12 @@ function normalizeQuestion(q: string): string {
   }
   return /soham/i.test(trimmed) ? trimmed : `Soham Soni ${trimmed}`;
 }
+
+const QUICK_ANSWERS: Record<string, string> = {
+  'Where does Soham Soni currently work?': 'Soham currently works as a Software Engineer at AV DEVS Solutions Pvt. Ltd. in Vadodara, India.',
+  'What projects has Soham Soni built?': 'Soham has built LuxeStay, TemporalRAG, AI-Agents, Resume Analyzer, AI Multitasker, Road Accident Detection, SafaaiBuddy, StudyGenius AI, Craftly.AI, AI Document Analyzer, Personal Assistant, Financial Advisor, and an ML Models Collection.',
+  'What tech stack does Soham Soni use?': 'Soham uses Python, TypeScript, JavaScript, SQL, Dart, React, FastAPI, Flutter, PostgreSQL, pgvector, Pinecone, LangGraph, Gemini, OpenAI, Claude, n8n, AWS, Azure, Google Cloud, Docker, Scikit-Learn, PyTorch, and TensorFlow.',
+};
 
 // ── Retrieval helpers ─────────────────────────────────────────────────────────
 
@@ -122,13 +136,10 @@ async function askGroq(question: string, context: string): Promise<string> {
   // NOTE: Qwen3 on Groq does NOT support the `thinking` parameter.
   // Disable chain-of-thought via the system prompt instead — "/no_think"
   // is Qwen3's official instruction to skip internal reasoning.
-const systemPrompt = `You are Soham Soni's personal AI assistant — friendly, direct, and professional.
-Answer questions about Soham as if you're his trusted assistant who knows him well. /no_think
-Use ONLY the information provided in the context.
-Speak naturally in first person on his behalf where appropriate — e.g. "Soham works at..." or "He built...".
+const systemPrompt = `${siteContent.resumeBot.systemPrompt}
+Use only the information provided in the context. /no_think
 Keep answers to 1-2 sentences, confident and conversational.
-If the context doesn't have the answer, say "I don't have that detail handy."
-Never say "based on the context". Never make up information.`;
+Never say "based on the context".`;
 
   const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
@@ -194,6 +205,13 @@ export default function ResumeQABot() {
     await new Promise((r) => setTimeout(r, 50));
 
     try {
+      const normalizedQ = normalizeQuestion(question);
+      const quickAnswer = QUICK_ANSWERS[normalizedQ];
+      if (quickAnswer) {
+        setAnswer({ text: quickAnswer });
+        return;
+      }
+
       // ── One-time init ────────────────────────────────────────────────────
       if (!ready.current) {
         if (precomputedEmbeddings.chunkCount !== chunksRef.current.length) {
@@ -210,8 +228,6 @@ export default function ResumeQABot() {
 
       // ── Normalize + embed question ────────────────────────────────────────
       setStage('Searching resume…');
-      const normalizedQ = normalizeQuestion(question);
-
       const embedder   = await PipelineSingleton.getEmbedder();
       const qOut       = await embedder(normalizedQ, { pooling: 'mean', normalize: true });
       const qEmbedding = qOut.data as Float32Array;

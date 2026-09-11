@@ -3,6 +3,7 @@ import NeuralBackground from '@/components/NeuralBackground';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ComingSoonModal from '@/components/ComingSoonModal';
+import { projects } from '@/data/portfolio';
 import {
   ArrowUpRight,
   BrainCircuit,
@@ -46,18 +47,26 @@ const skillProjects: Record<string, RelatedProject[]> = {
     { title: 'Resume Analyzer & Job Matcher', description: 'RAG pipeline built entirely in Python with Streamlit, Gemini, and Pinecone.', tags: ['Python', 'Streamlit', 'RAG'], githubUrl: 'https://github.com/Soham2212004/Resume-Analyzer-Job-Matcher' },
     { title: 'Road Accident Detection', description: 'Real-time CV system using Python, OpenCV, and Twilio for emergency alerts.', tags: ['Python', 'OpenCV', 'Twilio'], githubUrl: 'https://github.com/Soham2212004/Road-Accident-Detection-Alert-System' },
     { title: 'AI-Agents Suite', description: '6 production n8n agents built and orchestrated with Python + Gemini AI.', tags: ['Python', 'n8n', 'Gemini'], githubUrl: 'https://github.com/Soham2212004/AI-Agents' },
+    { title: 'AV DEVS Client Applications', description: 'Used Python across production AI features, FastAPI backends, and automation workflows at AV DEVS.', tags: ['Python', 'FastAPI', 'AI', 'AV DEVS'], githubUrl: 'https://github.com/Soham2212004' },
+    { title: 'Linde Engineering RAG Chatbot', description: 'Built the FastAPI and Python backend for a document Q&A application during the Linde Engineering internship.', tags: ['Python', 'FastAPI', 'RAG', 'Linde Engineering'], githubUrl: 'https://github.com/Soham2212004' },
   ],
   'TypeScript / JavaScript': [
     { title: 'LuxeStay', description: 'Full-stack hotel booking app — React (TypeScript) frontend with FastAPI backend.', tags: ['TypeScript', 'React', 'FastAPI'], githubUrl: 'https://github.com/Soham2212004/LuxeStay' },
     { title: 'StudyGenius AI', description: 'React + TypeScript study assistant with Gemini API and PDF export.', tags: ['React', 'TypeScript', 'Gemini API'], githubUrl: 'https://github.com/Soham2212004/StudyGenius-AI' },
     { title: 'SafaaiBuddy', description: 'JavaScript-powered static site with n8n webhook and Pinecone vector search.', tags: ['JavaScript', 'Pinecone', 'n8n'], githubUrl: 'https://github.com/Soham2212004/SafaaiBuddy' },
+    { title: 'Linde Engineering RAG Chatbot', description: 'Built the React and TypeScript interface for a full-stack document Q&A application during the Linde Engineering internship.', tags: ['TypeScript', 'React', 'RAG', 'Linde Engineering'], githubUrl: 'https://github.com/Soham2212004' },
+    { title: 'AV DEVS Client Applications', description: 'Delivered client-facing web applications with React and TypeScript at AV DEVS.', tags: ['TypeScript', 'React', 'Full Stack', 'AV DEVS'], githubUrl: 'https://github.com/Soham2212004' },
   ],
   'SQL': [
     { title: 'LuxeStay', description: 'PostgreSQL with pgvector for RAG-based FAQ pipeline and booking data storage.', tags: ['PostgreSQL', 'pgvector', 'RAG'], githubUrl: 'https://github.com/Soham2212004/LuxeStay' },
     { title: 'TemporalRAG', description: 'PostgreSQL used alongside Redis for temporal document storage and retrieval.', tags: ['PostgreSQL', 'Redis', 'RAG'], githubUrl: 'https://github.com/Soham2212004/TemporalRAG' },
+    { title: 'Linde Engineering RAG Chatbot', description: 'Used PostgreSQL and pgvector to store vector embeddings for the document Q&A application during the Linde Engineering internship.', tags: ['SQL', 'PostgreSQL', 'pgvector', 'Linde Engineering'], githubUrl: 'https://github.com/Soham2212004' },
+    { title: 'AV DEVS Client Applications', description: 'Worked with SQLite and Google Cloud SQL for data storage across client applications at AV DEVS.', tags: ['SQL', 'SQLite', 'Cloud SQL', 'AV DEVS'], githubUrl: 'https://github.com/Soham2212004' },
   ],
   'Dart': [
     { title: 'AI Multitasker App', description: '19-tool Flutter mobile app built in Dart — powered by Gemini API and Stability AI.', tags: ['Dart', 'Flutter', 'Gemini API'], githubUrl: 'https://github.com/Soham2212004/AI-Multitasker' },
+    { title: 'ML Models Collection', description: 'Used Dart and Flutter to build the mobile application interface for the machine learning models project.', tags: ['Dart', 'Flutter', 'Machine Learning'], githubUrl: 'https://github.com/Soham2212004/Ml_models' },
+    { title: 'Road Accident Detection', description: 'Built the Flutter mobile app in Dart to receive accident notifications, view captured accident images, and call for assistance.', tags: ['Dart', 'Flutter', 'OpenCV', 'Emergency Alerts'], githubUrl: 'https://github.com/Soham2212004/Road-Accident-Detection-Alert-System' },
   ],
   'RAG Architecture': [
     { title: 'TemporalRAG', description: 'Time-aware RAG with LangGraph, exponential decay reranking, and conflict detection.', tags: ['RAG', 'LangGraph', 'Pinecone'], githubUrl: 'https://github.com/Soham2212004/TemporalRAG' },
@@ -67,6 +76,7 @@ const skillProjects: Record<string, RelatedProject[]> = {
   'Large Language Models': [
     { title: 'TemporalRAG', description: 'LLM-powered 4-node LangGraph pipeline with temporal reasoning capabilities.', tags: ['LLM', 'LangGraph', 'Gemini'], githubUrl: 'https://github.com/Soham2212004/TemporalRAG' },
     { title: 'AI Document Analyzer', description: 'LLM-powered document Q&A — upload any file and query it in natural language.', tags: ['LLM', 'RAG', 'Gemini'], githubUrl: 'https://github.com/Soham2212004/AI-Document-Analyzer' },
+    { title: 'AV DEVS Client Applications', description: 'Developed LLM workflows and production AI features across client applications at AV DEVS.', tags: ['LLM', 'Claude', 'OpenAI', 'AV DEVS'], githubUrl: 'https://github.com/Soham2212004' },
   ],
   'Agentic AI Development': [
     { title: 'AI-Agents Suite', description: '6 agentic n8n automation workflows — HireLens, DeskStock, CodeSage, and more.', tags: ['Agents', 'n8n', 'Gemini'], githubUrl: 'https://github.com/Soham2212004/AI-Agents' },
@@ -77,12 +87,13 @@ const skillProjects: Record<string, RelatedProject[]> = {
     { title: 'AI Multitasker App', description: 'Stability AI image generation + Gemini for 19 different AI tools in one Flutter app.', tags: ['Generative AI', 'Stability AI', 'Flutter'], githubUrl: 'https://github.com/Soham2212004/AI-Multitasker' },
   ],
   'Computer Vision (CNN)': [
-    { title: 'Road Accident Detection', description: 'Real-time computer vision system detecting accidents with OpenCV and Python.', tags: ['CV', 'OpenCV', 'Python'], githubUrl: 'https://github.com/Soham2212004/Road-Accident-Detection-Alert-System' },
+    { title: 'Road Accident Detection', description: 'Real-time CNN and OpenCV system that captures accident images and sends notifications to a Flutter mobile app, where a person can review the incident and call for assistance.', tags: ['CV', 'CNN', 'OpenCV', 'Flutter'], githubUrl: 'https://github.com/Soham2212004/Road-Accident-Detection-Alert-System' },
     { title: 'ML Models Collection', description: 'CNN implementations for image classification and object detection tasks.', tags: ['CNN', 'PyTorch', 'TensorFlow'], githubUrl: 'https://github.com/Soham2212004/Ml_models' },
   ],
   'Prompt Engineering': [
     { title: 'AI-Agents Suite', description: 'Carefully engineered prompts for each of the 6 agents — resume screening, inventory, code commenting.', tags: ['Prompt Engineering', 'Gemini', 'n8n'], githubUrl: 'https://github.com/Soham2212004/AI-Agents' },
     { title: 'StudyGenius AI', description: 'Prompt chains for generating answers, related questions, and key-point extraction.', tags: ['Prompt Engineering', 'Gemini', 'React'], githubUrl: 'https://github.com/Soham2212004/StudyGenius-AI' },
+    { title: 'AV DEVS Prompt Development', description: 'Used Ollama locally to test and refine prompts before using paid APIs, reducing unnecessary token usage and client costs.', tags: ['Prompt Engineering', 'Ollama', 'AV DEVS'], githubUrl: 'https://github.com/Soham2212004' },
   ],
   'Machine Learning': [
     { title: 'ML Models Collection', description: 'Classification, regression, clustering, and deep learning models with Scikit-Learn and PyTorch.', tags: ['ML', 'Scikit-Learn', 'PyTorch'], githubUrl: 'https://github.com/Soham2212004/Ml_models' },
@@ -90,19 +101,57 @@ const skillProjects: Record<string, RelatedProject[]> = {
   ],
   'OCR (Tesseract)': [
     { title: 'AI Multitasker App', description: 'OCR text extractor tool — one of the 19 tools in the Flutter AI app using Tesseract.', tags: ['OCR', 'Tesseract', 'Flutter'], githubUrl: 'https://github.com/Soham2212004/AI-Multitasker' },
+    { title: 'Linde Engineering Document Q&A', description: 'Implemented an OCR automation pipeline with Tesseract during the Linde Engineering internship.', tags: ['OCR', 'Tesseract', 'Document Processing', 'Linde Engineering'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'OpenCV': [
+    { title: 'Road Accident Detection', description: 'Built a real-time OpenCV pipeline around CNN-based accident detection, captured accident images, and mobile notifications that let a person review the image and call for assistance.', tags: ['OpenCV', 'CNN', 'Python', 'Flutter'], githubUrl: 'https://github.com/Soham2212004/Road-Accident-Detection-Alert-System' },
+  ],
+  'Scikit-Learn': [
+    { title: 'ML Models Collection', description: 'Implemented classification, regression, and clustering models with Scikit-Learn as part of a curated machine learning collection.', tags: ['Scikit-Learn', 'Classification', 'Regression', 'Clustering'], githubUrl: 'https://github.com/Soham2212004/Ml_models' },
+  ],
+  'PyTorch': [
+    { title: 'ML Models Collection', description: 'Used PyTorch for deep learning model implementations alongside Scikit-Learn and TensorFlow.', tags: ['PyTorch', 'Deep Learning', 'Python'], githubUrl: 'https://github.com/Soham2212004/Ml_models' },
+    { title: 'Road Accident Detection', description: 'Applied deep learning and CNN concepts to a real-time computer vision accident detection pipeline.', tags: ['PyTorch', 'CNN', 'Computer Vision'], githubUrl: 'https://github.com/Soham2212004/Road-Accident-Detection-Alert-System' },
+  ],
+  'TensorFlow': [
+    { title: 'ML Models Collection', description: 'Implemented deep learning models with TensorFlow as part of a collection covering classification, regression, clustering, and neural networks.', tags: ['TensorFlow', 'Deep Learning', 'Python'], githubUrl: 'https://github.com/Soham2212004/Ml_models' },
   ],
   'n8n Automation': [
     { title: 'AI-Agents Suite', description: '6 fully automated n8n workflows — each a standalone production-ready AI agent.', tags: ['n8n', 'Automation', 'Gemini'], githubUrl: 'https://github.com/Soham2212004/AI-Agents' },
     { title: 'SafaaiBuddy', description: 'n8n webhook processes user submissions and triggers Pinecone vector search.', tags: ['n8n', 'Pinecone', 'JavaScript'], githubUrl: 'https://github.com/Soham2212004/SafaaiBuddy' },
+    { title: 'AV DEVS Client Automations', description: 'Developed n8n automations and agentic systems for client workflows at AV DEVS.', tags: ['n8n', 'Agentic AI', 'Automation', 'AV DEVS'], githubUrl: 'https://github.com/Soham2212004' },
   ],
   'React': [
+    { title: 'Linde Engineering RAG Chatbot', description: 'Built the React UI for a RAG chatbot application during the Linde Engineering internship.', tags: ['React', 'RAG', 'Chatbot', 'Linde Engineering'], githubUrl: 'https://github.com/Soham2212004' },
+    { title: 'AV DEVS Chrome Extension Website', description: 'Used React to build the website for a Chrome extension at AV DEVS.', tags: ['React', 'Chrome Extension', 'AV DEVS'], githubUrl: 'https://github.com/Soham2212004' },
     { title: 'LuxeStay', description: 'Full React + TypeScript frontend for hotel booking with role-based UI.', tags: ['React', 'TypeScript', 'FastAPI'], githubUrl: 'https://github.com/Soham2212004/LuxeStay' },
     { title: 'StudyGenius AI', description: 'React study assistant with Gemini API, image upload, and PDF export.', tags: ['React', 'Gemini API', 'jsPDF'], githubUrl: 'https://github.com/Soham2212004/StudyGenius-AI' },
     { title: 'Craftly.AI', description: 'React-based AI content generation platform.', tags: ['React', 'Gemini', 'Generative AI'], githubUrl: 'https://github.com/Soham2212004/Craftly.AI' },
   ],
   'FastAPI': [
+    { title: 'Linde Engineering RAG Chatbot', description: 'Used FastAPI for the backend of the RAG chatbot application during the Linde Engineering internship.', tags: ['FastAPI', 'RAG', 'Chatbot', 'Linde Engineering'], githubUrl: 'https://github.com/Soham2212004' },
+    { title: 'AV DEVS Client Applications', description: 'Used FastAPI to build backend APIs for client applications at AV DEVS.', tags: ['FastAPI', 'Backend', 'AV DEVS'], githubUrl: 'https://github.com/Soham2212004' },
     { title: 'LuxeStay', description: 'FastAPI backend with JWT auth, role-based endpoints, and pgvector RAG pipeline.', tags: ['FastAPI', 'PostgreSQL', 'JWT'], githubUrl: 'https://github.com/Soham2212004/LuxeStay' },
     { title: 'TemporalRAG', description: 'FastAPI serves the temporal RAG pipeline with LangGraph and Pinecone.', tags: ['FastAPI', 'LangGraph', 'Pinecone'], githubUrl: 'https://github.com/Soham2212004/TemporalRAG' },
+  ],
+  'PostgreSQL': [
+    { title: 'Linde Engineering RAG Chatbot', description: 'Used PostgreSQL with pgvector to save vector embeddings for the RAG chatbot application during the Linde Engineering internship.', tags: ['PostgreSQL', 'pgvector', 'Vector Embeddings', 'Linde Engineering'], githubUrl: 'https://github.com/Soham2212004' },
+    { title: 'LuxeStay', description: 'PostgreSQL with pgvector for RAG-based FAQ pipeline and booking data storage.', tags: ['PostgreSQL', 'pgvector', 'RAG'], githubUrl: 'https://github.com/Soham2212004/LuxeStay' },
+    { title: 'TemporalRAG', description: 'PostgreSQL used alongside Redis for temporal document storage and retrieval.', tags: ['PostgreSQL', 'Redis', 'RAG'], githubUrl: 'https://github.com/Soham2212004/TemporalRAG' },
+  ],
+  'SQLite': [
+    { title: 'AV DEVS Client Applications', description: 'Used SQLite for local data storage in client applications at AV DEVS.', tags: ['SQLite', 'Database', 'AV DEVS'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'Google Cloud SQL': [
+    { title: 'AV DEVS Cloud Applications', description: 'Used Google Cloud SQL for managed relational database hosting at AV DEVS.', tags: ['Google Cloud SQL', 'PostgreSQL', 'AV DEVS'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'Git / GitHub': [
+    { title: 'AV DEVS Client Projects', description: 'Used Git and GitHub for source control and collaboration across client projects at AV DEVS.', tags: ['Git', 'GitHub', 'AV DEVS'], githubUrl: 'https://github.com/Soham2212004' },
+    { title: 'Linde Engineering RAG Chatbot', description: 'Used Git and GitHub while developing the RAG chatbot application during the Linde Engineering internship.', tags: ['Git', 'GitHub', 'Linde Engineering'], githubUrl: 'https://github.com/Soham2212004' },
+    { title: 'Personal Projects', description: 'Use Git and GitHub to version, manage, and publish personal software projects.', tags: ['Git', 'GitHub', 'Personal Projects'], githubUrl: 'https://github.com/Soham2212004' },
+  ],
+  'Bitbucket': [
+    { title: 'AV DEVS Client Projects', description: 'Used Bitbucket for source control and collaboration across client projects at AV DEVS.', tags: ['Bitbucket', 'Git', 'AV DEVS'], githubUrl: 'https://github.com/Soham2212004' },
   ],
   'Django': [
     { title: 'AV DEVS Projects', description: 'Django used in client projects at AV DEVS Solutions — internal tools and AI-powered web apps.', tags: ['Django', 'Python', 'AWS'], githubUrl: 'https://github.com/Soham2212004' },
@@ -155,7 +204,7 @@ const skillProjects: Record<string, RelatedProject[]> = {
      { title: 'AV DEVS Secure AI Infrastructure', description: "Used AWS Bedrock to access Claude's API within the client's existing AWS infrastructure, keeping API credentials and client data inside a controlled environment instead of sending them outside the infrastructure.", tags: ['AWS Bedrock', 'Claude', 'AWS Security'], githubUrl: 'https://github.com/Soham2212004' },
    ],
   'Google Cloud Platform': [
-    { title: 'AV DEVS Client Deployments', description: 'Used Google Cloud at AV DEVS to deploy and support client projects, working with cloud-hosted application infrastructure and managed services.', tags: ['Google Cloud', 'GCP', 'Client Deployments'], githubUrl: 'https://github.com/Soham2212004' },
+    { title: 'AV DEVS Cloud Applications', description: 'Used Google Cloud at AV DEVS across client projects, including Cloud SQL, Compute Engine instances, and Vertex AI.', tags: ['Google Cloud', 'Cloud SQL', 'Compute Engine', 'Vertex AI'], githubUrl: 'https://github.com/Soham2212004' },
     { title: 'Gen AI Study Jams', description: 'Completed GCP Cloud Study Jam with hands-on practice using Google Cloud services and Vertex AI.', tags: ['GCP', 'Vertex AI', 'Cloud'], githubUrl: 'https://github.com/Soham2212004' },
   ],
   'Microsoft Azure': [
@@ -500,24 +549,24 @@ const capabilityTracks = [
     id: 'ai-systems',
     icon: BrainCircuit,
     label: 'AI systems',
-    description: 'RAG, agents, LLM applications, and evaluation workflows that turn models into useful products.',
-    skills: ['RAG Architecture', 'Large Language Models', 'Agentic AI Development', 'Prompt Engineering'],
+    description: 'RAG, agents, LLM applications, generative tools, computer vision, and ML workflows that turn models into useful products.',
+    skills: ['RAG Architecture', 'Large Language Models', 'Agentic AI Development', 'Generative AI', 'Computer Vision (CNN)', 'Prompt Engineering', 'Machine Learning', 'OCR (Tesseract)'],
     accent: 'text-cyan-300',
   },
   {
     id: 'product-engineering',
     icon: Code2,
     label: 'Product engineering',
-    description: 'Interfaces, APIs, data layers, and mobile experiences built from idea through delivery.',
-    skills: ['Python', 'TypeScript / JavaScript', 'React', 'FastAPI', 'Flutter'],
+    description: 'Python and TypeScript applications, APIs, SQL data layers, and Flutter mobile experiences built from idea through delivery.',
+    skills: ['Python', 'TypeScript / JavaScript', 'SQL', 'Dart', 'React', 'FastAPI', 'Flutter'],
     accent: 'text-indigo-300',
   },
   {
     id: 'cloud-delivery',
     icon: CloudCog,
     label: 'Cloud delivery',
-    description: 'Deployable systems with containers, managed databases, cloud services, and practical automation.',
-    skills: ['Amazon Web Services (AWS)', 'Google Cloud Platform', 'Microsoft Azure', 'Docker', 'CI/CD Pipelines'],
+    description: 'Client systems delivered with AWS and Google Cloud infrastructure, Azure document services, containers, managed databases, and automation.',
+    skills: ['Amazon Web Services (AWS)', 'Google Cloud Platform', 'Microsoft Azure', 'Docker', 'PostgreSQL', 'n8n Automation'],
     accent: 'text-emerald-300',
   },
 ];
@@ -606,7 +655,7 @@ export default function SkillsPage() {
     items: group.items.filter((item) => item.name.toLowerCase().includes(normalizedQuery)),
   })).filter((group) => group.items.length > 0);
   const totalSkills = groups.reduce((total, group) => total + group.items.length, 0);
-  const linkedProjects = new Set(Object.values(skillProjects).flat().map((project) => project.title)).size;
+  const linkedProjects = projects.length;
 
   const selectSkill = (skill: string) => {
     setActiveSkill(skill);

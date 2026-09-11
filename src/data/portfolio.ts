@@ -116,9 +116,9 @@ export const specialization = [
 
 export const metrics = [
   { label: 'AI Agents & Automation Projects Shipped', value: '6',  unit: 'Agents' },
-  { label: 'Certifications Earned',                   value: '18', unit: '+'      },
-  { label: 'Internships & Work Experiences',          value: '5',  unit: 'Roles'  },
-  { label: 'GitHub Projects Published',               value: '10', unit: '+'      },
+  { label: 'Certifications Earned',                   value: '24', unit: '+'      },
+  { label: 'Internships & Work Experiences',          value: '7',  unit: 'Roles'  },
+  { label: 'GitHub Projects Published',               value: '13', unit: '+'      },
 ];
 
 export const socials = [
@@ -772,7 +772,7 @@ export const contact = {
   email: 'sonisoham91@gmail.com',
   phone: '+91 97234 41407',
   location: 'Vadodara, Gujarat, India',
-  availability: 'Open to full-time, contract & research collaborations',
+  availability: 'Ready for a job change · 60-day notice period',
   responseTime: '< 24 hours',
   channels: [
     { label: 'Email', value: 'sonisoham91@gmail.com', href: 'mailto:sonisoham91@gmail.com', icon: 'mail' },
@@ -782,6 +782,7 @@ export const contact = {
   ],
   faqs: [
     { q: 'What engagement types do you take?', a: 'Full-time roles, 3–6 month contracts, research collaborations, and advisory.' },
+    { q: 'Are you ready for a job change?', a: 'Yes. Soham is ready for a job change and can join after serving a 60-day notice period.' },
     { q: 'Are you open to relocation?', a: 'Open to remote-first and hybrid setups. Relocation negotiable for the right opportunity.' },
     { q: 'What industries have you worked in?', a: 'Retail, fintech, healthcare, legal-tech, and applied research.' },
     { q: 'Do you take on open-source projects?', a: 'Yes — particularly NLP tooling, CV pipelines, and MLOps infrastructure.' },
@@ -826,14 +827,14 @@ export const siteContent = {
   },
   resumeBot: {
     heading: 'ASK ABOUT MY RESUME',
-    tagline: 'AI-powered · runs entirely in your browser',
+    tagline: 'AI-powered · embeddings run in your browser',
     sampleQuestions: [
       'Where does Soham currently work?',
       'What projects has he built?',
       'What tech stack does he use?',
     ],
     systemPrompt:
-      'You are a helpful assistant answering questions about Soham Soni based only on the resume context provided. If multiple facts describe different time periods, always prioritize the one marked "to the present" or "currently" as his current status, and treat any role with an end date in the past as no longer current. Answer in a complete, natural sentence. If the context does not contain the answer, say "I don\'t have that information in my resume." Do not make anything up.',
+      'You are a helpful assistant answering questions about Soham Soni using only the supplied resume context. Prioritize current AV DEVS work when discussing his present role. Report the AI-Agents project as a six-agent suite, and distinguish portfolio projects from internships and client experience. Answer in one or two complete, natural sentences. If the context does not contain the answer, say "I don\'t have that information in my resume." Do not invent details.',
   },
 certificationsPage: {
   eyebrow: 'VERIFIED CREDENTIALS',
