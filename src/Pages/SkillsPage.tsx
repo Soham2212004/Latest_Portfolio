@@ -7,7 +7,6 @@ import { projects } from '@/data/portfolio';
 import {
   ArrowUpRight,
   BrainCircuit,
-  CheckCircle2,
   CloudCog,
   Code2,
   ExternalLink,
@@ -579,69 +578,6 @@ const groupIcons = {
   cloud: CloudCog,
 };
 
-function EvidencePanel({ skillName, trackId, onSkillClick }: {
-  skillName: string | null;
-  trackId: string;
-  onSkillClick: (name: string) => void;
-}) {
-  const track = capabilityTracks.find((item) => item.id === trackId) ?? capabilityTracks[0];
-  const related = skillName ? skillProjects[skillName] ?? [] : [];
-  const Icon = track.icon;
-
-  return (
-    <aside className="rounded-2xl border border-white/10 bg-obsidian-900/70 p-5 lg:sticky lg:top-24">
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-400/20 bg-cyan-400/10">
-            <Icon size={19} className="text-cyan-300" />
-          </div>
-          <div>
-            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-cyan-400/70">Capability track</p>
-            <h2 className="mt-1 text-lg font-semibold text-white">{track.label}</h2>
-          </div>
-        </div>
-        <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2 py-1 text-[9px] font-mono text-emerald-300">ACTIVE</span>
-      </div>
-
-      <p className="mt-5 text-sm leading-relaxed text-steel-400">{track.description}</p>
-
-      <div className="mt-5 border-t border-white/8 pt-4">
-        <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-steel-500">
-          {skillName ? 'Selected skill' : 'Core capabilities'}
-        </p>
-        {skillName ? (
-          <>
-            <div className="mt-3 flex items-center justify-between gap-3">
-              <h3 className="text-base font-semibold text-white">{skillName}</h3>
-              <span className="text-[10px] font-mono text-cyan-400">{related.length} PROJECT{related.length === 1 ? '' : 'S'}</span>
-            </div>
-            <p className="mt-2 text-xs leading-relaxed text-steel-500">Select another skill below to inspect its project evidence.</p>
-            {related.length > 0 && (
-              <div className="mt-4 space-y-2">
-                {related.slice(0, 3).map((project) => (
-                  <a key={project.title} href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between gap-3 rounded-lg border border-white/8 bg-white/[0.03] px-3 py-2.5 hover:border-cyan-400/30 hover:bg-cyan-400/5">
-                    <span className="text-xs text-steel-300 group-hover:text-white">{project.title}</span>
-                    <ArrowUpRight size={13} className="flex-shrink-0 text-steel-600 group-hover:text-cyan-300" />
-                  </a>
-                ))}
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="mt-3 space-y-2">
-            {track.skills.map((skill) => (
-              <button key={skill} onClick={() => onSkillClick(skill)} className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm text-steel-300 hover:bg-white/5 hover:text-cyan-300">
-                <CheckCircle2 size={14} className="text-cyan-400/70" />
-                {skill}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    </aside>
-  );
-}
-
 // ── Page ─────────────────────────────────────────────────────────────────────
 export default function SkillsPage() {
   const [comingSoon, setComingSoon] = useState(false);
@@ -699,22 +635,89 @@ export default function SkillsPage() {
           </section>
 
           <section className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-4 lg:grid-cols-[1.35fr_0.65fr]">
-              <div className="grid gap-3 sm:grid-cols-3">
-                {capabilityTracks.map((track) => {
-                  const Icon = track.icon;
-                  const selected = activeTrack === track.id;
-                  return (
-                    <button key={track.id} onClick={() => { setActiveTrack(track.id); setActiveSkill(null); }} className={`group rounded-2xl border p-5 text-left transition-all ${selected ? 'border-cyan-400/40 bg-cyan-400/10 shadow-[0_0_30px_rgba(34,211,238,0.08)]' : 'border-white/8 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.05]'}`}>
-                      <Icon size={20} className={selected ? 'text-cyan-300' : 'text-steel-500 group-hover:text-cyan-300'} />
-                      <h2 className="mt-5 text-sm font-semibold text-white">{track.label}</h2>
-                      <p className="mt-2 text-xs leading-relaxed text-steel-500">{track.description}</p>
-                      <span className="mt-4 inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-cyan-400/70">{track.skills.length} capabilities <ArrowUpRight size={11} /></span>
-                    </button>
-                  );
-                })}
+            <div className="overflow-hidden rounded-3xl border border-white/10 bg-obsidian-900/60 shadow-[0_20px_80px_rgba(0,0,0,0.22)]">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/8 px-5 py-4 sm:px-7">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center border border-cyan-400/30 bg-cyan-400/10 text-cyan-300">
+                    <GitBranch size={15} />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-cyan-400/70">Capability index</p>
+                    <p className="mt-1 text-xs text-steel-500">Select a track to inspect its working surface</p>
+                  </div>
+                </div>
+                <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-steel-600">03 focus tracks // live</span>
               </div>
-              <EvidencePanel skillName={activeSkill} trackId={activeTrack} onSkillClick={selectSkill} />
+
+              <div className="grid lg:grid-cols-[220px_1fr]">
+                <nav className="border-b border-white/8 p-3 lg:border-b-0 lg:border-r lg:p-4" aria-label="Capability tracks">
+                  <div className="space-y-2">
+                    {capabilityTracks.map((track, index) => {
+                      const Icon = track.icon;
+                      const selected = activeTrack === track.id;
+                      return (
+                        <button key={track.id} onClick={() => { setActiveTrack(track.id); setActiveSkill(null); }} className={`group flex w-full items-center gap-3 border px-3 py-3 text-left transition-all ${selected ? 'border-cyan-400/40 bg-cyan-400/10' : 'border-transparent hover:border-white/10 hover:bg-white/[0.04]'}`}>
+                          <span className={`font-mono text-[10px] ${selected ? 'text-cyan-300' : 'text-steel-600'}`}>0{index + 1}</span>
+                          <Icon size={16} className={selected ? 'text-cyan-300' : 'text-steel-500 group-hover:text-cyan-300'} />
+                          <span className={`text-xs font-semibold ${selected ? 'text-white' : 'text-steel-400 group-hover:text-white'}`}>{track.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="mt-5 hidden border-t border-white/8 pt-4 lg:block">
+                    <p className="text-[9px] font-mono uppercase tracking-[0.18em] text-steel-600">System status</p>
+                    <div className="mt-3 flex items-center gap-2 text-[10px] font-mono text-emerald-300">
+                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+                      EVIDENCE LINKED
+                    </div>
+                  </div>
+                </nav>
+
+                <div className="p-5 sm:p-7">
+                  {capabilityTracks.filter((track) => track.id === activeTrack).map((track) => {
+                    const Icon = track.icon;
+                    return (
+                      <div key={track.id}>
+                        <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-start">
+                          <div className="max-w-xl">
+                            <div className="flex items-center gap-2 text-cyan-300">
+                              <Icon size={18} />
+                              <span className="text-[10px] font-mono uppercase tracking-[0.2em]">Active capability track</span>
+                            </div>
+                            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">{track.label}</h2>
+                            <p className="mt-3 text-sm leading-relaxed text-steel-400">{track.description}</p>
+                          </div>
+                          <div className="border-l border-cyan-400/30 pl-3 sm:min-w-[100px]">
+                            <p className="text-2xl font-semibold text-white">{track.skills.length}</p>
+                            <p className="mt-1 text-[9px] font-mono uppercase tracking-wider text-steel-500">Capabilities</p>
+                          </div>
+                        </div>
+
+                        <div className="mt-8 border-t border-white/8 pt-5">
+                          <div className="mb-3 flex items-center justify-between gap-3">
+                            <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-steel-500">Capability nodes</p>
+                            <p className="text-[10px] font-mono text-cyan-400/60">CLICK TO TRACE</p>
+                          </div>
+                          <div className="grid gap-2 sm:grid-cols-2">
+                            {track.skills.map((skill, index) => {
+                              const selected = activeSkill === skill;
+                              return (
+                                <button key={skill} onClick={() => selectSkill(skill)} className={`group flex min-h-[58px] items-center justify-between gap-3 border px-3 py-3 text-left transition-all ${selected ? 'border-cyan-400/50 bg-cyan-400/10' : 'border-white/8 bg-white/[0.02] hover:border-cyan-400/30 hover:bg-cyan-400/5'}`}>
+                                  <span className="flex items-center gap-3">
+                                    <span className={`font-mono text-[10px] ${selected ? 'text-cyan-300' : 'text-steel-600'}`}>{String(index + 1).padStart(2, '0')}</span>
+                                    <span className={`text-xs ${selected ? 'font-semibold text-white' : 'text-steel-300 group-hover:text-white'}`}>{skill}</span>
+                                  </span>
+                                  <ArrowUpRight size={14} className={selected ? 'text-cyan-300' : 'text-steel-600 group-hover:text-cyan-300'} />
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </section>
 
