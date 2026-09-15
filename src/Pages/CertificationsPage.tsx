@@ -8,7 +8,6 @@ import {
   Award,
   ExternalLink,
   Filter,
-  Hash,
   Search,
   ShieldCheck,
   Sparkles,
@@ -50,7 +49,7 @@ function CertificateDetail({ cert, onClose }: { cert: (typeof certifications)[nu
           <div className="flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-amber-300/25 bg-amber-300/10 font-mono font-bold text-amber-300">{cert.badge}</div>
             <div>
-              <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-amber-300/70">Credential dossier</p>
+              <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-amber-300/70">Certificate overview</p>
               <p className="mt-1 text-xs text-steel-400">{cert.issuer}</p>
             </div>
           </div>
@@ -62,9 +61,6 @@ function CertificateDetail({ cert, onClose }: { cert: (typeof certifications)[nu
           <div className="mt-4 flex flex-wrap gap-2">
             <span className={`rounded-full border px-2.5 py-1 text-[10px] font-mono ${status.className}`}>{status.label}</span>
             <span className="rounded-full border border-white/8 bg-white/[0.03] px-2.5 py-1 text-[10px] font-mono text-steel-400">Issued {cert.date}</span>
-          </div>
-          <div className="mt-6">
-            <div className="rounded-xl border border-white/8 bg-white/[0.03] p-4"><Hash size={15} className="text-cyan-300" /><p className="mt-3 text-[10px] font-mono uppercase tracking-wider text-steel-600">Credential ID</p><p className="mt-1 break-all text-sm text-steel-300">{cert.credentialId || 'Not listed'}</p></div>
           </div>
           <div className="mt-5 flex flex-wrap gap-2">{cert.skills.map((skill) => <span key={skill} className="rounded-full border border-cyan-400/15 bg-cyan-400/5 px-2.5 py-1 text-[10px] font-mono text-cyan-300/80">{skill}</span>)}</div>
           {hasValidVerification(cert) ? <a href={cert.verifyUrl} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 rounded-lg bg-cyan-400 px-4 py-2.5 text-sm font-semibold text-obsidian-950 hover:bg-cyan-300">Open verification <ExternalLink size={14} /></a> : <p className="mt-6 text-xs leading-relaxed text-steel-500">A public verification URL has not been added for this record yet.</p>}
@@ -124,7 +120,7 @@ export default function CertificationsPage() {
                 <p className="mt-5 text-[10px] font-mono uppercase tracking-wider text-steel-500">{cert.issuer} · {cert.date}</p>
                 <h2 className="mt-2 text-sm font-semibold leading-snug text-white group-hover:text-amber-200">{cert.title}</h2>
                 <div className="mt-auto flex flex-wrap gap-1.5 pt-5">{cert.skills.slice(0, 4).map((skill) => <span key={skill} className="rounded-full border border-white/8 bg-white/[0.03] px-2 py-1 text-[9px] font-mono text-steel-400">{skill}</span>)}</div>
-                <div className="mt-4 flex items-center justify-between border-t border-white/8 pt-3 text-[10px] font-mono text-steel-600"><span>{cert.credentialId ? 'ID AVAILABLE' : 'NO ID LISTED'}</span><span className="flex items-center gap-1 text-amber-300/70">View details <ExternalLink size={11} /></span></div>
+                <div className="mt-4 flex items-center justify-start border-t border-white/8 pt-3 text-[10px] font-mono text-amber-300/70"><span className="flex items-center gap-1">View details <ExternalLink size={11} /></span></div>
               </button>;
             })}
           </section>

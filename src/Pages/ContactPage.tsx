@@ -25,14 +25,12 @@ export default function ContactPage() {
   const [comingSoon, setComingSoon] = useState(false);
   const [openFaq, setOpenFaq]       = useState<number | null>(null);
   const [form, setForm]             = useState({ name: '', email: '', type: 'Full-time', message: '' });
-  const [sent, setSent]             = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const subject = `${form.type} inquiry from ${form.name}`;
     const body = `Name: ${form.name}\nEmail: ${form.email}\nEngagement type: ${form.type}\n\n${form.message}`;
     window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setSent(true);
   };
 
   return (
@@ -127,29 +125,6 @@ export default function ContactPage() {
 
               <div className="min-w-0">
                 <div className="glass self-start rounded-2xl border-white/10 p-6 sm:p-8">
-                {sent ? (
-                  <div className="flex flex-col items-center justify-center text-center gap-4">
-                    <div
-                      className="w-16 h-16 rounded-2xl glass flex items-center justify-center border border-emerald-400/30"
-                      style={{ boxShadow: '0 0 24px rgba(34,197,94,0.15)' }}
-                    >
-                      <Send size={24} className="text-emerald-400" />
-                    </div>
-                    <h3 className="text-xl font-bold text-white">{siteContent.contactPage.successTitle}</h3>
-                    <p className="text-sm text-steel-400 max-w-xs">
-                      I'll be in touch within {contact.responseTime}. {siteContent.contactPage.successBody}
-                    </p>
-                    <button
-                      onClick={() => {
-                        setSent(false);
-                        setForm({ name: '', email: '', type: 'Full-time', message: '' });
-                      }}
-                      className="mt-2 px-5 py-2 rounded-lg glass border border-white/10 text-sm font-medium text-steel-300 hover:text-white transition-colors"
-                    >
-                      {siteContent.contactPage.sendAnotherLabel}
-                    </button>
-                  </div>
-                ) : (
                   <form onSubmit={handleSubmit} className="space-y-5">
                                         <div className="mb-6 flex items-start justify-between gap-4"><div><p className="text-[10px] font-mono uppercase tracking-[0.18em] text-cyan-300/80">Inquiry workspace</p><h3 className="mt-2 text-xl font-semibold text-white">Tell me what you&apos;re building.</h3></div><Mail size={20} className="text-cyan-300/60" /></div>
 
@@ -215,7 +190,6 @@ export default function ContactPage() {
                       {siteContent.contactPage.disclaimerLine}
                     </p>
                   </form>
-                )}
                 </div>
 
                 <div className="glass mt-6 space-y-2 rounded-2xl p-5">
