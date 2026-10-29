@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import NeuralBackground from '@/components/NeuralBackground';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -489,16 +489,22 @@ function TagsCard({ items, onSkillClick }: { items: TagSkill[]; onSkillClick: (n
   );
 }
 
-function ToolsCard({ items, onSkillClick }: { items: ToolSkill[]; onSkillClick: (n: string) => void }) {
+function ToolsCard({
+  items,
+  onSkillClick,
+}: {
+  items: ToolSkill[];
+  onSkillClick: (n: string) => void;
+}) {
   return (
     <div className="grid grid-cols-2 gap-2">
       {items.map((t) => (
         <button key={t.name} onClick={() => onSkillClick(t.name)}
-          className="flex items-center justify-between px-3 py-2 rounded-lg text-left
-                     bg-white/4 border border-white/8
-                     hover:bg-cyan-500/8 hover:border-cyan-500/20
-                     hover:shadow-[0_0_10px_rgba(34,211,238,0.08)]
-                     active:scale-95 transition-all group">
+          className="flex w-full items-center justify-between px-3 py-2 rounded-lg text-left
+                         bg-white/4 border border-white/8
+                         hover:bg-cyan-500/8 hover:border-cyan-500/20
+                         hover:shadow-[0_0_10px_rgba(34,211,238,0.08)]
+                         active:scale-95 transition-all group">
           <span className="text-xs font-medium text-white/80 group-hover:text-cyan-300 transition-colors truncate">{t.name}</span>
           {t.label && (
             <span className="ml-2 text-[10px] font-mono text-white/35 flex-shrink-0 group-hover:text-cyan-400/70 transition-colors">{t.label}</span>
@@ -584,6 +590,25 @@ export default function SkillsPage() {
   const [activeSkill, setActiveSkill] = useState<string | null>(null);
   const [activeTrack, setActiveTrack] = useState('ai-systems');
   const [query, setQuery] = useState('');
+  const [tutorialStep, setTutorialStep] = useState<'tracks' | 'skill' | null>(
+    () => localStorage.getItem('skills-capability-tutorial-completed') === 'true' ? null : 'tracks',
+  );
+  const trackNavRef = useRef<HTMLElement | null>(null);
+  const firstSkillRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    const target = tutorialStep === 'tracks'
+      ? trackNavRef.current
+      : tutorialStep === 'skill'
+        ? firstSkillRef.current
+        : null;
+    target?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, [activeTrack, tutorialStep]);
+
+  const completeTutorial = () => {
+    localStorage.setItem('skills-capability-tutorial-completed', 'true');
+    setTutorialStep(null);
+  };
 
   const normalizedQuery = query.trim().toLowerCase();
   const visibleGroups = groups.map((group) => ({
@@ -606,6 +631,9 @@ export default function SkillsPage() {
       <div className="fixed inset-0 pointer-events-none bg-radial-glow opacity-50" />
 
       <div className="relative z-10">
+        {tutorialStep && (
+          <div aria-hidden="true" className="fixed inset-0 z-40 bg-black/75" />
+        )}
         <Navbar onComingSoon={() => setComingSoon(true)} />
 
         <main className="pt-24 pb-20">
@@ -650,13 +678,22 @@ export default function SkillsPage() {
               </div>
 
               <div className="grid lg:grid-cols-[220px_1fr]">
-                <nav className="border-b border-white/8 p-3 lg:border-b-0 lg:border-r lg:p-4" aria-label="Capability tracks">
+                <nav
+                  ref={trackNavRef}
+                  className={`border-b border-white/8 p-3 lg:border-b-0 lg:border-r lg:p-4 ${tutorialStep === 'tracks' ? 'relative z-[51] rounded-xl bg-[#0a0f1a] ring-2 ring-cyan-300 shadow-[0_0_24px_rgba(34,211,238,0.35)]' : ''}`}
+                  aria-label="Capability tracks"
+                >
                   <div className="space-y-2">
                     {capabilityTracks.map((track, index) => {
                       const Icon = track.icon;
                       const selected = activeTrack === track.id;
+                      const highlightedTrack = track.id === 'product-engineering' || track.id === 'cloud-delivery';
                       return (
-                        <button key={track.id} onClick={() => { setActiveTrack(track.id); setActiveSkill(null); }} className={`group flex w-full items-center gap-3 border px-3 py-3 text-left transition-all ${selected ? 'border-cyan-400/40 bg-cyan-400/10' : 'border-transparent hover:border-white/10 hover:bg-white/[0.04]'}`}>
+                        <button key={track.id} onClick={() => {
+                          setActiveTrack(track.id);
+                          setActiveSkill(null);
+                          if (tutorialStep === 'tracks' && highlightedTrack) setTutorialStep('skill');
+                        }} className={`group flex w-full items-center gap-3 border px-3 py-3 text-left transition-all ${selected ? 'border-cyan-400/40 bg-cyan-400/10' : 'border-transparent hover:border-white/10 hover:bg-white/[0.04]'} ${tutorialStep === 'tracks' && highlightedTrack ? 'border-cyan-300/50 bg-cyan-400/10' : ''}`}>
                           <span className={`font-mono text-[10px] ${selected ? 'text-cyan-300' : 'text-steel-600'}`}>0{index + 1}</span>
                           <Icon size={16} className={selected ? 'text-cyan-300' : 'text-steel-500 group-hover:text-cyan-300'} />
                           <span className={`text-xs font-semibold ${selected ? 'text-white' : 'text-steel-400 group-hover:text-white'}`}>{track.label}</span>
@@ -664,6 +701,23 @@ export default function SkillsPage() {
                       );
                     })}
                   </div>
+                  {tutorialStep === 'tracks' && (
+                    <div id="capability-tutorial" role="dialog" aria-labelledby="capability-tutorial-title"
+                      className="absolute left-3 right-3 top-full z-[52] mt-3 rounded-xl border border-cyan-400/30 bg-[#0a0f1a] p-4 shadow-2xl shadow-black/50 lg:left-full lg:right-auto lg:top-3 lg:ml-3 lg:mt-0 lg:w-72">
+                      <p id="capability-tutorial-title" className="text-[9px] font-mono uppercase tracking-[0.18em] text-cyan-300">Interactive tutorial · 1 of 2</p>
+                      <p className="mt-2 text-xs leading-relaxed text-white/75">Switch between capability tracks to explore different areas. Choose <span className="font-semibold text-white">Product engineering</span> or <span className="font-semibold text-white">Cloud delivery</span>, or continue with the currently selected track.</p>
+                      <div className="mt-4 flex items-center justify-between gap-3">
+                        <button type="button" onClick={completeTutorial}
+                          className="text-[10px] font-mono uppercase tracking-wider text-white/50 transition-colors hover:text-white">
+                          Skip tutorial
+                        </button>
+                        <button type="button" onClick={() => setTutorialStep('skill')}
+                          className="inline-flex items-center gap-1.5 rounded-md border border-cyan-300/30 bg-cyan-400/10 px-3 py-2 text-[10px] font-mono uppercase tracking-wider text-cyan-200 transition-colors hover:border-cyan-200/60 hover:bg-cyan-400/20">
+                          Next <ArrowUpRight size={12} />
+                        </button>
+                      </div>
+                    </div>
+                  )}
                   <div className="mt-5 hidden border-t border-white/8 pt-4 lg:block">
                     <p className="text-[9px] font-mono uppercase tracking-[0.18em] text-steel-600">System status</p>
                     <div className="mt-3 flex items-center gap-2 text-[10px] font-mono text-emerald-300">
@@ -701,14 +755,35 @@ export default function SkillsPage() {
                           <div className="grid gap-2 sm:grid-cols-2">
                             {track.skills.map((skill, index) => {
                               const selected = activeSkill === skill;
+                              const showSkillTutorial = tutorialStep === 'skill' && index === 0;
                               return (
-                                <button key={skill} onClick={() => selectSkill(skill)} className={`group flex min-h-[58px] items-center justify-between gap-3 border px-3 py-3 text-left transition-all ${selected ? 'border-cyan-400/50 bg-cyan-400/10' : 'border-white/8 bg-white/[0.02] hover:border-cyan-400/30 hover:bg-cyan-400/5'}`}>
-                                  <span className="flex items-center gap-3">
-                                    <span className={`font-mono text-[10px] ${selected ? 'text-cyan-300' : 'text-steel-600'}`}>{String(index + 1).padStart(2, '0')}</span>
-                                    <span className={`text-xs ${selected ? 'font-semibold text-white' : 'text-steel-300 group-hover:text-white'}`}>{skill}</span>
-                                  </span>
-                                  <ArrowUpRight size={14} className={selected ? 'text-cyan-300' : 'text-steel-600 group-hover:text-cyan-300'} />
-                                </button>
+                                <div key={skill} className={`relative ${showSkillTutorial ? 'z-[51]' : ''}`}>
+                                  <button
+                                    ref={showSkillTutorial ? firstSkillRef : undefined}
+                                    onClick={() => {
+                                      selectSkill(skill);
+                                      if (showSkillTutorial) completeTutorial();
+                                    }}
+                                    aria-describedby={showSkillTutorial ? 'capability-skill-tutorial' : undefined}
+                                    className={`group flex min-h-[58px] w-full items-center justify-between gap-3 border px-3 py-3 text-left transition-all ${selected ? 'border-cyan-400/50 bg-cyan-400/10' : 'border-white/8 bg-white/[0.02] hover:border-cyan-400/30 hover:bg-cyan-400/5'} ${showSkillTutorial ? 'relative z-[51] border-cyan-300 ring-2 ring-cyan-300 ring-offset-4 ring-offset-[#0a0f1a] shadow-[0_0_24px_rgba(34,211,238,0.4)]' : ''}`}>
+                                    <span className="flex items-center gap-3">
+                                      <span className={`font-mono text-[10px] ${selected ? 'text-cyan-300' : 'text-steel-600'}`}>{String(index + 1).padStart(2, '0')}</span>
+                                      <span className={`text-xs ${selected ? 'font-semibold text-white' : 'text-steel-300 group-hover:text-white'}`}>{skill}</span>
+                                    </span>
+                                    <ArrowUpRight size={14} className={selected ? 'text-cyan-300' : 'text-steel-600 group-hover:text-cyan-300'} />
+                                  </button>
+                                  {showSkillTutorial && (
+                                    <div id="capability-skill-tutorial" role="dialog" aria-labelledby="capability-skill-tutorial-title"
+                                      className="absolute left-0 top-full z-[52] mt-3 w-72 max-w-[calc(100vw-2rem)] rounded-xl border border-cyan-400/30 bg-[#0a0f1a] p-4 shadow-2xl shadow-black/50">
+                                      <p id="capability-skill-tutorial-title" className="text-[9px] font-mono uppercase tracking-[0.18em] text-cyan-300">Interactive tutorial · 2 of 2</p>
+                                      <p className="mt-2 text-xs leading-relaxed text-white/75">Select this first capability node to inspect the skill and the project work connected to it.</p>
+                                      <button type="button" onClick={completeTutorial}
+                                        className="mt-3 rounded-md border border-cyan-300/30 bg-cyan-400/10 px-3 py-2 text-[10px] font-mono uppercase tracking-wider text-cyan-200 transition-colors hover:border-cyan-200/60 hover:bg-cyan-400/20">
+                                        Got it
+                                      </button>
+                                    </div>
+                                  )}
+                                </div>
                               );
                             })}
                           </div>
