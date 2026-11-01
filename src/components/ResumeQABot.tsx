@@ -80,8 +80,8 @@ function normalizeQuestion(q: string): string {
 }
 
 const QUICK_ANSWERS: Record<string, string> = {
-  'What is Soham Soni background and specialization?': "I am Soham Soni's AI assistant. I can answer questions about Soham's professional experience, projects, skills, education, and certifications.",
-  'Where does Soham Soni currently work?': 'Soham currently works as a Software Engineer at AV DEVS Solutions Pvt. Ltd. in Vadodara, India.',
+  'What is Soham Soni background and specialization?': "Soham Soni is a Software Engineer (Applied AI & Full-Stack) based in Vadodara, Gujarat, India. I am Soham's AI assistant and can answer questions about his professional experience, projects, skills, education, and certifications.",
+  'Where does Soham Soni currently work?': 'Soham currently works as a Software Engineer (Applied AI & Full-Stack) at AV DEVS Solutions Pvt. Ltd. in Vadodara, India.',
   'What projects has Soham Soni built?': 'Soham has built LuxeStay, TemporalRAG, AI-Agents, Resume Analyzer, AI Multitasker, Road Accident Detection, SafaaiBuddy, StudyGenius AI, Craftly.AI, AI Document Analyzer, Personal Assistant, Financial Advisor, and an ML Models Collection.',
   'What tech stack does Soham Soni use?': 'Soham uses Python, TypeScript, JavaScript, SQL, Dart, React, FastAPI, Flutter, PostgreSQL, pgvector, Pinecone, LangGraph, Gemini, OpenAI, Claude, n8n, AWS, Azure, Google Cloud, Docker, Scikit-Learn, PyTorch, and TensorFlow.',
 };

@@ -2,8 +2,8 @@ import profileImage from '@/assets/images/profile.jpeg';
 export const profile = {
   fullName: 'Soham Soni',
   monogram: 'SS',
-  preTitle: 'Software Engineer & AI Systems Developer',
-  subtitle: 'Software Engineer | Building practical AI-powered systems',
+  preTitle: 'Software Engineer (Applied AI & Full-Stack)',
+  subtitle: 'Applied AI & Full-Stack | Building practical AI-powered systems',
   summary: 'I build and ship practical AI-powered software by combining LLMs, retrieval-augmented generation, automation, and full-stack engineering to solve real business problems.',
   resumeUrl: 'https://drive.google.com/file/d/1AGgnbFG0Kk5oOTZoQUpyad7oK8RJMCTW/view?usp=drive_link',
   portraitImage: profileImage,
@@ -791,11 +791,11 @@ export const contact = {
 
 export const siteContent = {
   hero: {
-    systemRoleLabel: 'SOFTWARE ENGINEER / AI SYSTEMS DEVELOPER',
+    systemRoleLabel: 'SOFTWARE ENGINEER (APPLIED AI & FULL-STACK)',
     resumeButtonLabel: 'View Resume / CV',
   },
   footer: {
-    roleLine: 'Software Engineer & AI Systems Developer',
+    roleLine: 'Software Engineer (Applied AI & Full-Stack)',
     copyrightLine: 'System v1.0 / All Rights Reserved',
     telemetry: {
       status: 'SYSTEM ONLINE',
@@ -834,7 +834,7 @@ export const siteContent = {
       'What tech stack does he use?',
     ],
     systemPrompt:
-      'You are Soham Soni\'s AI assistant, answering questions about Soham using only the supplied resume context. If asked who you are, say "I am Soham Soni\'s AI assistant." Prioritize current AV DEVS work when discussing his present role. Report the AI-Agents project as a six-agent suite, and distinguish portfolio projects from internships and client experience. Answer in one or two complete, natural sentences. If the context does not contain the answer, say "I don\'t have that information. Please contact Soham." Do not invent details.',
+      'You are Soham Soni\'s AI assistant, answering questions about Soham using only the supplied resume context. When describing Soham\'s professional identity or specialization, use the exact title "Software Engineer (Applied AI & Full-Stack)". If asked who you are, say "I am Soham Soni\'s AI assistant." Prioritize current AV DEVS work when discussing his present role. Report the AI-Agents project as a six-agent suite, and distinguish portfolio projects from internships and client experience. Answer in one or two complete, natural sentences. If the context does not contain the answer, say "I don\'t have that information. Please contact Soham." Do not invent details.',
   },
 certificationsPage: {
   eyebrow: 'VERIFIED CREDENTIALS',
