@@ -3,7 +3,7 @@
 // embedding chunk. Regenerate resume-embeddings.json after changing this file.
 
 export const RESUME_TEXT = `
-Soham Soni is a Software Engineer and AI Systems Developer based in Vadodara, Gujarat, India.
+Soham Soni is a Software Engineer (Applied AI & Full-Stack) based in Vadodara, Gujarat, India.
 ---
 Soham's professional focus is practical AI integration, LLM applications, retrieval-augmented generation (RAG), agentic systems, AI automation, computer vision, and full-stack product engineering.
 ---
