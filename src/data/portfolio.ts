@@ -165,6 +165,19 @@ export const attentionLab = {
 export const certifications = [
   // ── Tier 1: AI / LLM / Cloud — most impactful ───────────────────────────
   {
+    id: 'github-copilot-proficient',
+    title: 'Microsoft Pro Badge: GitHub Copilot - Proficient',
+    issuer: 'Microsoft',
+    date: 'Nov 09, 2026',
+    expiry: 'May 09, 2027',
+    credentialId: '13934316-1822-45f0-8ff0-593031efb27e',
+    badge: 'GHCP',
+    color: 'indigo',
+    description: 'Recognizes proficient-level productivity with GitHub Copilot, earned through real-world product use. Demonstrates deliberate use of Copilot for refactoring, tests, and repetitive logic.',
+    skills: ['GitHub Copilot', 'AI Development', 'Code Development', 'Automation', 'DevOps', 'Software Development'],
+    verifyUrl: 'https://www.credly.com/badges/13934316-1822-45f0-8ff0-593031efb27e/public_url',
+  },
+  {
     id: 'agentforce-ai',
     title: 'GeeksforGeeks & Salesforce AI Agent Workshop',
     issuer: 'GeeksforGeeks / Salesforce',

@@ -61,6 +61,7 @@ function CertificateDetail({ cert, onClose }: { cert: (typeof certifications)[nu
           <div className="mt-4 flex flex-wrap gap-2">
             <span className={`rounded-full border px-2.5 py-1 text-[10px] font-mono ${status.className}`}>{status.label}</span>
             <span className="rounded-full border border-white/8 bg-white/[0.03] px-2.5 py-1 text-[10px] font-mono text-steel-400">Issued {cert.date}</span>
+            <span className="rounded-full border border-white/8 bg-white/[0.03] px-2.5 py-1 text-[10px] font-mono text-steel-400">Expires {cert.expiry}</span>
           </div>
           <div className="mt-5 flex flex-wrap gap-2">{cert.skills.map((skill) => <span key={skill} className="rounded-full border border-cyan-400/15 bg-cyan-400/5 px-2.5 py-1 text-[10px] font-mono text-cyan-300/80">{skill}</span>)}</div>
           {hasValidVerification(cert) ? <a href={cert.verifyUrl} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 rounded-lg bg-cyan-400 px-4 py-2.5 text-sm font-semibold text-obsidian-950 hover:bg-cyan-300">Open verification <ExternalLink size={14} /></a> : <p className="mt-6 text-xs leading-relaxed text-steel-500">A public verification URL has not been added for this record yet.</p>}
