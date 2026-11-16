@@ -77,7 +77,16 @@ export default function CertificationsPage() {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('All');
 
-  const domains = Array.from(new Set(certifications.flatMap((cert) => cert.skills))).slice(0, 8);
+  const skillCounts = certifications
+    .flatMap((cert) => cert.skills)
+    .reduce<Record<string, number>>((acc, skill) => {
+      acc[skill] = (acc[skill] || 0) + 1;
+      return acc;
+    }, {});
+  const domains = Object.entries(skillCounts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([skill]) => skill)
+    .slice(0, 8);
   const filteredCertifications = certifications.filter((cert) => {
     const matchesQuery = `${cert.title} ${cert.issuer} ${cert.skills.join(' ')}`.toLowerCase().includes(query.toLowerCase());
     const matchesFilter = filter === 'All' || cert.skills.includes(filter);
